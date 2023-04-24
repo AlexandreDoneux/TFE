@@ -16,3 +16,15 @@ services:
     ports:
       #- "5000:3306"
       - "3306:3306"
+
+  api:
+    build: ./api
+    container_name: api
+    restart: unless-stopped
+    volumes:
+      - ./api:/api
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mariadb
+    command: "npm start"

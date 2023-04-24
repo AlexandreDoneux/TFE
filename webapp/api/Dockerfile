@@ -4,4 +4,6 @@ COPY package*.json ./
 
 RUN npm install
 
-CMD ["npm", "start"]
+WORKDIR /api
+
+#CMD ["npm", "start"]
