@@ -5,14 +5,16 @@ services:
     image: mariadb:latest
     container_name: mariadb
     restart: unless-stopped
-    env_file: ./.env
+    env_file: 
+      - ./.env
     environment:
       MARIADB_ROOT_PASSWORD: $MARIADB_ROOT_PASSWORD
       MARIADB_USER: $MARIADB_USER
       MARIADB_PASSWORD: $MARIADB_PASSWORD
       MARIADB_DATABASE: $MARIADB_DATABASE
     volumes:
-      - ./db:/var/lib/mariadb
+      - ./db/dbData:/var/lib/mariadb
+      - ./db/dbScripts:/docker-entrypoint-initdb.d
     ports:
       #- "5000:3306"
       - "3306:3306"
