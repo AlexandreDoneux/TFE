@@ -24,7 +24,9 @@ CREATE TABLE IF NOT EXISTS Monitoring (
 
 CREATE TABLE IF NOT EXISTS Data (
   DataId INT AUTO_INCREMENT PRIMARY KEY,
-  Value FLOAT NOT NULL,
+  TempValue FLOAT NOT NULL,
+  FloatDensityValue FLOAT NOT NULL,
+  RefractDensityValue FLOAT NOT NULL,
   Timestamp DATETIME NOT NULL,
   MonitorId INT NOT NULL,
   FOREIGN KEY (MonitorId) REFERENCES Monitoring(MonitorId)
