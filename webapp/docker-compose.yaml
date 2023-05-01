@@ -18,6 +18,8 @@ services:
     ports:
       #- "5000:3306"
       - "3306:3306"
+    networks:
+      - api-db
 
   api:
     build: ./api
@@ -30,3 +32,9 @@ services:
     depends_on:
       - mariadb
     command: "npm start"
+    networks:
+      - api-db
+
+networks:
+    api-db:
+        driver: bridge
