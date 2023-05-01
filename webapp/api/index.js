@@ -5,9 +5,24 @@ const bodyParser = require('body-parser');
 // using pool defined in db.js
 const pool = require('./db');
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+
+function createNewObject(okPacket) {
+  const newObj = {};
+  for (let [key, value] of Object.entries(okPacket)) {
+    // If the value is a BigInt, transform to string
+    // Trnasform also integers and floats ?
+    if(typeof value === 'bigint'){
+      value=value.toString()
+    }
+    newObj[key] = value;
+  }
+  return newObj;
+}
+
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -19,7 +34,6 @@ app.get('/data', async (req, res) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    //const response = await conn.query("CALL insertData(1.1,3.3,2.2,'2023-04-28 14:30:00',1);");
     const response = await conn.query("SELECT * FROM Data;");
     res.send(response);
   } catch (error) {
@@ -41,12 +55,12 @@ app.post('/send_data', async (req, res) => {
 
     //let query = `CALL insertData(${temperature},${float_density},${refract_density},${date},${probe_id});`
     let query = `CALL insertData(${temperature},${float_density},${refract_density},'2023-04-28 14:30:00',${probe_id}, @_response);`
-    const status_response = await conn.query(query);
-    const [response] = await conn.query('SELECT @_response');
-    console.log(status_response)
-    console.log(response)
-    //res.send(response)
-    res.status(201).json({ message: response });
+    let status_response = await conn.query(query);
+    const [query_response] = await conn.query('SELECT @_response');
+
+    status_response = createNewObject(status_response)
+    
+    res.status(201).json({ query_message: query_response["@_response"], query_status: status_response });
 
   }catch(error){
     console.log(error)
@@ -54,6 +68,7 @@ app.post('/send_data', async (req, res) => {
   }
   
 });
+
 
 
 app.listen(3001, () => {
