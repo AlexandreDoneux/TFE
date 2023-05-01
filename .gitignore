@@ -39,3 +39,7 @@ Temporary Items
 
 #DB data storage
 db/dbData
+
+webapp/api/node_modules
+webapp/client/node_modules
+webapp/.env
