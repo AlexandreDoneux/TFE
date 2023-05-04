@@ -15,3 +15,6 @@ wlan.connect(SSID,PASSWORD)
 print(wlan.isconnected())
 print(wlan.ifconfig())
    
+# Remplacer par appel vers API personelle
+astronauts = urequests.get("http://api.open-notify.org/astros.json").json()
+print(astronauts)
