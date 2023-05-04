@@ -31,6 +31,26 @@ def measure_temp():
     
     return temp
 
+def sending_data(temp):
+    """
+
+    """
+    payload = { 
+    "send_timestamp":0,
+    "probe_id": 1,
+    "data_timestamp": 0,
+    "temperature": temp,
+    "float_density": 1.1,
+    "refract_density": 2.2  
+    }
+    
+    payload_str = json.dumps(payload)
+    url = "http://"+api_ip_address+":3001/send_data"
+    
+    response = urequests.post(url, headers=headers, data=payload_str)
+    
+    print(response)
+
 
 # ----------- wifi connection ------------
 
@@ -53,5 +73,7 @@ while True:
     # code
     temperature = measure_temp()
     print(temperature)
+
+    sending_data(temperature)
     
     time.sleep(data_interval*60)
