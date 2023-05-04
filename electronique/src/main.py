@@ -55,3 +55,11 @@ print(wlan.ifconfig())
 astronauts = urequests.get("http://api.open-notify.org/astros.json").json()
 print(astronauts)
 
+#-------------- While loop -----------------
+
+while True:
+    # code
+    temperature = measure_temp()
+    print(temperature)
+    
+    time.sleep(data_interval*60)
