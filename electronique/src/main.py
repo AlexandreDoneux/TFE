@@ -1,13 +1,3 @@
-# A mettre dans un fichier python à part (secrets.py)
-# SSID de point d'accès wifi
-SSID = "SSID"
-# Mot de passe wifi
-PASSWORD = "PASSWORD"
-
-# number of minutes between each measure and sending of the data to distant database
-#data_interval = 30
-data_interval = 0.1 # test value (each 6 seconds)
-
 
 #---------- imports ----------------
 
@@ -23,7 +13,9 @@ import urequests
 adc_pin = ADC(Pin(26)) #ADC pin for temperature measure
 
 
+#---------- environnement variables -----------
 
+from env import SSID, PASSWORD, data_interval
 
 
 
