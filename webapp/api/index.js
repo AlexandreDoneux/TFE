@@ -28,16 +28,13 @@ function transformDate(date_to_transform){
    * Receives a date as a tuple and creates a new date tuple of the first date based on the current date retrieved by the system. The idea is to 
    * reposition the date received inside the system's date "frame".
    */
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth() + 1; // Month starts from 0, add 1 to get the correct month number
-  const day = currentDate.getDate();
-  const hour = currentDate.getHours();
-  const minute = currentDate.getMinutes();
-  const second = currentDate.getSeconds();
+  const currentDate = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels', hour12: false });
+  const dateComponents = currentDate.split(/[\/,: ]+/).map(component => parseInt(component));
+  const [month, day, year, hour, minute, second] = dateComponents;
   const currentDateTuple = [year, month, day, hour, minute, second];
+  res.send(currentDateTuple);
 
-  
+
 }
 
 
@@ -64,8 +61,11 @@ app.get('/data', async (req, res) => {
 
 
 app.get('/current-date', (req, res) => {
-  const currentDate = new Date();
-  res.send(currentDate);
+  const currentDate = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels', hour12: false });
+  const dateComponents = currentDate.split(/[\/,: ]+/).map(component => parseInt(component));
+  const [month, day, year, hour, minute, second] = dateComponents;
+  const currentDateTuple = [year, month, day, hour, minute, second];
+  res.send(currentDateTuple);
 });
 
 
