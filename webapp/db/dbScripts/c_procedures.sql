@@ -23,9 +23,12 @@ BEGIN
 
     END IF;
 
-
 END//
 
--- call insertData(1.1,3.3,2.2,'2023-04-28 14:30:00',1);
+
+CREATE PROCEDURE SelectData(IN MonitorId INT)
+BEGIN
+  SELECT * FROM Data WHERE MonitorId = MonitorId;
+END//
 
 DELIMITER ;
