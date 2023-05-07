@@ -13,9 +13,10 @@ import json
 
 
 
+
 #---------- environnement variables -----------
 
-from env import SSID, PASSWORD, data_interval, api_ip_address
+from env import SSID, PASSWORD, data_interval, api_ip_address, probe_id
 
 
 
@@ -40,13 +41,13 @@ def measure_temp():
     
     return temp
 
-def sending_data(send_timestamp, timestamp, temp):
+def sending_data(send_timestamp, probe_id timestamp, temp):
     """
 
     """
     payload = { 
     "send_timestamp":send_timestamp,
-    "probe_id": 1,
+    "probe_id": probe_id,
     "data_timestamp": timestamp,
     "temperature": temp,
     "float_density": 1.1,
@@ -93,6 +94,6 @@ while True:
     send_timestamp=rtc.datetime()
     send_timestamp = send_timestamp[0:3]+send_timestamp[4:7]
     
-    sending_data(send_timestamp, timestamp, temperature)
+    sending_data(send_timestamp, probe_id, timestamp, temperature)
     
     time.sleep(data_interval*60)
