@@ -1,25 +1,24 @@
 DELIMITER //
 
-CREATE PROCEDURE InsertData(IN _tempValue FLOAT, IN _floatDensityValue FLOAT, IN _refractDensityValue Float,
-                            IN _timestamp DATETIME, IN _probeId INT, OUT _response VARCHAR(40))
-
+CREATE PROCEDURE InsertData(IN _tempValue FLOAT, IN _floatDensityValue FLOAT, IN _refractDensityValue FLOAT,
+                            IN _timestamp DATETIME, IN _probeId INT)
 BEGIN
     DECLARE monitoringId INT;
     SET monitoringId = (SELECT MonitorId
                         FROM Monitoring
                         WHERE ProbeId=_probeId);
 
-    IF monitoringId = NULL THEN
-      SET _response = "no active monitoring available";
+    IF monitoringId IS NULL THEN
+      SELECT 'no active monitoring available' AS Response;
 
-    ELSEIF monitoringID = 1 THEN
+    ELSEIF monitoringId = 1 THEN
       INSERT INTO Data (TempValue, FloatDensityValue, RefractDensityValue, Timestamp, MonitorId) VALUES
         (_tempValue, _floatDensityValue, _refractDensityValue, _timestamp, monitoringId);
     
-      SET _response = "ok";
+      SELECT 'ok' AS Response;
       
     ELSE
-      SET _response = "too many";
+      SELECT 'too many' AS Response;
 
     END IF;
 
@@ -34,7 +33,7 @@ BEGIN
   IF MonitorCount > 0 THEN
     SELECT * FROM Data WHERE MonitorId = _monitorId;
   ELSE
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No monitoring found for the specified MonitorId';
+    SELECT 'No monitoring found for the specified MonitorId' AS ErrorMessage;
   END IF;
 END//
 

@@ -79,13 +79,14 @@ app.post('/send_data', async (req, res) => {
     const inter_date = new Date(Date.UTC(...new_data_timestamp)).toISOString();
     const date = inter_date.replace("T", " ").replace("Z", "");  // "2023-06-07T16:19:38.000Z" -> T and Z must go away
 
-    let query = `CALL insertData(${temperature},${float_density},${refract_density},"${date}",${probe_id}, @_response);`
-    let status_response = await conn.query(query);
-    const [query_response] = await conn.query('SELECT @_response');
+    let query = `CALL insertData(${temperature},${float_density},${refract_density},"${date}",${probe_id});`
+    let response = await conn.query(query);
 
-    status_response = createNewObject(status_response)
-    
-    res.status(201).json({ query_message: query_response["@_response"], query_status: status_response });
+    response[1] = createNewObject(response[1])
+    response[0] = response[0][0]
+
+    //console.log(status_response)
+    res.send(response)
 
   }catch(error){
     console.log(error)
@@ -101,20 +102,16 @@ app.get('/monitoring_data', async (req, res) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    const response = await conn.query(`CALL SelectData(${monitor_id});`);
+    let response = await conn.query(`CALL SelectData(${monitor_id});`);
 
-    const test = (item) => {
-      return createNewObject(item);
-    }
-
-
-    //response2 = createNewObject(response)
-    response2 = response.map(test)
+    response[1] = createNewObject(response[1])
+    response[0] = response[0][0]
+    
     console.log(response)
-    console.log(response2)
-    res.send(response2);
+    res.send(response);
   } catch (error) {
     throw error;
+    //res.send("error") //send error and not throw error -> later
   } finally {
     if (conn) conn.release(); // release connection back to pool
   }
