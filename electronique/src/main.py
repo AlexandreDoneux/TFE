@@ -1,11 +1,22 @@
 
+headers = {"Content-Type": "application/json"}
+
 #---------- imports ----------------
 
 from machine import ADC, Pin
 import time
 import network
+import utime
 #import secrets
 import urequests
+import json
+
+
+
+#---------- environnement variables -----------
+
+from env import SSID, PASSWORD, data_interval, api_ip_address
+
 
 
 #---------- pin variables --------------
@@ -13,9 +24,7 @@ import urequests
 adc_pin = ADC(Pin(26)) #ADC pin for temperature measure
 
 
-#---------- environnement variables -----------
 
-from env import SSID, PASSWORD, data_interval
 
 
 
@@ -31,14 +40,14 @@ def measure_temp():
     
     return temp
 
-def sending_data(temp):
+def sending_data(send_timestamp, timestamp, temp):
     """
 
     """
     payload = { 
-    "send_timestamp":0,
+    "send_timestamp":send_timestamp,
     "probe_id": 1,
-    "data_timestamp": 0,
+    "data_timestamp": timestamp,
     "temperature": temp,
     "float_density": 1.1,
     "refract_density": 2.2  
@@ -50,6 +59,8 @@ def sending_data(temp):
     response = urequests.post(url, headers=headers, data=payload_str)
     
     print(response)
+    
+    
 
 
 # ----------- wifi connection ------------
@@ -67,13 +78,21 @@ print(wlan.ifconfig())
 astronauts = urequests.get("http://api.open-notify.org/astros.json").json()
 print(astronauts)
 
+
 #-------------- While loop -----------------
+
+rtc=machine.RTC()
 
 while True:
     # code
     temperature = measure_temp()
-    print(temperature)
+    
+    timestamp=rtc.datetime()
+    timestamp = timestamp[0:3]+timestamp[4:7]
 
-    sending_data(temperature)
+    send_timestamp=rtc.datetime()
+    send_timestamp = send_timestamp[0:3]+send_timestamp[4:7]
+    
+    sending_data(send_timestamp, timestamp, temperature)
     
     time.sleep(data_interval*60)

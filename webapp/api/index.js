@@ -23,18 +23,24 @@ function createNewObject(okPacket) {
 }
 
 
-function transformDate(date_to_transform){
+function transformDate(date_to_transform, compare_date){
   /**
    * Receives a date as a tuple and creates a new date tuple of the first date based on the current date retrieved by the system. The idea is to 
-   * reposition the date received inside the system's date "frame".
+   * reposition the date received inside the system's date "frame". Figuring the time translation between compare_date and the current time to apply 
+   * its translation to dtae_to_transform.
    */
-  const currentDate = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels', hour12: false });
-  const dateComponents = currentDate.split(/[\/,: ]+/).map(component => parseInt(component));
-  const [month, day, year, hour, minute, second] = dateComponents;
-  const currentDateTuple = [year, month, day, hour, minute, second];
-  res.send(currentDateTuple);
+  const current_date = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels', hour12: false });
+  const date_components = current_date.split(/[\/,: ]+/).map(component => parseInt(component));
+  const [month, day, year, hour, minute, second] = date_components;
+  const current_date_tuple = [year, month, day, hour, minute, second];
 
+  // calculate difference in time between the send date and real date
+  const time_translation = current_date_tuple.map((elem, index) => elem - compare_date[index]);
 
+  // adding the time translation (between send date and real date) to the date to be transformed
+  const transformed_date = date_to_transform.map((elem, index) => elem + time_translation[index]);
+
+  return transformed_date
 }
 
 
@@ -60,15 +66,6 @@ app.get('/data', async (req, res) => {
 });
 
 
-app.get('/current-date', (req, res) => {
-  const currentDate = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels', hour12: false });
-  const dateComponents = currentDate.split(/[\/,: ]+/).map(component => parseInt(component));
-  const [month, day, year, hour, minute, second] = dateComponents;
-  const currentDateTuple = [year, month, day, hour, minute, second];
-  res.send(currentDateTuple);
-});
-
-
 app.post('/send_data', async (req, res) => {
   console.log(req.body)
   const { send_timestamp, probe_id, data_timestamp, temperature, float_density, refract_density } = req.body;
@@ -76,11 +73,14 @@ app.post('/send_data', async (req, res) => {
 
   try{
     conn = await pool.getConnection();
-    // data_timestamp to SQL DATETIME
-    
+
+    // data_timestamp to SQL DATETIME + transpose to real time "frame"
+    const new_data_timestamp = await transformDate(data_timestamp, send_timestamp)
+    const inter_date = new Date(Date.UTC(...new_data_timestamp)).toISOString();
+    const date = inter_date.replace("T", " ").replace("Z", "");  // "2023-06-07T16:19:38.000Z" -> T and Z must go away
 
     //let query = `CALL insertData(${temperature},${float_density},${refract_density},${date},${probe_id});`
-    let query = `CALL insertData(${temperature},${float_density},${refract_density},'2023-04-28 14:30:00',${probe_id}, @_response);`
+    let query = `CALL insertData(${temperature},${float_density},${refract_density},"${date}",${probe_id}, @_response);`
     let status_response = await conn.query(query);
     const [query_response] = await conn.query('SELECT @_response');
 
