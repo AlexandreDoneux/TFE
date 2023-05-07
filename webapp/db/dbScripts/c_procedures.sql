@@ -26,9 +26,16 @@ BEGIN
 END//
 
 
-CREATE PROCEDURE SelectData(IN MonitorId INT)
+CREATE PROCEDURE SelectData(IN _monitorId INT)
 BEGIN
-  SELECT * FROM Data WHERE MonitorId = MonitorId;
+  DECLARE MonitorCount INT;
+  SET MonitorCount = (SELECT COUNT(*) FROM Monitoring WHERE MonitorId = _monitorId);
+
+  IF MonitorCount > 0 THEN
+    SELECT * FROM Data WHERE MonitorId = _monitorId;
+  ELSE
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No monitoring found for the specified MonitorId';
+  END IF;
 END//
 
 DELIMITER ;

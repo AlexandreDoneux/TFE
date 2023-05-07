@@ -79,7 +79,6 @@ app.post('/send_data', async (req, res) => {
     const inter_date = new Date(Date.UTC(...new_data_timestamp)).toISOString();
     const date = inter_date.replace("T", " ").replace("Z", "");  // "2023-06-07T16:19:38.000Z" -> T and Z must go away
 
-    //let query = `CALL insertData(${temperature},${float_density},${refract_density},${date},${probe_id});`
     let query = `CALL insertData(${temperature},${float_density},${refract_density},"${date}",${probe_id}, @_response);`
     let status_response = await conn.query(query);
     const [query_response] = await conn.query('SELECT @_response');
@@ -93,6 +92,32 @@ app.post('/send_data', async (req, res) => {
     // error catch
   }
   
+});
+
+
+app.get('/monitoring_data', async (req, res) => {
+  console.log(req.body)
+  const { monitor_id } = req.body;
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const response = await conn.query(`CALL SelectData(${monitor_id});`);
+
+    const test = (item) => {
+      return createNewObject(item);
+    }
+
+
+    //response2 = createNewObject(response)
+    response2 = response.map(test)
+    console.log(response)
+    console.log(response2)
+    res.send(response2);
+  } catch (error) {
+    throw error;
+  } finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
 });
 
 
