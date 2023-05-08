@@ -4,7 +4,7 @@ services:
   mariadb: 
     image: mariadb:latest
     container_name: mariadb
-    restart: unless-stopped
+    restart: always
     env_file: 
       - ./.env
     environment:
@@ -24,17 +24,35 @@ services:
   api:
     build: ./api
     container_name: api
-    restart: unless-stopped
+    restart: always
     volumes:
       - ./api:/api
     ports:
-      - "3001:3001"
+      - "3001:3001" # to allow testing from postman
     depends_on:
       - mariadb
     command: "npm start"
     networks:
       - api-db
 
+  frontend:
+    build : ./client
+    container_name: frontend
+    restart: always
+    volumes : 
+      - ./client:/client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mariadb 
+      - api
+    #command: "npm start"
+    networks:
+      - front-api
+
 networks:
     api-db:
-        driver: bridge
+      driver: bridge
+    front-api:
+      driver: bridge
+    
