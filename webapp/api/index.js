@@ -91,6 +91,8 @@ app.post('/send_data', async (req, res) => {
   }catch(error){
     console.log(error)
     // error catch
+  }finally {
+    if (conn) conn.release(); // release connection back to pool
   }
   
 });
@@ -105,7 +107,6 @@ app.get('/monitoring_data', async (req, res) => {
     let response = await conn.query(`CALL SelectData(${monitor_id});`);
 
     response[1] = createNewObject(response[1])
-    response[0] = response[0][0]
     
     console.log(response)
     res.send(response);
