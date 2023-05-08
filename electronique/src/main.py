@@ -60,6 +60,7 @@ def sending_data(send_timestamp, probe_id timestamp, temp):
     response = urequests.post(url, headers=headers, data=payload_str)
     
     print(response)
+    response.close()
     
     
 
@@ -75,9 +76,6 @@ print(wlan.isconnected())
 print(wlan.ifconfig())
 
 
-# Remplacer par appel vers API personelle
-astronauts = urequests.get("http://api.open-notify.org/astros.json").json()
-print(astronauts)
 
 
 #-------------- While loop -----------------
