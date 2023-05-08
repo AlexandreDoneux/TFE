@@ -8,7 +8,7 @@ import Chart from './components/chart';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Chart/>
+    <Chart monitor_id={1}/>
     <span>
       test
     </span>
