@@ -14,6 +14,22 @@ const data = [
 ];
 */
 
+function transformTimestamps(arr) {
+    return arr.map(obj => {
+      const Timestamp = new Date(obj.Timestamp);
+      const hours = Timestamp.getHours();
+      const minutes = Timestamp.getMinutes();
+      const seconds = Timestamp.getSeconds();
+      const day = Timestamp.getDate();
+      const month = Timestamp.getMonth() + 1; // Add 1 since getMonth() returns zero-based index
+      const year = Timestamp.getFullYear();
+  
+      const formattedTimestamp = `${hours}h${minutes} ${day}/${month.toString().padStart(2, '0')}/${year}`;
+      return { ...obj, Timestamp: formattedTimestamp };
+    });
+  }
+
+
 const Chart = (monitor_id) => {
 
     // defines empty data state (empty array) and setData method from useState()
@@ -31,8 +47,10 @@ const Chart = (monitor_id) => {
             const result = await axios.post(`http://192.168.0.188:3001/monitoring_data`, 
             monitor_id
             );
+            let transformed_result = transformTimestamps(result.data[0])
+            console.log(transformed_result)
             console.log(result)
-            setData(result.data[0]);
+            setData(transformTimestamps(result.data[0]));
         };
 
         fetchData();
