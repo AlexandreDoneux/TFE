@@ -50,6 +50,7 @@ services:
     #command: "npm start"
     networks:
       - front-api
+    #network_mode: "host" # for dev purposes, so -> NO # check
 
 networks:
     api-db:

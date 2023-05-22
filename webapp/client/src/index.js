@@ -10,7 +10,7 @@ root.render(
   <React.StrictMode>
     <Chart monitor_id={1}/>
     <span>
-      test
+      test, retest
     </span>
   </React.StrictMode>
 );

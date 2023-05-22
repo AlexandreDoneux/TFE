@@ -19,24 +19,24 @@ const Chart = (monitor_id) => {
     // defines empty data state (empty array) and setData method from useState()
     const [data, setData] = useState([]);
 
+    
+
     // useEffect -> determines action and when it should be executed
     // here : defines fetchData function and executes it when monitor_id prop changes
     useEffect(() => {
         const fetchData = async () => {
-          //const result = await axios(`http://mariadb:3001/monitoring_data`,
-          const result = await axios(`http://172.29.0.3:3001/monitoring_data`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ monitor_id })
-          });
-          setData(result.data[0][0]);
-          console.log(data)
+            console.log(monitor_id)
+            console.log(JSON.stringify( monitor_id ))
+            //const result = await axios(`http://mariadb:3001/monitoring_data`,
+            const result = await axios.post(`http://192.168.0.188:3001/monitoring_data`, 
+            monitor_id
+            );
+            console.log(result)
+            setData(result.data[0]);
         };
-    
+
         fetchData();
+        console.log(data)
       }, [monitor_id]);
 
   return (

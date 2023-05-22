@@ -1,13 +1,19 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
+const cors = require('cors');
+
 
 // using pool defined in db.js
 const pool = require('./db');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(express.json());
 
+app.use(cors({
+  origin: '*'
+}));
 
 
 
@@ -100,9 +106,19 @@ app.post('/send_data', async (req, res) => {
 });
 
 
-app.get('/monitoring_data', async (req, res) => {
+app.post('/monitoring_data', async (req, res) => {
+  console.log(req.body) // request body empty .... -> WHY ?
+
+  /*
+  req.body = {
+    "monitor_id": 1
+  }
   console.log(req.body)
+  */
+
   const { monitor_id } = req.body;
+  console.log("hey")
+  console.log(monitor_id)
   let conn;
   try {
     conn = await pool.getConnection();
