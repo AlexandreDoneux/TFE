@@ -107,14 +107,7 @@ app.post('/send_data', async (req, res) => {
 
 
 app.post('/monitoring_data', async (req, res) => {
-  console.log(req.body) // request body empty .... -> WHY ?
-
-  /*
-  req.body = {
-    "monitor_id": 1
-  }
-  console.log(req.body)
-  */
+  console.log(req.body) 
 
   const { monitor_id } = req.body;
   console.log("hey")
