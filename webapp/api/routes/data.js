@@ -47,10 +47,22 @@ function transformDate(date_to_transform, compare_date){
 // temporary endpoint to see the effect of /send_data
 router.get('/', async (req, res) => {
     let conn;
+    const session_id = 3;
     try {
       conn = await pool.getConnection();
-      const response = await conn.query("SELECT * FROM User;");
-      res.send(response);
+      let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+      console.log(connected)
+      connected[1] = createNewObject(connected[1])
+      console.log(connected[0])
+      console.log(connected[0][0]["Result"])
+
+      if(connected[0][0]["Result"]){
+        let response = await conn.query("SELECT * FROM Session;");
+        res.send(response);
+      }else{
+        res.send("not connected");
+      }
+      
     } catch (error) {
       throw error;
     } finally {

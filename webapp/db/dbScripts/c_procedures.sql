@@ -42,9 +42,7 @@ CREATE PROCEDURE CheckSessionExists(IN _sessionId INT)
 BEGIN
   DECLARE sessionCount INT;
   
-  SELECT COUNT(*) INTO sessionCount
-  FROM Session
-  WHERE SessionId = _sessionId;
+  SET sessionCount = (SELECT COUNT(*) FROM Session WHERE SessionId = _sessionId);
   
   IF sessionCount > 0 THEN
     SELECT true AS Result;

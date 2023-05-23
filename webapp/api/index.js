@@ -9,7 +9,8 @@ const cookieParser = require('cookie-parser');
 const pool = require('./db');
 
 app.use(bodyParser.json());
-app.use(cookieParser());
+//app.use(cookieParser());
+app.use(cookieParser('MY SECRET')); // définir propre secret -> signature ?
 
 app.use(cors({
   origin: '*'
