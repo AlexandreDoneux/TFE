@@ -6,7 +6,7 @@ const pool = require('../db');
 
 
 // Endpoint to set the cookie
-router.get('/connexion', (req, res) => {
+router.get('/connection', (req, res) => {
     const userId = 1
     //res.cookie('user_id', userId, { maxAge: 3600000 });
     //res.send('Cookie has been set');
@@ -21,7 +21,7 @@ router.get('/connexion', (req, res) => {
     }).send("Cookie has been set")
 });
 
-router.get('/connexion2', (req, res) => {
+router.get('/dummy_cookie', (req, res) => {
     const dummy = 99
     //res.cookie('user_id', userId, { maxAge: 3600000 });
     //res.send('Cookie has been set');
