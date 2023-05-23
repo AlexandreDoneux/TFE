@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 
 // using pool defined in db.js
@@ -10,6 +11,7 @@ const pool = require('./db');
 app.use(bodyParser.json());
 //app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(express.json());
+app.use(cookieParser());
 
 app.use(cors({
   origin: '*'
@@ -64,7 +66,7 @@ app.get('/data', async (req, res) => {
   let conn;
   try {
     conn = await pool.getConnection();
-    const response = await conn.query("SELECT * FROM Data;");
+    const response = await conn.query("SELECT * FROM User;");
     res.send(response);
   } catch (error) {
     throw error;
@@ -127,6 +129,14 @@ app.post('/monitoring_data', async (req, res) => {
   } finally {
     if (conn) conn.release(); // release connection back to pool
   }
+});
+
+
+// Endpoint to set the cookie
+app.get('/connexion', (req, res) => {
+  const userId = 1
+  res.cookie('user_id', userId, { maxAge: 3600000 });
+  res.send('Cookie has been set');
 });
 
 
