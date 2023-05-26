@@ -8,34 +8,18 @@ const { createNewObject, transformDate  } = require("../api_functions.js");
 
 
 router.post('/register', async (req, res) => {
+  const { user_email, password } = req.body;
+  
+  // check if password matches stored password inside database
   let conn;
+  try {
+    // USER REGISTER CODE HERE
 
-  const cookies = req.signedCookies;
-
-
-  if(cookies.session_id){
-      session_id = cookies.session_id;
-
-      try {
-          conn = await pool.getConnection();
-          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
-          connected[1] = createNewObject(connected[1])
-
-          if(connected[0][0]["Response"]){
-            // ACTIONS OF THE ENDPOINT HERE
-
-          }else{
-            res.send("not connected (session)");
-          }
-          
-        } catch (error) {
-          throw error;
-        } finally {
-          if (conn) conn.release(); // release connection back to pool
-        }
-
-  }else{
-      res.send("not connected (cookie)")
+  } catch (error) {
+    throw error;
+    //res.send("error") //send error and not throw error -> later
+  } finally {
+    if (conn) conn.release(); // release connection back to pool
   }
 });
 
@@ -85,7 +69,7 @@ router.get('/connect', async (req, res) => {
 
 
 
-router.post('/disconnect', async (req, res) => {
+router.delete('/disconnect', async (req, res) => {
   let conn;
 
   const cookies = req.signedCookies;
