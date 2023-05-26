@@ -17,14 +17,14 @@ app.use(cors({
 }));
 
 
-const accountRouter = require ("./routes/user");
+const userRouter = require ("./routes/user");
 const dataRouter = require("./routes/data")
 const probeRouter = require("./routes/probe")
 const monitoringRouter = require("./routes/monitoring")
 
 
 
-app.use("/user", accountRouter);
+app.use("/user", userRouter);
 app.use("/data", dataRouter);
 app.use("/probe", probeRouter);
 app.use("/monitoring", monitoringRouter);

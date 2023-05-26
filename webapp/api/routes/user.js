@@ -69,7 +69,7 @@ router.get('/connect', async (req, res) => {
 
 
 
-router.delete('/disconnect', async (req, res) => {
+router.post('/disconnect', async (req, res) => {
   let conn;
 
   const cookies = req.signedCookies;
@@ -85,6 +85,11 @@ router.delete('/disconnect', async (req, res) => {
 
           if(connected[0][0]["Response"]){
             // ACTIONS OF THE ENDPOINT HERE
+            let response = await conn.query(`CALL DeleteSession(${session_id})`);
+            response[1] = createNewObject(response[1])
+
+            res.clearCookie("session_id");
+            res.send("disconnected")
 
           }else{
             res.send("not connected (session)");
