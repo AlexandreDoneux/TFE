@@ -86,7 +86,10 @@ BEGIN
 
   -- Check if a session already exists for the user
   IF EXISTS (SELECT 1 FROM Session WHERE UserId = _userId) THEN
-    SELECT 'Session already exists' AS Response;
+    SELECT 'Session already exists' AS Response, SessionId
+    FROM Session
+    WHERE UserId = _userId;
+    
   ELSE
     -- Create a new session with expiration date two hours from now
     INSERT INTO Session (UserId, Expiration)

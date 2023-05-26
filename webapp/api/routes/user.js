@@ -38,14 +38,14 @@ router.get('/connect', async (req, res) => {
       response1[1] = createNewObject(response1[1])
       const user_id = response1[0][0]["UserId"]
 
-      response2 = await conn.query(`CALL CreateSession(${user_id});`);
+      let response2 = await conn.query(`CALL CreateSession(${user_id});`);
 
       response2[1] = createNewObject(response2[1])
-      //console.log(response2)
+      console.log(response2)
+      let session_id = response2[0][0]["SessionId"]
+      console.log(session_id)
 
       if(response2[0][0]["Response"] === "New session"){
-        const session_id = response2[0][0]["SessionId"]
-        //console.log(session_id)
 
         return res.status(200).cookie("session_id", session_id, {
             //secure: true, // -> https
@@ -55,8 +55,27 @@ router.get('/connect', async (req, res) => {
             signed: true
             }).send("Cookie has been set")
       }
-      else{
-        res.send("Session already exists")
+      else{ // when session already exists
+        //deleting it
+        let response3 = await conn.query(`CALL DeleteSession(${session_id})`);
+        response3[1] = createNewObject(response3[1])
+
+        //res.clearCookie("session_id"); //need to delete cookie ?
+
+        //create a new one
+        let response4 = await conn.query(`CALL CreateSession(${user_id});`);
+
+        response4[1] = createNewObject(response4[1])
+        session_id = response4[0][0]["SessionId"]
+
+        return res.status(200).cookie("session_id", session_id, {
+            //secure: true, // -> https
+            httpOnly : true,
+            sameSite : "none", //Should be "strict" in prod
+            maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
+            signed: true
+            }).send("Session already exists. Deleting it and creating a new one. New cookie set.")
+
       }
 
     } catch (error) {
