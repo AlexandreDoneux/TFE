@@ -82,14 +82,22 @@ END//
 
 CREATE PROCEDURE CreateSession(IN _userId INT)
 BEGIN
-DECLARE session_Id INT;
+  DECLARE session_Id INT;
 
-  INSERT INTO Session (UserId)
-  VALUES (_userId);
+  -- Check if a session already exists for the user
+  IF EXISTS (SELECT 1 FROM Session WHERE UserId = _userId) THEN
+    SELECT 'Session already exists' AS Response;
+  ELSE
+    -- Create a new session
+    INSERT INTO Session (UserId)
+    VALUES (_userId);
 
-  SET session_Id = LAST_INSERT_ID();
-  SELECT session_Id AS SessionId;
+    SET session_Id = LAST_INSERT_ID();
+    SELECT 'New session' AS Response, session_Id AS SessionId;
+  END IF;
+  
 END//
+
 
 
 DELIMITER ;
