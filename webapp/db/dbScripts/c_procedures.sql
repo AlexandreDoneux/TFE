@@ -80,12 +80,15 @@ BEGIN
 END//
 
 
-CREATE PROCEDURE CreateSession(IN _userId INT, OUT _sessionId INT)
+CREATE PROCEDURE CreateSession(IN _userId INT)
 BEGIN
+DECLARE session_Id INT;
+
   INSERT INTO Session (UserId)
   VALUES (_userId);
 
-  SET _sessionId = LAST_INSERT_ID();
+  SET session_Id = LAST_INSERT_ID();
+  SELECT session_Id AS SessionId;
 END//
 
 
