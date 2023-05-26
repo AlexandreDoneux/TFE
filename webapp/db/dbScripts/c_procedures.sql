@@ -79,4 +79,14 @@ BEGIN
 
 END//
 
+
+CREATE PROCEDURE CreateSession(IN _userId INT, OUT _sessionId INT)
+BEGIN
+  INSERT INTO Session (UserId)
+  VALUES (_userId);
+
+  SET _sessionId = LAST_INSERT_ID();
+END//
+
+
 DELIMITER ;
