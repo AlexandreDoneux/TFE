@@ -55,17 +55,23 @@ END//
 
 CREATE PROCEDURE CheckPasswordMatch(IN _userEmail VARCHAR(255), IN _userPassword VARCHAR(255))
 BEGIN
-  DECLARE storedPassword VARCHAR(255);
+  DECLARE emailCount INT;
 
-  SET storedPassword = (SELECT Password FROM User WHERE Email = _userEmail);
-  
-  
-  IF storedPassword = _userPassword THEN
-    SELECT 'Password matches' AS Response;
+  SET emailAccount = (SELECT COUNT(*) FROM User WHERE Email = _userEmail);
+
+  IF emailCount = 0 THEN
+    SELECT 'Account not existing' AS Response;
   ELSE
-    SELECT 'Password does not match' AS Response;
+    DECLARE storedPassword VARCHAR(255);
+    SET storedPassword = (SELECT Password FROM User WHERE Email = _userEmail);
+
+    IF storedPassword = _userPassword THEN
+      SELECT 'Password matches' AS Response;
+    ELSE
+      SELECT 'Password does not match' AS Response;
+    END IF;
   END IF;
-  
+
 END//
 
 DELIMITER ;
