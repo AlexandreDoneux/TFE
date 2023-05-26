@@ -1,7 +1,7 @@
 INSERT INTO User (Name, Firstname, Email, Password, Salt)
 VALUES
-('Doe', 'John', 'john@doe.com', NULL, NULL),
-('Lang', 'Jack', 'jack@lang.com', NULL, NULL);
+('Doe', 'John', 'john@doe.com', 'passjohn', NULL),
+('Lang', 'Jack', 'jack@lang.com', 'passjack', NULL);
 
 INSERT INTO Probe (Name, Password, Salt, UserId)
 VALUES

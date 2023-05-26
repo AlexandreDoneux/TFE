@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
             let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
             connected[1] = createNewObject(connected[1])
   
-            if(connected[0][0]["Result"]){
+            if(connected[0][0]["Response"]){
               let response = await conn.query("SELECT * FROM Session;");
               res.send(response);
             }else{
@@ -76,8 +76,7 @@ router.post('/monitoring_data', async (req, res) => {
     console.log(req.body) 
   
     const { monitor_id } = req.body;
-    console.log("hey")
-    console.log(monitor_id)
+
     let conn;
     try {
       conn = await pool.getConnection();

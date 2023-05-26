@@ -33,7 +33,7 @@ BEGIN
   IF MonitorCount > 0 THEN
     SELECT * FROM Data WHERE MonitorId = _monitorId;
   ELSE
-    SELECT 'No monitoring found for the specified MonitorId' AS ErrorMessage;
+    SELECT 'No monitoring found for the specified MonitorId' AS Response;
   END IF;
 END//
 
@@ -45,9 +45,25 @@ BEGIN
   SET sessionCount = (SELECT COUNT(*) FROM Session WHERE SessionId = _sessionId);
   
   IF sessionCount > 0 THEN
-    SELECT true AS Result;
+    SELECT true AS Response;
   ELSE
-    SELECT false AS Result;
+    SELECT false AS Response;
+  END IF;
+  
+END//
+
+
+CREATE PROCEDURE CheckPasswordMatch(IN _userEmail VARCHAR(255), IN _userPassword VARCHAR(255))
+BEGIN
+  DECLARE storedPassword VARCHAR(255);
+
+  SET storedPassword = (SELECT Password FROM User WHERE Email = _userEmail);
+  
+  
+  IF storedPassword = _userPassword THEN
+    SELECT 'Password matches' AS Response;
+  ELSE
+    SELECT 'Password does not match' AS Response;
   END IF;
   
 END//
