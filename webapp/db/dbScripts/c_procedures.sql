@@ -99,5 +99,13 @@ BEGIN
 END//
 
 
+CREATE PROCEDURE DeleteSession(IN _sessionId INT)
+BEGIN
+  DELETE FROM Session WHERE SessionId = _sessionId;
+  SELECT 'Session deleted' AS Response;
+END//
+
+
+
 
 DELIMITER ;
