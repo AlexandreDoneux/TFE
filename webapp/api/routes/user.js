@@ -7,8 +7,42 @@ const pool = require('../db');
 const { createNewObject, transformDate  } = require("../api_functions.js");
 
 
+router.post('/register', async (req, res) => {
+  let conn;
+
+  const cookies = req.signedCookies;
+
+
+  if(cookies.session_id){
+      session_id = cookies.session_id;
+
+      try {
+          conn = await pool.getConnection();
+          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+          connected[1] = createNewObject(connected[1])
+
+          if(connected[0][0]["Response"]){
+            // ACTIONS OF THE ENDPOINT HERE
+
+          }else{
+            res.send("not connected (session)");
+          }
+          
+        } catch (error) {
+          throw error;
+        } finally {
+          if (conn) conn.release(); // release connection back to pool
+        }
+
+  }else{
+      res.send("not connected (cookie)")
+  }
+});
+
+
+
 // Endpoint to set the cookie
-router.get('/connection', async (req, res) => {
+router.get('/connect', async (req, res) => {
     const { user_email, password } = req.body;
     
     // check if password matches stored password inside database
@@ -48,6 +82,43 @@ router.get('/connection', async (req, res) => {
       if (conn) conn.release(); // release connection back to pool
     }
 });
+
+
+
+router.post('/disconnect', async (req, res) => {
+  let conn;
+
+  const cookies = req.signedCookies;
+
+
+  if(cookies.session_id){
+      session_id = cookies.session_id;
+
+      try {
+          conn = await pool.getConnection();
+          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+          connected[1] = createNewObject(connected[1])
+
+          if(connected[0][0]["Response"]){
+            // ACTIONS OF THE ENDPOINT HERE
+
+          }else{
+            res.send("not connected (session)");
+          }
+          
+        } catch (error) {
+          throw error;
+        } finally {
+          if (conn) conn.release(); // release connection back to pool
+        }
+
+  }else{
+      res.send("not connected (cookie)")
+  }
+});
+
+
+
 
 router.get('/dummy_cookie', (req, res) => {
     const dummy = 99

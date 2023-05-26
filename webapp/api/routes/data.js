@@ -132,7 +132,63 @@ router.post('/get_monitoring', async (req, res) => {
   }else{
       res.send("not connected (cookie)")
   }
-  
+});
+
+
+
+router.post('/monitoring_data', async (req, res) => {
+  console.log(req.body) 
+
+  const { monitor_id } = req.body;
+
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    let response = await conn.query(`CALL SelectData(${monitor_id});`);
+
+    response[1] = createNewObject(response[1])
+    
+    console.log(response)
+    res.send(response);
+  } catch (error) {
+    throw error;
+    //res.send("error") //send error and not throw error -> later
+  } finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
+});
+
+
+router.post('/get_monitoring', async (req, res) => {
+  let conn;
+
+  const cookies = req.signedCookies;
+
+
+  if(cookies.session_id){
+      session_id = cookies.session_id;
+
+      try {
+          conn = await pool.getConnection();
+          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+          connected[1] = createNewObject(connected[1])
+
+          if(connected[0][0]["Response"]){
+            // ACTIONS OF THE ENDPOINT HERE
+
+          }else{
+            res.send("not connected (session)");
+          }
+          
+        } catch (error) {
+          throw error;
+        } finally {
+          if (conn) conn.release(); // release connection back to pool
+        }
+
+  }else{
+      res.send("not connected (cookie)")
+  }
 });
 
 module.exports = router;
