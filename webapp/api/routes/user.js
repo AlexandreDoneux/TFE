@@ -25,7 +25,6 @@ router.post('/register', async (req, res) => {
 
 
 
-// Endpoint to set the cookie
 router.get('/connect', async (req, res) => {
     const { user_email, password } = req.body;
     
@@ -41,9 +40,7 @@ router.get('/connect', async (req, res) => {
       let response2 = await conn.query(`CALL CreateSession(${user_id});`);
 
       response2[1] = createNewObject(response2[1])
-      console.log(response2)
       let session_id = response2[0][0]["SessionId"]
-      console.log(session_id)
 
       if(response2[0][0]["Response"] === "New session"){
 
@@ -53,7 +50,7 @@ router.get('/connect', async (req, res) => {
             sameSite : "none", //Should be "strict" in prod
             maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
             signed: true
-            }).send("Cookie has been set")
+            }).send("New session. Cookie has been set")
       }
       else{ // when session already exists
         //deleting it
@@ -88,7 +85,7 @@ router.get('/connect', async (req, res) => {
 
 
 
-router.post('/disconnect', async (req, res) => {
+router.delete('/disconnect', async (req, res) => {
   let conn;
 
   const cookies = req.signedCookies;
@@ -103,7 +100,6 @@ router.post('/disconnect', async (req, res) => {
           connected[1] = createNewObject(connected[1])
 
           if(connected[0][0]["Response"]){
-            // ACTIONS OF THE ENDPOINT HERE
             let response = await conn.query(`CALL DeleteSession(${session_id})`);
             response[1] = createNewObject(response[1])
 
