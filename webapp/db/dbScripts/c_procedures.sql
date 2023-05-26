@@ -88,9 +88,9 @@ BEGIN
   IF EXISTS (SELECT 1 FROM Session WHERE UserId = _userId) THEN
     SELECT 'Session already exists' AS Response;
   ELSE
-    -- Create a new session
-    INSERT INTO Session (UserId)
-    VALUES (_userId);
+    -- Create a new session with expiration date two hours from now
+    INSERT INTO Session (UserId, Expiration)
+    VALUES (_userId, DATE_ADD(NOW(), INTERVAL 2 HOUR));
 
     SET session_Id = LAST_INSERT_ID();
     SELECT 'New session' AS Response, session_Id AS SessionId;

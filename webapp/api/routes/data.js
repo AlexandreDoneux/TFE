@@ -10,7 +10,7 @@ const { createNewObject, transformDate  } = require("../api_functions.js");
 // temporary endpoint to see the effect of /send_data
 router.get('/', async (req, res) => {
     let conn;
-    const cookies = req.cookies;
+    const cookies = req.signedCookies;
 
     if(cookies.session_id){
         session_id = cookies.session_id;
@@ -92,6 +92,47 @@ router.post('/monitoring_data', async (req, res) => {
     } finally {
       if (conn) conn.release(); // release connection back to pool
     }
+});
+
+
+router.post('/get_monitoring', async (req, res) => {
+  let conn;
+  
+  const cookies = req.signedCookies;
+  const { monitor_id } = req.body;
+
+  //console.log(cookies)
+  //console.log(cookies.session_id)
+
+  if(cookies.session_id){
+      session_id = cookies.session_id;
+
+      try {
+          conn = await pool.getConnection();
+          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+          connected[1] = createNewObject(connected[1])
+
+          if(connected[0][0]["Response"]){
+            let response = await conn.query(`CALL SelectData(${monitor_id});`);
+  
+            response[1] = createNewObject(response[1])
+            console.log(response)
+            res.send(response);
+
+          }else{
+            res.send("not connected (session)");
+          }
+          
+        } catch (error) {
+          throw error;
+        } finally {
+          if (conn) conn.release(); // release connection back to pool
+        }
+
+  }else{
+      res.send("not connected (cookie)")
+  }
+  
 });
 
 module.exports = router;

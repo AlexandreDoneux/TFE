@@ -9,7 +9,6 @@ const { createNewObject, transformDate  } = require("../api_functions.js");
 
 // Endpoint to set the cookie
 router.get('/connection', async (req, res) => {
-    const sessionId = 1
     const { user_email, password } = req.body;
     
     // check if password matches stored password inside database
@@ -24,16 +23,23 @@ router.get('/connection', async (req, res) => {
       response2 = await conn.query(`CALL CreateSession(${user_id});`);
 
       response2[1] = createNewObject(response2[1])
-      console.log(response2)
-      const session_id = response2[0][0]["SessionId"]
+      //console.log(response2)
 
-      return res.status(200).cookie("session_id", session_id, {
-        //secure: true, // -> https
-        httpOnly : true,
-        sameSite : "none", //Should be "strict" in prod
-        maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
-        signed: true
-        }).send("Cookie has been set")
+      if(response2[0][0]["Response"] === "New session"){
+        const session_id = response2[0][0]["SessionId"]
+        //console.log(session_id)
+
+        return res.status(200).cookie("session_id", session_id, {
+            //secure: true, // -> https
+            httpOnly : true,
+            sameSite : "none", //Should be "strict" in prod
+            maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
+            signed: true
+            }).send("Cookie has been set")
+      }
+      else{
+        res.send("Session already exists")
+      }
 
     } catch (error) {
       throw error;

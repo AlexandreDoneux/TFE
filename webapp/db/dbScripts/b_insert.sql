@@ -19,7 +19,7 @@ VALUES
 
 INSERT INTO Session (UserId, Expiration)
 VALUES
-  (1, '2023-05-23 18:00:00'),
+
   (2, '2023-05-24 09:30:00');
 
 
