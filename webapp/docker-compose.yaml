@@ -15,11 +15,14 @@ services:
     volumes:
       - ./db/dbData:/var/lib/mariadb
       - ./db/dbScripts:/docker-entrypoint-initdb.d
+      - ./db/my.cnf:/etc/mysql/my.cnf
     ports:
       #- "5000:3306"
       - "3306:3306"
     networks:
       - api-db
+    
+    
 
   api:
     build: ./api
