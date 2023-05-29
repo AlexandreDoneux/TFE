@@ -7,6 +7,9 @@ const pool = require('../db');
 const { createNewObject, transformDate  } = require("../api_functions.js");
 
 
+
+
+
 router.post('/register', async (req, res) => {
   const { user_email, password } = req.body;
   
@@ -26,62 +29,77 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/connect', async (req, res) => {
-    const { user_email, password } = req.body;
-    
-    // check if password matches stored password inside database
+  // send back the probes id of a user and their active monitoring
     let conn;
-    try {
-      conn = await pool.getConnection();
-      let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
+    conn = await pool.getConnection();
+    const { user_email, password } = req.body;
+    const cookies = req.signedCookies;
+    console.log(cookies)
+    let session_id = req.signedCookies.session_id;
+    console.log(session_id)
+
+
+
+  try{
+    if(session_id != undefined){
+      console.log("cookie exists")
+      //conn = await pool.getConnection();
+      let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+      connected[1] = createNewObject(connected[1])
   
+      if(connected[0][0]["Response"]){
+        res.send("already have a valid session")
+      }
+      else{
+        // if session not valid
+        let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
+        response1[1] = createNewObject(response1[1])
+        const user_id = response1[0][0]["UserId"]
+
+        let response2 = await conn.query(`CALL CreateSession(${user_id});`);
+        response2[1] = createNewObject(response2[1])
+        let session_id = response2[0][0]["SessionId"]
+
+        return res.status(200).cookie("session_id", session_id, {
+          //secure: true, // -> https ou localhost
+          httpOnly : true,
+          sameSite : "none", //Should be "strict" in prod
+          maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
+          signed: true
+        }).send("New session. Cookie has been set")
+      }
+
+    }
+    else{
+      // no cookie available
+      let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
       response1[1] = createNewObject(response1[1])
       const user_id = response1[0][0]["UserId"]
 
       let response2 = await conn.query(`CALL CreateSession(${user_id});`);
-
       response2[1] = createNewObject(response2[1])
       let session_id = response2[0][0]["SessionId"]
 
-      if(response2[0][0]["Response"] === "New session"){
+      return res.status(200).cookie("session_id", session_id, {
+        //secure: true, // -> https ou localhost
+        httpOnly : true,
+        sameSite : "none", //Should be "strict" in prod
+        maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
+        signed: true
+      }).send("New session. Cookie has been set")
+    }  
 
-        return res.status(200).cookie("session_id", session_id, {
-            //secure: true, // -> https ou localhost
-            httpOnly : true,
-            sameSite : "none", //Should be "strict" in prod
-            maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
-            signed: true
-            }).send("New session. Cookie has been set")
-      }
-      else{ // when session already exists
-        //deleting it
-        let response3 = await conn.query(`CALL DeleteSession(${session_id})`);
-        response3[1] = createNewObject(response3[1])
 
-        //res.clearCookie("session_id"); //need to delete cookie ?
 
-        //create a new one
-        let response4 = await conn.query(`CALL CreateSession(${user_id});`);
-
-        response4[1] = createNewObject(response4[1])
-        session_id = response4[0][0]["SessionId"]
-
-        return res.status(200).cookie("session_id", session_id, {
-            //secure: true, // -> https
-            httpOnly : true,
-            sameSite : "none", //Should be "strict" in prod
-            maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
-            signed: true
-            }).send("Session already exists. Deleting it and creating a new one. New cookie set.")
-
-      }
-
-    } catch (error) {
-      throw error;
-      //res.send("error") //send error and not throw error -> later
-    } finally {
-      if (conn) conn.release(); // release connection back to pool
-    }
+  }catch (error) {
+    throw error;
+    //res.send("error") //send error and not throw error -> later
+  }finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
 });
+
+ 
 
 
 

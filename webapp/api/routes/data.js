@@ -80,10 +80,6 @@ router.post('/get_monitoring', async (req, res) => {
   const cookies = req.signedCookies;
   const { monitor_id } = req.body;
 
-  console.log("signed cookies",cookies)
-  console.log("session id", cookies.session_id)
-  console.log("cookies", req.headers.cookie)
-
   if(cookies.session_id){
       session_id = cookies.session_id;
 
@@ -96,7 +92,7 @@ router.post('/get_monitoring', async (req, res) => {
             let response = await conn.query(`CALL SelectData(${monitor_id});`);
   
             response[1] = createNewObject(response[1])
-            console.log(response)
+            //console.log(response)
             res.send(response);
 
           }else{
