@@ -10,11 +10,26 @@ const pool = require('./db');
 
 app.use(bodyParser.json());
 //app.use(cookieParser());
-app.use(cookieParser('MY SECRET')); // définir propre secret -> signature ?
+app.use(cookieParser(secret='MY SECRET')); // définir propre secret -> signature ?
 
 app.use(cors({
-  origin: '*'
+  origin: ['http://localhost:3000', 'http://192.168.0.188:3000'],
+  credentials : true
 }));
+
+/*
+app.use((req, res, next) => {
+  //res.header('Access-Control-Allow-Origin', '*'); // Replace with your client's domain
+  res.header('Access-Control-Allow-Origin', 'http://192.168.0.188:3000, http://192.168.0.138:3000, http://localhost:3000'); // Replace with your client's domain
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+*/
 
 
 const userRouter = require ("./routes/user");

@@ -43,6 +43,7 @@ router.post('/add', async (req, res) => {
 
 
 router.post('/get_all', async (req, res) => {
+  // send back the probes id of a user and their active monitoring
     let conn;
   
     const cookies = req.signedCookies;

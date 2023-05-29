@@ -2,6 +2,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
+//axios.defaults.withCredentials = true
+
 
 function transformTimestamps(arr) {
     return arr.map(obj => {
@@ -30,10 +32,32 @@ const Chart = (monitor_id) => {
     // here : defines fetchData function and executes it when monitor_id prop changes
     useEffect(() => {
         const fetchData = async () => {
-            //const result = await axios(`http://mariadb:3001/monitoring_data`,
-            const result = await axios.post(`http://192.168.0.188:3001/monitoring_data`, 
-            monitor_id
+          // force connect to develop
+          
+          const connection = await axios.post(`http://localhost:3001/user/connect`, 
+            { 
+              "user_email":"john@doe.com",
+              "password": "passjohn"
+            },
+            {
+              withCredentials: true,
+            }
+          );
+          console.log(document.cookie);
+          console.log(connection);
+          
+
+          //const data = await axios.get(`http://localhost:3001/data`);
+          //console.log(data)
+
+
+          const result = await axios.post(`http://localhost:3001/data/get_monitoring`, 
+            monitor_id,
+            {
+              withCredentials: true,
+            }
             );
+            console.log(result);
             setData(transformTimestamps(result.data[0]));
         };
 

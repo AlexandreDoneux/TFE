@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
 
 
 
-router.get('/connect', async (req, res) => {
+router.post('/connect', async (req, res) => {
     const { user_email, password } = req.body;
     
     // check if password matches stored password inside database
@@ -45,10 +45,10 @@ router.get('/connect', async (req, res) => {
       if(response2[0][0]["Response"] === "New session"){
 
         return res.status(200).cookie("session_id", session_id, {
-            //secure: true, // -> https
+            //secure: true, // -> https ou localhost
             httpOnly : true,
             sameSite : "none", //Should be "strict" in prod
-            maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
+            maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
             signed: true
             }).send("New session. Cookie has been set")
       }
@@ -69,7 +69,7 @@ router.get('/connect', async (req, res) => {
             //secure: true, // -> https
             httpOnly : true,
             sameSite : "none", //Should be "strict" in prod
-            maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
+            maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
             signed: true
             }).send("Session already exists. Deleting it and creating a new one. New cookie set.")
 
@@ -144,7 +144,7 @@ router.get('/show_cookie', (req, res) => {
     const signed_cookies = req.signedCookies; // [Object: null prototype] { dummy: '99' }
 
 
-    console.log(req.signedCookies.dummy)
+    console.log(req.signedCookies.session_id)
     console.log(cookies)
     console.log(cookies2)
     console.log(signed_cookies) // -> cookies signés permets de vérifier que le cookie n'a pas été modifié. Si il a été modifié la valeur sera false (.signedCookie)
