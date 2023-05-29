@@ -19,6 +19,8 @@ function transformDate(date_to_transform, compare_date){
      * Receives a date as a tuple and creates a new date tuple of the first date based on the current date retrieved by the system. The idea is to 
      * reposition the date received inside the system's date "frame". Figuring the time translation between compare_date and the current time to apply 
      * its translation to dtae_to_transform.
+     * 
+     * API and DB use GMT but by transforming the dates given by the probe to our "timeframe" we can easily addapt them to our timezone (as done here)
      */
     const current_date = new Date().toLocaleString('en-US', { timeZone: 'Europe/Brussels', hour12: false });
     const date_components = current_date.split(/[\/,: ]+/).map(component => parseInt(component));

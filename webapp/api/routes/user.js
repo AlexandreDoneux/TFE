@@ -55,7 +55,7 @@ router.post('/connect', async (req, res) => {
           //secure: true, // -> https ou localhost
           httpOnly : true,
           sameSite : "none", //Should be "strict" in prod
-          maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
+          maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
           signed: true
         }).send("New session. Cookie has been set")
       }
@@ -74,7 +74,7 @@ router.post('/connect', async (req, res) => {
         //secure: true, // -> https ou localhost
         httpOnly : true,
         sameSite : "none", //Should be "strict" in prod
-        maxAge : 1 * 60 * 60 * 3 * 1000, //1 hours
+        maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
         signed: true
       }).send("New session. Cookie has been set")
     }  
