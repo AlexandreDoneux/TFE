@@ -77,36 +77,36 @@ router.post('/send_data', async (req, res) => {
 router.post('/get_monitoring', async (req, res) => {
   let conn;
   
-  const cookies = req.signedCookies;
+  const session_id = req.signedCookies.session_id;
   const { monitor_id } = req.body;
 
-  if(cookies.session_id){
-      session_id = cookies.session_id;
+  try{
+    if(session_id){
+      conn = await pool.getConnection();
+      let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+      connected[1] = createNewObject(connected[1])
 
-      try {
-          conn = await pool.getConnection();
-          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
-          connected[1] = createNewObject(connected[1])
-
-          if(connected[0][0]["Response"]){
-            let response = await conn.query(`CALL SelectData(${monitor_id});`);
+      if(connected[0][0]["Response"]){
+        let response = await conn.query(`CALL SelectData(${monitor_id});`);
   
-            response[1] = createNewObject(response[1])
-            //console.log(response)
-            res.send(response);
-
-          }else{
-            res.send("not connected (session)");
-          }
-          
-        } catch (error) {
-          throw error;
-        } finally {
-          if (conn) conn.release(); // release connection back to pool
-        }
-
-  }else{
+        response[1] = createNewObject(response[1])
+        //console.log(response)
+        res.send(response);
+      
+      }
+      else{
+        res.send("not connected (session)");
+      }
+    }
+    else{
       res.send("not connected (cookie)")
+    }
+
+
+  }catch (error) {
+    throw error;
+  }finally {
+    if (conn) conn.release(); // release connection back to pool
   }
 });
 

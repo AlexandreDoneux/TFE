@@ -29,29 +29,20 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/connect', async (req, res) => {
-  // send back the probes id of a user and their active monitoring
     let conn;
     conn = await pool.getConnection();
     const { user_email, password } = req.body;
-    const cookies = req.signedCookies;
-    console.log(cookies)
     let session_id = req.signedCookies.session_id;
-    console.log(session_id)
-
-
 
   try{
-    if(session_id != undefined){
-      console.log("cookie exists")
-      //conn = await pool.getConnection();
+    if(session_id != undefined){ // if an session_id cookie is available
       let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
       connected[1] = createNewObject(connected[1])
   
       if(connected[0][0]["Response"]){
         res.send("already have a valid session")
       }
-      else{
-        // if session not valid
+      else{ // if session not valid (not in DB)
         let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
         response1[1] = createNewObject(response1[1])
         const user_id = response1[0][0]["UserId"]
@@ -70,8 +61,7 @@ router.post('/connect', async (req, res) => {
       }
 
     }
-    else{
-      // no cookie available
+    else{ // no cookie available
       let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
       response1[1] = createNewObject(response1[1])
       const user_id = response1[0][0]["UserId"]
@@ -108,34 +98,33 @@ router.delete('/disconnect', async (req, res) => {
 
   const cookies = req.signedCookies;
 
-
-  if(cookies.session_id){
+  try{
+    if(cookies.session_id){
       session_id = cookies.session_id;
 
-      try {
-          conn = await pool.getConnection();
-          let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
-          connected[1] = createNewObject(connected[1])
+        conn = await pool.getConnection();
+        let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+        connected[1] = createNewObject(connected[1])
 
-          if(connected[0][0]["Response"]){
-            let response = await conn.query(`CALL DeleteSession(${session_id})`);
-            response[1] = createNewObject(response[1])
+        if(connected[0][0]["Response"]){
+          let response = await conn.query(`CALL DeleteSession(${session_id})`);
+          response[1] = createNewObject(response[1])
 
-            res.clearCookie("session_id");
-            res.send("disconnected")
+          res.clearCookie("session_id");
+          res.send("disconnected")
 
-          }else{
-            res.send("not connected (session)");
-          }
-          
-        } catch (error) {
-          throw error;
-        } finally {
-          if (conn) conn.release(); // release connection back to pool
+        }else{
+          res.send("not connected (session)");
         }
 
-  }else{
+    }
+    else{
       res.send("not connected (cookie)")
+    }
+  }catch (error) {
+    throw error;
+  }finally {
+    if (conn) conn.release(); // release connection back to pool
   }
 });
 
