@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Chart from './components/chart';
 
 import Box from '@mui/material/Box';
@@ -55,7 +55,7 @@ const element = (
       
       
         <Div id="main" sx={{mx:4, my:4}}>
-          <HashRouter>
+          <Router>
               <Routes>
                   <Route path="/" element={<div>this is home</div>}> </Route>
                   <Route path="/connection" element={<Div>this is connection</Div>}> </Route>
@@ -63,7 +63,7 @@ const element = (
                   <Route path="/monitoring/create" element={<div>this is monitoring creation</div>}> </Route>
                   <Route path="/probe/add" element={<div>this is probe add</div>}> </Route>
               </Routes>
-          </HashRouter>
+          </Router>
         </Div>
       </Box>
     </FullPageComponentWrapper>
