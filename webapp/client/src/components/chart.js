@@ -2,6 +2,15 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import {ThemeProvider, createTheme } from '@mui/material/styles';
+import { unstable_styleFunctionSx, styled } from '@mui/system';
+
+import theme from '../theme';
+
+
+const Div = styled('div')(unstable_styleFunctionSx);
+
+
 
 //axios.defaults.withCredentials = true
 
@@ -70,15 +79,19 @@ const Chart = () => {
       }, [monitor_id]);
 
   return (
-    <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-      <XAxis dataKey="Timestamp" />
-      <YAxis />
-      <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="TempValue" stroke="#8884d8" activeDot={{ r: 8 }} />
-      
-    </LineChart>
+    <ThemeProvider theme={theme} >
+      <Div sx={{bgcolor:"background.main"}}>
+        <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
+        <XAxis dataKey="Timestamp" />
+        <YAxis />
+        <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="TempValue" stroke="#4E598C" activeDot={{ r: 8 }} />
+        </LineChart>
+      </Div>
+    </ThemeProvider>
+    
   );
 };
 
