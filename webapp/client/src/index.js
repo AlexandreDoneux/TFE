@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import Chart from './components/chart';
+import MenuDrawer from './components/MenuDrawer';
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -35,6 +36,9 @@ const element = (
       <Box width="auto" height="auto" backgroundColor="secondary.two" >
         <AppBar position="static" sx={{bgcolor: "primary.main"}}> 
           <Box width="auto" height="auto"  sx={{ display: 'flex' }}>
+            <Div>
+              <MenuDrawer ></MenuDrawer>
+            </Div>
             
             <Div  sx={{m:"auto", color:"secondary.two", fontSize:30}}>
               <h1 >Alexandre Doneux</h1>
