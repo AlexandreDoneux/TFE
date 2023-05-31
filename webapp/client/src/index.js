@@ -36,19 +36,14 @@ const element = (
       <Box width="auto" height="auto" backgroundColor="secondary.two" >
         <AppBar position="static" sx={{bgcolor: "primary.main"}}> 
           <Box width="auto" height="auto"  sx={{ display: 'flex' }}>
-            <Div>
-              <MenuDrawer ></MenuDrawer>
+            <Div sx={{ml:3, mr:3, display: 'flex'}}>
+              <MenuDrawer></MenuDrawer>
             </Div>
             
-            <Div  sx={{m:"auto", color:"secondary.two", fontSize:30}}>
-              <h1 >Alexandre Doneux</h1>
+            <Div  sx={{ml:10, color:"secondary.two", fontSize:30}}>
+              <h1 >Beer Logger</h1>
             </Div>
             <Div sx={{ml:"auto", mr:3, display: 'flex'}}>
-              {/**
-               * <ListingCours sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}/>
-               * <MonCompteMenu sx={{ml:3, mr:4, my:2, py:2, bgcolor:"secondary.button", fontSize:12}}></MonCompteMenu>
-               * 
-               */}
               
               <Button variant="contained" sx={{ml:2, mr:2, my:3, py:2, bgcolor:"secondary.two", fontSize:20, color: "primary.main", fontWeight: 'bold'}} onClick={() => window.location = "/connection"}>Connexion</Button>
               

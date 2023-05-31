@@ -8,8 +8,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+//import InboxIcon from '@mui/icons-material/MoveToInbox';
+//import MailIcon from '@mui/icons-material/Mail';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
@@ -35,29 +38,36 @@ export default function TemporaryDrawer() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+          <ListItem key="archives" disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <InventoryIcon></InventoryIcon>
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={"Suivis Archivés"} />
             </ListItemButton>
           </ListItem>
-        ))}
       </List>
       <Divider />
       <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+        {['Probe 1', 'Probe 2', 'Probe 3'].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <DeviceThermostatIcon></DeviceThermostatIcon>
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+        <Divider />
+        <ListItem key="probe_add" disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <AddCircleOutlineIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Ajout d'une sonde" />
+            </ListItemButton>
+          </ListItem>
       </List>
     </Box>
   );
@@ -66,7 +76,7 @@ export default function TemporaryDrawer() {
     <div>
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)} sx={{ml:2, mr:2, my:3, py:2, bgcolor:"secondary.two", fontSize:20, color: "primary.main", fontWeight: 'bold'}}>Menu</Button>
+          <Button variant="contained" onClick={toggleDrawer(anchor, true)} sx={{ml:2, mr:2, my:3, py:2, bgcolor:"secondary.two", fontSize:20, color: "primary.main", fontWeight: 'bold'}}>Menu</Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
