@@ -1,6 +1,7 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 //axios.defaults.withCredentials = true
 
@@ -21,12 +22,13 @@ function transformTimestamps(arr) {
   }
 
 
-const Chart = (monitor_id) => {
+const Chart = () => {
 
     // defines empty data state (empty array) and setData method from useState()
     const [data, setData] = useState([]);
 
-    
+    let {monitor_id} = useParams();
+    console.log(monitor_id)
 
     // useEffect -> determines action and when it should be executed
     // here : defines fetchData function and executes it when monitor_id prop changes
@@ -45,6 +47,7 @@ const Chart = (monitor_id) => {
           );
           console.log(document.cookie);
           console.log(connection);
+          console.log(monitor_id)
           
 
           //const data = await axios.get(`http://localhost:3001/data`);
@@ -52,7 +55,9 @@ const Chart = (monitor_id) => {
 
 
           const result = await axios.post(`http://localhost:3001/data/get_monitoring`, 
-            monitor_id,
+            {
+              "monitor_id" : monitor_id,
+            },
             {
               withCredentials: true,
             }
