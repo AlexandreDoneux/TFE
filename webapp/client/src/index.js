@@ -53,7 +53,7 @@ const element = (
         </AppBar>
       
       
-        <Div id="main" sx={{mx:4, my:4}}>
+        <Div id="main" sx={{mx:4, my:4}} width="auto" height="auto">
           <Router>
               <Routes>
                   <Route path="/" element={<div>this is home</div>}> </Route>

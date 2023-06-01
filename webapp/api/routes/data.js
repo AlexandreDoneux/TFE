@@ -50,6 +50,7 @@ router.post('/send_data', async (req, res) => {
 
   try {
     conn = await pool.getConnection();
+    
 
     for (const [timestamp, item] of Object.entries(data)) {
       const { temperature, float_density, refract_density } = item;

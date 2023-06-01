@@ -1,4 +1,4 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -79,17 +79,19 @@ const Chart = () => {
       }, [monitor_id]);
 
   return (
-    <ThemeProvider theme={theme} >
-      <Div sx={{bgcolor:"background.main"}}>
-        <LineChart width={500} height={300} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
-        <XAxis dataKey="Timestamp" />
-        <YAxis />
-        <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="TempValue" stroke="#4E598C" activeDot={{ r: 8 }} />
-        </LineChart>
-      </Div>
+    <ThemeProvider theme={theme}>
+      <ResponsiveContainer >
+        <Div sx={{bgcolor:"background.main"}}>
+          <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
+          <XAxis dataKey="Timestamp" />
+          <YAxis />
+          <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="TempValue" stroke="#4E598C" activeDot={{ r: 8 }} />
+          </LineChart>
+        </Div>
+      </ResponsiveContainer>
     </ThemeProvider>
     
   );
