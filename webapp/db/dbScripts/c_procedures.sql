@@ -109,6 +109,24 @@ BEGIN
 END//
 
 
+CREATE PROCEDURE CheckProbePassword(IN _probeId INT, IN _password VARCHAR(255))
+BEGIN
+    DECLARE correct_Password VARCHAR(255);
+    
+    SET correct_Password = (SELECT Password INTO _correctPassword FROM Probe WHERE ProbeId = _probeId;);
+
+    
+    -- Compare the provided password with the correct password
+    IF _password = correct_Password THEN
+        SELECT 'correct' AS Response;
+    ELSE
+        SELECT 'not correct' AS Response;
+    END IF;
+    
+END//
+
+
+
 
 
 DELIMITER ;

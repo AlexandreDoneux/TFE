@@ -7,7 +7,7 @@ INSERT INTO Probe (Name, Password, Salt, UserId)
 VALUES
 ('Toto', 'mdptoto', NULL, 1),
 ('Tata', 'mdptata', NULL, 1),
-('Tutu', NULL, NULL, 2);
+('Tutu', 'mdptutu', NULL, 2);
 
 
 INSERT INTO Monitoring (StartDate, EndDate, ProbeId)
