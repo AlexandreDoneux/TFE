@@ -41,7 +41,8 @@ def measure_temp():
     
     return temp
 
-def sending_data(send_timestamp, probe_id timestamp, temp):
+
+def sending_data(send_timestamp, probe_id, timestamp, temp):
     """
 
     """
@@ -50,8 +51,8 @@ def sending_data(send_timestamp, probe_id timestamp, temp):
     "probe_id": probe_id,
     "data_timestamp": timestamp,
     "temperature": temp,
-    "float_density": 1.1,
-    "refract_density": 2.2  
+    "float_density": 0,
+    "refract_density": 0  
     }
     
     payload_str = json.dumps(payload)
@@ -62,6 +63,40 @@ def sending_data(send_timestamp, probe_id timestamp, temp):
     print(response)
     response.close()
     
+
+def store_data(timestamp, temperature, float_density, refract_density):
+    
+
+    # Create a dictionary with the new data
+    data = {
+        timestamp: {
+            "temperature": temperature,
+            "float_density": float_density,
+            "refract_density": refract_density
+        }
+    }
+
+    # Load existing data from the JSON file, if it exists
+    try:
+        with open("data.json", "r") as file:
+            existing_data = json.load(file)
+            print(existing_data)
+    except OSError as e:
+        if e.args[0] == 2:  # File not found error
+            existing_data = {}
+        else:
+            raise
+        return False
+
+    # Merge the new data with existing data
+    existing_data.update(data)
+    print(existing_data)
+
+    # Save the updated data back to the JSON file
+    with open("data.json", "w") as file:
+        json.dump(existing_data, file)
+        
+    return True
     
 
 
@@ -76,8 +111,6 @@ print(wlan.isconnected())
 print(wlan.ifconfig())
 
 
-
-
 #-------------- While loop -----------------
 
 rtc=machine.RTC()
@@ -89,9 +122,10 @@ while True:
     timestamp=rtc.datetime()
     timestamp = timestamp[0:3]+timestamp[4:7]
 
-    send_timestamp=rtc.datetime()
+    send_timestamp = rtc.datetime()
     send_timestamp = send_timestamp[0:3]+send_timestamp[4:7]
     
     sending_data(send_timestamp, probe_id, timestamp, temperature)
+    store_data(timestamp, temperature, 0, 0)
     
     time.sleep(data_interval*60)
