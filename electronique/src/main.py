@@ -66,7 +66,7 @@ def sending_data(send_timestamp, probe_id, timestamp, temp):
 
 def store_data(timestamp, temperature, float_density, refract_density):
     
-
+    timestamp = " ".join(str(i) for i in timestamp)
     # Create a dictionary with the new data
     data = {
         timestamp: {
