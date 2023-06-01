@@ -42,27 +42,38 @@ def measure_temp():
     return temp
 
 
-def sending_data(send_timestamp, probe_id, timestamp, temp):
+def sending_data(send_timestamp, probe_id):
     """
 
     """
-    payload = { 
-    "send_timestamp":send_timestamp,
-    "probe_id": probe_id,
-    "data_timestamp": timestamp,
-    "temperature": temp,
-    "float_density": 0,
-    "refract_density": 0  
+    
+    try:
+        with open("data.json", "r") as file:
+            data = json.load(file)
+    except OSError as e:
+        return False
+    
+    
+    payload = {
+        "send_timestamp": send_timestamp,
+        "probe_id": probe_id
     }
     
+    # Unpack the content of 'data' dictionary into 'payload'
+    payload.update(data)
+    
+    
     payload_str = json.dumps(payload)
-    url = "http://"+api_ip_address+":3001/send_data"
+    url = "http://"+api_ip_address+":3001/data/send_data"
     
     response = urequests.post(url, headers=headers, data=payload_str)
     
-    print(response)
+    number_of_saved_data = len(response.json())
     response.close()
     
+    return(number_of_saved_data)
+    
+
 
 def store_data(timestamp, temperature, float_density, refract_density):
     
@@ -80,17 +91,11 @@ def store_data(timestamp, temperature, float_density, refract_density):
     try:
         with open("data.json", "r") as file:
             existing_data = json.load(file)
-            print(existing_data)
     except OSError as e:
-        if e.args[0] == 2:  # File not found error
-            existing_data = {}
-        else:
-            raise
         return False
 
     # Merge the new data with existing data
     existing_data.update(data)
-    print(existing_data)
 
     # Save the updated data back to the JSON file
     with open("data.json", "w") as file:
@@ -99,20 +104,20 @@ def store_data(timestamp, temperature, float_density, refract_density):
     return True
 
 
+
 def delete_oldest_records(num_records):
     # Load existing data from the JSON file
     try:
         with open("data.json", "r") as file:
             existing_data = json.load(file)
     except FileNotFoundError:
-        existing_data = {}
         return False
     
     # Find the oldest records to remove
     timestamps = [key for key in existing_data.keys()]
     timestamps.sort()
     timestamps_to_remove = timestamps[:num_records]
-
+    
     # Remove the oldest records from the existing data
     for timestamp in timestamps_to_remove:
         del existing_data[timestamp]
@@ -122,7 +127,6 @@ def delete_oldest_records(num_records):
         json.dump(existing_data, file)
 
     return True
-
     
 
 
@@ -133,8 +137,8 @@ wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 wlan.connect(SSID,PASSWORD)
 
-print(wlan.isconnected())
-print(wlan.ifconfig())
+#print(wlan.isconnected())
+#print(wlan.ifconfig())
 
 
 #-------------- While loop -----------------
@@ -151,7 +155,8 @@ while True:
     send_timestamp = rtc.datetime()
     send_timestamp = send_timestamp[0:3]+send_timestamp[4:7]
     
-    sending_data(send_timestamp, probe_id, timestamp, temperature)
     store_data(timestamp, temperature, 0, 0)
+    number_of_saved_data = sending_data(send_timestamp, probe_id)
+    delete_oldest_records(number_of_saved_data)
     
     time.sleep(data_interval*60)
