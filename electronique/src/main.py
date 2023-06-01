@@ -97,6 +97,41 @@ def store_data(timestamp, temperature, float_density, refract_density):
         json.dump(existing_data, file)
         
     return True
+
+
+def delete_data_older_than(timestamp):
+    
+    timestamp = " ".join(str(i) for i in timestamp)
+    # Load existing data from the JSON file
+    try:
+        with open("data.json", "r") as file:
+            existing_data = json.load(file)
+            print(existing_data)
+    except OSError as e:
+        if e.args[0] == 2:  # File not found error
+            existing_data = {}
+        else:
+            raise
+        return False
+    
+
+    # Find and remove data with timestamps older than the given parameter
+    data_to_remove = []
+    for key in existing_data.keys():
+        if key != "send_timestamp" and key != "probe_id":
+            if key < timestamp:
+                data_to_remove.append(key)
+                
+
+    for key in data_to_remove:
+        del existing_data[key]
+
+
+    # Save the updated data back to the JSON file
+    with open("data.json", "w") as file:
+        json.dump(existing_data, file)
+
+    return True
     
 
 
