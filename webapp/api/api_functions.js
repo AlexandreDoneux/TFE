@@ -1,4 +1,5 @@
 // File containing different functions used in different routes or API files
+const argon2 = require('argon2');
 
 function createNewObject(okPacket) {
     const newObj = {};
@@ -37,6 +38,28 @@ function transformDate(date_to_transform, compare_date){
 }
 
 
+async function hashPasswordWithArgon2(password) {
+  try {
+    const hashed_password = await argon2.hash(password);
+    return hashed_password;
+  } catch (error) {
+    console.error('Error hashing password with Argon2:', error.message);
+    throw error;
+  }
+}
 
 
-module.exports = { createNewObject, transformDate  };
+async function checkPasswordArgon2(hashed_password_with_salt, password) {
+  try {
+    const is_equal = await argon2.verify(hashed_password_with_salt, password);
+    return is_equal;
+  } catch (error) {
+    console.error('Error verifying password with Argon2:', error.message);
+    throw error;
+  }
+}
+
+
+
+
+module.exports = { createNewObject, transformDate, checkPasswordArgon2, hashPasswordWithArgon2 };
