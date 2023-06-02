@@ -44,32 +44,45 @@ router.get('/', async (req, res) => {
 
 router.post('/send_data', async (req, res) => {
   console.log(req.body);
-  const { send_timestamp, probe_id, ...data } = req.body;
+  const { send_timestamp, probe_id, probe_password, ...data } = req.body;
   let conn;
   let responses = [];
 
   try {
     conn = await pool.getConnection();
-    
 
-    for (const [timestamp, item] of Object.entries(data)) {
-      const { temperature, float_density, refract_density } = item;
+    let query = `CALL CheckProbePassword(${probe_id}, "${probe_password}");`;
+    let probe_connect = await conn.query(query);
+    console.log(probe_connect)
 
-      // data_timestamp to SQL DATETIME + transpose to real time "frame"
-      const new_data_timestamp = await transformDate(send_timestamp, timestamp.split(" "));
-      const inter_date = new Date(Date.UTC(...new_data_timestamp)).toISOString();
-      const date = inter_date.replace("T", " ").replace("Z", ""); // "2023-06-07T16:19:38.000Z" -> T and Z must go away
+    probe_connect[1] = createNewObject(probe_connect[1]);
+    probe_connect[0] = probe_connect[0][0]
 
-      let query = `CALL insertData(${temperature},${float_density},${refract_density},"${date}",${probe_id});`;
-      let response = await conn.query(query);
-
-      response[1] = createNewObject(response[1]);
-      response[0] = response[0][0];
-
-      responses.push(response);
+    if(connected[0][0]["Response"] === "correct"){
+      for (const [timestamp, item] of Object.entries(data)) {
+        const { temperature, float_density, refract_density } = item;
+  
+        // data_timestamp to SQL DATETIME + transpose to real time "frame"
+        const new_data_timestamp = await transformDate(send_timestamp, timestamp.split(" "));
+        const inter_date = new Date(Date.UTC(...new_data_timestamp)).toISOString();
+        const date = inter_date.replace("T", " ").replace("Z", ""); // "2023-06-07T16:19:38.000Z" -> T and Z must go away
+  
+        let query = `CALL insertData(${temperature},${float_density},${refract_density},"${date}",${probe_id});`;
+        let response = await conn.query(query);
+  
+        response[1] = createNewObject(response[1]);
+        response[0] = response[0][0];
+  
+        responses.push(response);
+      }
+  
+      res.send(responses);
+    }
+    else{
+      res.send("wrong password");
     }
 
-    res.send(responses);
+    
   } catch (error) {
     console.log(error);
     // error catch
