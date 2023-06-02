@@ -48,29 +48,19 @@ router.post('/send_data', async (req, res) => {
   const { send_timestamp, probe_id, probe_password, ...data } = req.body;
   let conn;
   let responses = [];
-
-  hashed_password = await hashPasswordWithArgon2("mdptoto");
-  console.log(hashed_password);
-  hashed_password2 = await argon2.hash('mdptoto')
-  console.log(hashed_password2);
-
-  is_equal2 = await argon2.verify(hashed_password, "mdptoto")
-  console.log(is_equal2)
   
-  is_equal = await checkPasswordArgon2(hashed_password, "mdptoto");
-  console.log(is_equal);
 
   try {
     conn = await pool.getConnection();
 
-    let query = `CALL CheckProbePassword(${probe_id}, "${probe_password}");`;
+    let query = `CALL RetrieveProbePassword(${probe_id});`;
     let probe_connect = await conn.query(query);
-    console.log(probe_connect)
 
     probe_connect[1] = createNewObject(probe_connect[1]);
-    //probe_connect[0] = probe_connect[0][0]
 
-    if(probe_connect[0][0]["Response"] === "correct"){
+    password_correct = await checkPasswordArgon2(probe_connect[0][0]["Response"], probe_password);
+
+    if(password_correct){
       for (const [timestamp, item] of Object.entries(data)) {
         const { temperature, float_density, refract_density } = item;
   

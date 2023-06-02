@@ -43,7 +43,7 @@ router.post('/connect', async (req, res) => {
         res.send("already have a valid session")
       }
       else{ // if session not valid (not in DB)
-        let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
+        let response1 = await conn.query(`CALL CheckUserPasswordMatch("${user_email}", "${password}");`);
         response1[1] = createNewObject(response1[1])
         const user_id = response1[0][0]["UserId"]
 
@@ -62,7 +62,7 @@ router.post('/connect', async (req, res) => {
 
     }
     else{ // no cookie available
-      let response1 = await conn.query(`CALL CheckPasswordMatch("${user_email}", "${password}");`);
+      let response1 = await conn.query(`CALL CheckUserPasswordMatch("${user_email}", "${password}");`);
       response1[1] = createNewObject(response1[1])
       const user_id = response1[0][0]["UserId"]
 
