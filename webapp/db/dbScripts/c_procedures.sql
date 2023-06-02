@@ -53,7 +53,7 @@ BEGIN
 END//
 
 
-CREATE PROCEDURE CheckPasswordMatch(IN _userEmail VARCHAR(255), IN _userPassword VARCHAR(255))
+CREATE PROCEDURE CheckUserPasswordMatch(IN _userEmail VARCHAR(255), IN _userPassword VARCHAR(255))
 BEGIN
   DECLARE email_Count INT;
   DECLARE stored_Password VARCHAR(255);
@@ -78,6 +78,24 @@ BEGIN
   END IF;
 
 END//
+
+
+CREATE PROCEDURE RetrieveProbePassword(IN _probeId INT)
+BEGIN
+
+    -- Check if the probe exists
+    IF EXISTS (SELECT 1 FROM Probe WHERE ProbeId = _probeId) THEN
+        -- Retrieve the password for the probe
+        SELECT Password AS Response
+        FROM Probe
+        WHERE ProbeId = _probeId;
+
+    ELSE
+        SELECT 'Probe not existing' AS Response;
+    END IF;
+
+END//
+
 
 
 CREATE PROCEDURE CreateSession(IN _userId INT)
