@@ -113,7 +113,7 @@ CREATE PROCEDURE CheckProbePassword(IN _probeId INT, IN _probePassword VARCHAR(2
 BEGIN
     DECLARE correct_Password VARCHAR(255);
     
-    SET correct_Password = (SELECT Password FROM Probe WHERE ProbeId = _probeId;);
+    SET correct_Password = (SELECT Password FROM Probe WHERE ProbeId = _probeId);
 
     
     -- Compare the provided password with the correct password

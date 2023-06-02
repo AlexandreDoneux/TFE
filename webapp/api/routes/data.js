@@ -56,9 +56,9 @@ router.post('/send_data', async (req, res) => {
     console.log(probe_connect)
 
     probe_connect[1] = createNewObject(probe_connect[1]);
-    probe_connect[0] = probe_connect[0][0]
+    //probe_connect[0] = probe_connect[0][0]
 
-    if(connected[0][0]["Response"] === "correct"){
+    if(probe_connect[0][0]["Response"] === "correct"){
       for (const [timestamp, item] of Object.entries(data)) {
         const { temperature, float_density, refract_density } = item;
   
