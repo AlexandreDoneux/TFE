@@ -1,9 +1,11 @@
 FROM node:18.14-alpine
 
+WORKDIR /api
+
 COPY package*.json ./
 
 RUN npm install
 
-WORKDIR /api
+COPY . .
 
 #CMD ["npm", "start"]

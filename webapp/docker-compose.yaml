@@ -28,8 +28,8 @@ services:
     build: ./api
     container_name: api
     restart: always
-    volumes:
-      - ./api:/api
+    #volumes:
+     # - ./api:/api
     ports:
       - "3001:3001" # to allow testing from postman
     depends_on:
@@ -43,8 +43,8 @@ services:
     build : ./client
     container_name: frontend
     restart: always
-    volumes : 
-      - ./client:/client
+    #volumes : 
+     # - ./client:/client
     ports:
       - "3000:3000"
     depends_on:
