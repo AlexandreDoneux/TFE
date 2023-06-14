@@ -51,7 +51,7 @@ export default function TemporaryDrawer() {
       <List>
         {['Probe 1', 'Probe 2', 'Probe 3'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => window.location = "/monitoring/1"}>
               <ListItemIcon>
                 <DeviceThermostatIcon></DeviceThermostatIcon>
               </ListItemIcon>
