@@ -1,0 +1,61 @@
+<mxfile host="65bd71144e">
+    <diagram id="wZ8wZQQhYp9kEjvH_PXL" name="Page-1">
+        <mxGraphModel dx="1467" dy="1014" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F9C784;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="790" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F9B364;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="190" width="510" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Name :&lt;br style=&quot;font-size: 18px;&quot;&gt;&lt;br style=&quot;font-size: 18px;&quot;&gt;&lt;div style=&quot;font-size: 18px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 18px;&quot;&gt;Password :&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 18px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 18px;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 18px;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 18px;&quot;&gt;Confirm password :&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=18;" parent="1" vertex="1">
+                    <mxGeometry x="250" y="220" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="324" y="227" width="372" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="346" y="272" width="350" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Create monitoring" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=14;fontColor=#FFFFFF;fillColor=#FF8C42;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="405" y="350" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;fontSize=18;fillColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="416" y="315" width="280" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=22;fontColor=#FFFFFF;fillColor=#4e598c;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="110" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#6F7FC7;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="220" width="94" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4E598C;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="790" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;Archives&lt;br&gt;&lt;br&gt;Probe 1&lt;br&gt;Probe 2&lt;br&gt;Probe 3&lt;br&gt;&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="190" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="+" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=14;fontColor=#FFFFFF;fillColor=#FF8C42;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="280" width="90" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#6F7FC7;" parent="1" vertex="1">
+                    <mxGeometry x="84.10000000000002" y="85" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#FFFFFF;shadow=0;dashed=0;shape=mxgraph.ios7.icons.most_viewed;pointerEvents=1" parent="1" vertex="1">
+                    <mxGeometry x="89.99999999999994" y="93.60000000000002" width="28.2" height="22.8" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Disconnect" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=14;fontColor=#FFFFFF;fillColor=#FF8C42;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="770" y="88.2" width="90" height="33.6" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="Beerlog" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FFFFFF;fontSize=22;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="150" y="90" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="Creating a monitoring" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=19;" parent="1" vertex="1">
+                    <mxGeometry x="220" y="150" width="230" height="30" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

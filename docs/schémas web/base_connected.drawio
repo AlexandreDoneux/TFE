@@ -1,0 +1,52 @@
+<mxfile host="65bd71144e" scale="1" border="20">
+    <diagram id="Gv5OdvQZTV8jD2rlIU9i" name="Page-1">
+        <mxGraphModel dx="1467" dy="1014" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="#ffffff" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="3" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F9C784;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="790" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4E598C;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="80" width="790" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Beerlog" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FFFFFF;fontSize=22;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="160" y="93.6" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F9C784;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="510" width="790" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=22;fontColor=#FFFFFF;fillColor=#4e598c;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="510" width="110" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4E598C;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="510" width="790" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Beerlog" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#FFFFFF;fontSize=22;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="160" y="520" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="&lt;span style=&quot;font-size: 14px;&quot;&gt;Archives&lt;br&gt;&lt;br&gt;Probe 1&lt;br&gt;Probe 2&lt;br&gt;Probe 3&lt;br&gt;&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontColor=#FFFFFF;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="620" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="+" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=14;fontColor=#FFFFFF;fillColor=#FF8C42;gradientColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="90" y="710" width="90" height="20" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fillColor=#6F7FC7;" vertex="1" parent="1">
+                    <mxGeometry x="84.10000000000002" y="515" width="40" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#FFFFFF;shadow=0;dashed=0;shape=mxgraph.ios7.icons.most_viewed;pointerEvents=1" vertex="1" parent="1">
+                    <mxGeometry x="89.99999999999996" y="97.19999999999999" width="28.2" height="22.8" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="" style="html=1;verticalLabelPosition=bottom;align=center;labelBackgroundColor=#ffffff;verticalAlign=top;strokeWidth=2;strokeColor=#FFFFFF;shadow=0;dashed=0;shape=mxgraph.ios7.icons.most_viewed;pointerEvents=1" vertex="1" parent="1">
+                    <mxGeometry x="89.99999999999996" y="523.6" width="28.2" height="22.8" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Disconnect" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=14;fontColor=#FFFFFF;fillColor=#FF8C42;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="770" y="88.2" width="90" height="33.6" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Disconnect" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=#000000;fontSize=14;fontColor=#FFFFFF;fillColor=#FF8C42;gradientColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="770" y="516.4" width="90" height="33.6" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
