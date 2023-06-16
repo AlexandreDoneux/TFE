@@ -60,6 +60,12 @@ async function checkPasswordArgon2(hashed_password_with_salt, password) {
 }
 
 
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
 
 
-module.exports = { createNewObject, transformDate, checkPasswordArgon2, hashPasswordWithArgon2 };
+
+
+module.exports = { createNewObject, transformDate, checkPasswordArgon2, hashPasswordWithArgon2, validateEmail };
