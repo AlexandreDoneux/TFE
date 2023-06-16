@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
-import Chart from './components/chart';
+import Chart from './components/Chart';
 import MenuDrawer from './components/MenuDrawer';
 
 import Box from '@mui/material/Box';
@@ -15,6 +15,7 @@ import {ThemeProvider, createTheme } from '@mui/material/styles';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
 
 import theme from './theme';
+import ConnectionForm from './components/ConnectionForm';
 
 const Div = styled('div')(unstable_styleFunctionSx);
 
@@ -57,7 +58,7 @@ const element = (
           <Router>
               <Routes>
                   <Route path="/" element={<div>this is home</div>}> </Route>
-                  <Route path="/connection" element={<Div>this is connection</Div>}> </Route>
+                  <Route path="/connection" element={<ConnectionForm></ConnectionForm>}> </Route>
                   <Route path="/monitoring/:monitor_id" element={<Chart></Chart>}> </Route>
                   <Route path="/monitoring/create" element={<div>this is monitoring creation</div>}> </Route>
                   <Route path="/probe/add" element={<div>this is probe add</div>}> </Route>
