@@ -6,22 +6,16 @@ BEGIN
     DECLARE monitoringId INT;
     SET monitoringId = (SELECT MonitorId
                         FROM Monitoring
-                        WHERE ProbeId=_probeId);
+                        WHERE ProbeId = _probeId AND EndDate IS NULL);
 
     IF monitoringId IS NULL THEN
-      SELECT 'no active monitoring available' AS Response;
-
-    ELSEIF monitoringId = 1 THEN
-      INSERT INTO Data (TempValue, FloatDensityValue, RefractDensityValue, Timestamp, MonitorId) VALUES
+        SELECT 'no active monitoring available' AS Response;
+    ELSE
+        INSERT INTO Data (TempValue, FloatDensityValue, RefractDensityValue, Timestamp, MonitorId) VALUES
         (_tempValue, _floatDensityValue, _refractDensityValue, _timestamp, monitoringId);
     
-      SELECT 'ok' AS Response;
-      
-    ELSE
-      SELECT 'too many' AS Response;
-
+        SELECT 'ok' AS Response;
     END IF;
-
 END//
 
 
