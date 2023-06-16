@@ -29,92 +29,55 @@ router.post('/register', async (req, res) => {
 
 
 router.post('/connect', async (req, res) => {
-  let conn;
-  conn = await pool.getConnection();
   const { user_email, password } = req.body;
-  let session_id = req.signedCookies.session_id;
+  const conn = await pool.getConnection();
+  const session_id = req.signedCookies.session_id;
 
   try {
+    if (!validateEmail(user_email)) {
+      return res.status(400).send('Invalid user_email');
+    }
+    if (typeof password !== 'string' || password.trim() === '') {
+      return res.status(400).send('Invalid password');
+    }
+
+    //const session_id = req.signedCookies.session_id;
+    //const conn = await pool.getConnection();
+
+    let connected;
     if (session_id != undefined) {
       // If a session_id cookie is available
-      let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+      connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
       connected[1] = createNewObject(connected[1]);
 
       if (connected[0][0]['Response']) {
-        res.send('Already have a valid session');
-      } else {
-        // If session not valid (not in DB)
-        if (!validateEmail(user_email)) {
-          return res.status(400).send('Invalid user_email');
-        }
-        if (typeof password !== 'string' || password.trim() === '') {
-          return res.status(400).send('Invalid password');
-        }
-
-        let response1 = await conn.query(`CALL CheckUserPasswordMatch("${user_email}", "${password}");`);
-        response1[1] = createNewObject(response1[1]);
-        const user_id = response1[0][0]['UserId'];
-
-        if(response1[0][0]['Response'] === "Password does not match"){
-          return res.status(400).send('Invalid password');
-        }
-        if(response1[0][0]['Response'] === "Account not existing"){
-          return res.status(400).send('Invalid user_email');
-        }
-
-        console.log(user_id)
-        console.log(response1)
-
-        let response2 = await conn.query(`CALL CreateSession(${user_id});`);
-        response2[1] = createNewObject(response2[1]);
-        let session_id = response2[0][0]['SessionId'];
-
-        return res.status(200).cookie('session_id', session_id, {
-          //secure: true, // -> https or localhost
-          httpOnly: true,
-          sameSite: 'none', // Should be "strict" in prod
-          maxAge: 1 * 60 * 60 * 2 * 1000, // 2 hours
-          signed: true,
-        }).send('New session. Cookie has been set');
+        return res.send('Already have a valid session');
       }
-    } else {
-      // No cookie available
-      if (!validateEmail(user_email)) {
-        return res.status(400).send('Invalid user_email');
-      }
-      if (typeof password !== 'string' || password.trim() === '') {
-        return res.status(400).send('Invalid password');
-      }
-
-      let response1 = await conn.query(`CALL CheckUserPasswordMatch("${user_email}", "${password}");`);
-      response1[1] = createNewObject(response1[1]);
-      const user_id = response1[0][0]['UserId'];
-
-      if(response1[0][0]['Response'] === "Password does not match"){
-        return res.status(400).send('Invalid password');
-      }
-      if(response1[0][0]['Response'] === "Account not existing"){
-        return res.status(400).send('Invalid user_email');
-      }
-
-      console.log(user_id)
-      console.log(response1)
-
-      let response2 = await conn.query(`CALL CreateSession(${user_id});`);
-      response2[1] = createNewObject(response2[1]);
-      let session_id = response2[0][0]['SessionId'];
-
-      return res.status(200).cookie('session_id', session_id, {
-        //secure: true, // -> https or localhost
-        httpOnly: true,
-        sameSite: 'none', // Should be "strict" in prod
-        maxAge: 1 * 60 * 60 * 2 * 1000, // 2 hours
-        signed: true,
-      }).send('New session. Cookie has been set');
     }
+
+    let response1 = await conn.query(`CALL CheckUserPasswordMatch("${user_email}", "${password}");`);
+    response1[1] = createNewObject(response1[1]);
+    const user_id = response1[0][0]['UserId'];
+    const passwordMatchResponse = response1[0][0]['Response'];
+
+    if (passwordMatchResponse === 'Password does not match' || passwordMatchResponse === 'Account not existing') {
+      return res.status(400).send('Invalid credentials');
+    }
+
+    let response2 = await conn.query(`CALL CreateSession(${user_id});`);
+    response2[1] = createNewObject(response2[1]);
+    const newSessionId = response2[0][0]['SessionId'];
+
+    return res.status(200).cookie('session_id', newSessionId, {
+      // secure: true, // -> https or localhost
+      httpOnly: true,
+      sameSite: 'none', // Should be "strict" in prod
+      maxAge: 1 * 60 * 60 * 2 * 1000, // 2 hours
+      signed: true,
+    }).send('New session. Cookie has been set');
   } catch (error) {
-    throw error;
-    //res.send("error") //send error and not throw error -> later
+    console.log(error);
+    return res.status(500).send('Internal Server Error');
   } finally {
     if (conn) conn.release(); // release connection back to pool
   }
