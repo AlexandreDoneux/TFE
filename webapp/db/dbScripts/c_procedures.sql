@@ -122,6 +122,29 @@ END//
 
 
 
+CREATE PROCEDURE GetArchivedMonitoringsByUser(IN _userId INT)
+BEGIN
+  DECLARE userExists INT;
+
+  -- Check if the user exists
+  SET userExists = (SELECT COUNT(*) FROM User WHERE UserId = _userId);
+
+  IF userExists > 0 THEN
+    -- User exists, retrieve the archived monitorings
+    SELECT MonitorId AS Response
+    FROM Monitoring
+    INNER JOIN Probe ON Monitoring.ProbeId = Probe.ProbeId
+    INNER JOIN User ON Probe.UserId = User.UserId
+    WHERE User.UserId = _userId
+    AND Monitoring.EndDate IS NOT NULL;
+  ELSE
+    -- User does not exist
+    SELECT 'user does not exist' AS Response;
+  END IF;
+END //
+
+
+
 
 
 
