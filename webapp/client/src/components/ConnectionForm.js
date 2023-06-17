@@ -29,71 +29,62 @@ const ConnectionForm = () => {
 
   const { isConnected, setIsConnected } = useContext(UserContext);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    axios.post('http://localhost:3001/user/connect', {
+    try {
+      const response = await axios.post('http://localhost:3001/user/connect', {
         user_email: userEmail,
         password: password,
-      })
-      .then((response) => {
-        const message = response.data;
-
-        if (message === 'Invalid user_email') {
-          setErrorMessage('Invalid user');
-        } else if (message === 'Invalid password') {
-          setErrorMessage('Invalid password');
-        } else if (message === 'New session. Cookie has been set') {
-          // Redirect the user to "/" path and set isConnected state to true
-          setIsConnected(true);
-          console.log("after set : ", isConnected)
-          //navigate('/');
-          window.location = '/';
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
       });
+
+      const message = response.data;
+      console.log(message)
+
+      if (message === 'New session. Cookie has been set') {
+        setIsConnected(true);
+        navigate('/');
+      }
+
+      
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        const errorMessage = error.response.data;
+        if (errorMessage === 'Invalid user_email') {
+          setErrorMessage('Invalid user');
+        } else if (errorMessage === 'Invalid password') {
+          setErrorMessage('Invalid password');
+        } else if (errorMessage === 'Invalid credentials') {
+          setErrorMessage('Invalid email or password');
+        }
+      } else {
+        console.error('Error:', error);
+      }
+    }
   };
 
-  console.log(isConnected)
-
-  if(isConnected){
-    return(
-      <div>Already connected</div>
-    )
-  }
-  else{
-    return (
-      <FormContainer onSubmit={handleSubmit}>
-        <TextField
-          label="User Email"
-          type="email"
-          value={userEmail}
-          onChange={(e) => setUserEmail(e.target.value)}
-          required
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        {errorMessage && <p>{errorMessage}</p>}
-        <SubmitButton variant="contained" color="primary" type="submit">
-          Connect
-        </SubmitButton>
-        {isConnected ? (
-                <div>I am connected</div>
-              ) : (
-                <div>I am not connected</div>
-              )}
-      </FormContainer>
-      
-    );
-  }
-  
+  return (
+    <FormContainer onSubmit={handleSubmit}>
+      <TextField
+        label="User Email"
+        type="email"
+        value={userEmail}
+        onChange={(e) => setUserEmail(e.target.value)}
+        required
+      />
+      <TextField
+        label="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      <SubmitButton variant="contained" color="primary" type="submit">
+        Connect
+      </SubmitButton>
+    </FormContainer>
+  );
 };
 
 export default ConnectionForm;
