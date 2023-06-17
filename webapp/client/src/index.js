@@ -17,6 +17,9 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 import theme from './theme';
 import ConnectionForm from './components/ConnectionForm';
 
+import { UserProvider } from './UserContext';
+import Base from './Base';
+
 const Div = styled('div')(unstable_styleFunctionSx);
 
 
@@ -33,41 +36,9 @@ const FullPageComponentWrapper = styled('div')(({ theme }) => ({
 const element = (
   
   <ThemeProvider theme={theme} >
-    <FullPageComponentWrapper>
-      <Box width="auto" height="auto" backgroundColor="secondary.two" >
-        <AppBar position="static" sx={{bgcolor: "primary.main"}}> 
-          <Box width="auto" height="auto"  sx={{ display: 'flex' }}>
-            <Div sx={{ml:3, mr:3, display: 'flex'}}>
-              <MenuDrawer></MenuDrawer>
-            </Div>
-            
-            <Div  sx={{ml:10, color:"secondary.two", fontSize:30}}>
-              <h1 >Beer Logger</h1>
-            </Div>
-            <Div sx={{ml:"auto", mr:3, display: 'flex'}}>
-              
-              <Button variant="contained" sx={{ml:2, mr:2, my:3, py:2, bgcolor:"secondary.two", fontSize:20, color: "primary.main", fontWeight: 'bold'}} onClick={() => window.location = "/connection"}>Connexion</Button>
-              
-            </Div>
-            
-          </Box>
-        </AppBar>
-      
-      
-        <Div id="main" sx={{mx:4, my:4}} width="auto" height="auto">
-          <Router>
-              <Routes>
-                  <Route path="/" element={<div>this is home</div>}> </Route>
-                  <Route path="/connection" element={<ConnectionForm></ConnectionForm>}> </Route>
-                  <Route path="/monitoring/:monitor_id" element={<Chart></Chart>}> </Route>
-                  <Route path="/monitoring/create" element={<div>this is monitoring creation</div>}> </Route>
-                  <Route path="/probe/add" element={<div>this is probe add</div>}> </Route>
-              </Routes>
-          </Router>
-        </Div>
-      </Box>
-    </FullPageComponentWrapper>
-    
+    <UserProvider>
+      <Base></Base>
+    </UserProvider>
   </ThemeProvider>
 );
 
