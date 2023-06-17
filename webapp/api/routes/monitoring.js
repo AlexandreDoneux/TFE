@@ -119,4 +119,56 @@ router.post('/get_archived', async (req, res) => {
 
 
 
+router.post('/get_data', async (req, res) => {
+  let conn;
+  conn = await pool.getConnection();
+  const session_id = req.signedCookies.session_id;
+  const { monitor_id } = req.body;
+
+  try{
+    if(session_id){
+      let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+      connected[1] = createNewObject(connected[1]);
+      console.log(connected)
+
+      if(connected[0][0]["Response"]){
+        // CODE HERE
+
+        let monitoring_data = await conn.query(`CALL GetMonitoringData(${monitor_id})`);
+        console.log(monitoring_data)
+        monitoring_data[1] = createNewObject(monitoring_data[1]);
+
+        if(monitoring_data[0][0]["Response"] === "monitoring does not exist"){
+          res.status(400).send("monitoring does not exist");
+        }
+        else if(monitoring_data[0][0]["Response"] === "monitoring exists"){
+          
+          monitoring_data_object = {
+            "name" : monitoring_data[0][0]["monitoringName"],
+            "start_date" : monitoring_data[0][0]["monitoringStartDate"],
+            "end_date" : monitoring_data[0][0]["monitoringEndDate"]
+          }
+          res.status(200).send(monitoring_data_object)
+        }
+      
+      }
+      else{
+        res.send("not connected (session)");
+      }
+    }
+    else{
+      res.send("not connected (cookie)")
+    }
+
+
+  }catch (error) {
+    throw error;
+  }finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
+});
+
+
+
+
 module.exports = router;
