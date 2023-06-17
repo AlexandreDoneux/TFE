@@ -4,6 +4,9 @@ import { Box, AppBar, Button } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ConnectionForm from './components/ConnectionForm';
 import { UserContext } from './UserContext';
+import ConnectDisconnectButton from './components/ConnectDisconnectButton';
+import Chart from './components/Chart';
+import MenuDrawer from  './components/MenuDrawer';
 
 //const { isConnected, setIsConnected } = useContext(UserContext);
 
@@ -18,15 +21,7 @@ const Div = styled('div')({
   // Add your custom styles here
 });
 
-const MenuDrawer = () => {
-  // Add your MenuDrawer component code here
-  return <div>Menu Drawer</div>;
-};
 
-const Chart = () => {
-  // Add your Chart component code here
-  return <div>Chart</div>;
-};
 
 const Base = () => {
   const { isConnected, setIsConnected } = useContext(UserContext);
@@ -37,29 +32,14 @@ const Base = () => {
         <AppBar position="static" sx={{ bgcolor: 'primary.main' }}>
           <Box width="auto" height="auto" sx={{ display: 'flex' }}>
             <Div sx={{ ml: 3, mr: 3, display: 'flex' }}>
-              <MenuDrawer />
+              <MenuDrawer></MenuDrawer>
             </Div>
 
             <Div sx={{ ml: 10, color: 'secondary.two', fontSize: 30 }}>
               <h1>Beer Logger</h1>
             </Div>
             <Div sx={{ ml: 'auto', mr: 3, display: 'flex' }}>
-              <Button
-                variant="contained"
-                sx={{
-                  ml: 2,
-                  mr: 2,
-                  my: 3,
-                  py: 2,
-                  bgcolor: 'secondary.two',
-                  fontSize: 20,
-                  color: 'primary.main',
-                  fontWeight: 'bold',
-                }}
-                onClick={() => (window.location = '/connection')}
-              >
-                Connexion
-              </Button>
+              <ConnectDisconnectButton></ConnectDisconnectButton>
             </Div>
           </Box>
         </AppBar>

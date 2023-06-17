@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
       setIsConnectedState(false);
     };
   
-    const MAX_SESSION_DURATION = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const MAX_SESSION_DURATION = 2 * 60 * 60 * 1000; // 24 hours in milliseconds
     const sessionTimeout = useRef(null);
   
     useEffect(() => {
@@ -32,6 +32,7 @@ export const UserProvider = ({ children }) => {
     const userContextValue = {
       isConnected,
       setIsConnected,
+      removeIsConnected
     };
   
     return <UserContext.Provider value={userContextValue}>{children}</UserContext.Provider>;

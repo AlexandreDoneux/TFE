@@ -47,7 +47,8 @@ const ConnectionForm = () => {
           // Redirect the user to "/" path and set isConnected state to true
           setIsConnected(true);
           console.log("after set : ", isConnected)
-          navigate('/');
+          //navigate('/');
+          window.location = '/';
         }
       })
       .catch((error) => {
