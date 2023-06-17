@@ -7,6 +7,7 @@ import { UserContext } from './UserContext';
 import ConnectDisconnectButton from './components/ConnectDisconnectButton';
 import Chart from './components/Chart';
 import MenuDrawer from  './components/MenuDrawer';
+import ArchivedList from './components/ArchivedList';
 
 //const { isConnected, setIsConnected } = useContext(UserContext);
 
@@ -54,6 +55,7 @@ const Base = () => {
               )}
               <Route path="/connection" element={<ConnectionForm></ConnectionForm>} />
               <Route path="/monitoring/:monitor_id" element={<Chart />} />
+              <Route path="/monitoring/archived" element={<ArchivedList></ArchivedList>} />
               <Route path="/monitoring/create" element={<div>This is monitoring creation</div>} />
               <Route path="/probe/add" element={<div>This is probe add</div>} />
             </Routes>

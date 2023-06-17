@@ -39,7 +39,7 @@ export default function TemporaryDrawer() {
     >
       <List>
           <ListItem key="archives" disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => (window.location = '/monitoring/archived')}>
               <ListItemIcon>
                 <InventoryIcon></InventoryIcon>
               </ListItemIcon>
