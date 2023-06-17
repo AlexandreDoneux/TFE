@@ -33,10 +33,15 @@ const ConnectionForm = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3001/user/connect', {
-        user_email: userEmail,
-        password: password,
-      });
+      const connection = await axios.post(`http://localhost:3001/user/connect`, 
+        { 
+          "user_email": userEmail,
+          "password": password
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       const message = response.data;
       console.log(message)
