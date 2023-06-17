@@ -82,10 +82,23 @@ router.post('/get_archived', async (req, res) => {
   try{
     if(session_id){
       let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
-      connected[1] = createNewObject(connected[1])
+      connected[1] = createNewObject(connected[1]);
+      console.log(connected)
 
       if(connected[0][0]["Response"]){
-        // ENDPOINT CODE HERE
+        const user_id = connected[0][0]["UserId"];
+        console.log(user_id)
+        let monitorings = await conn.query(`CALL GetArchivedMonitoringsByUser(${user_id})`);
+        console.log(monitorings)
+        monitorings[1] = createNewObject(monitorings[1]);
+
+        if(monitorings[0][0]["Response"] === "user does not exist"){
+          res.status(400).send("user does not exist");
+        }
+        else if(monitorings[0][0]["Response"] === "user exists"){
+          monitorings_array = monitorings[0][0]["MonitoringIds"].split(",")
+          res.status(200).send(monitorings_array)
+        }
       
       }
       else{

@@ -35,16 +35,19 @@ END//
 CREATE PROCEDURE CheckSessionExists(IN _sessionId INT)
 BEGIN
   DECLARE sessionCount INT;
+  DECLARE user_Id INT;
   
   SET sessionCount = (SELECT COUNT(*) FROM Session WHERE SessionId = _sessionId);
   
   IF sessionCount > 0 THEN
-    SELECT true AS Response;
+    SET user_Id = (SELECT UserId FROM Session WHERE SessionId = _sessionId);
+    SELECT true AS Response, user_Id AS UserId;
   ELSE
     SELECT false AS Response;
   END IF;
   
 END//
+
 
 
 CREATE PROCEDURE CheckUserPasswordMatch(IN _userEmail VARCHAR(255), IN _userPassword VARCHAR(255))
@@ -122,26 +125,31 @@ END//
 
 
 
-CREATE PROCEDURE GetArchivedMonitoringsByUser(IN _userId INT)
+DELIMITER //
+
+CREATE PROCEDURE GetArchivedMonitoringsByUser(IN userId INT)
 BEGIN
   DECLARE userExists INT;
 
   -- Check if the user exists
-  SET userExists = (SELECT COUNT(*) FROM User WHERE UserId = _userId);
+  SELECT COUNT(*) INTO userExists FROM User WHERE UserId = userId;
 
   IF userExists > 0 THEN
     -- User exists, retrieve the archived monitorings
-    SELECT MonitorId AS Response
+    SELECT 'user exists' AS Response, GROUP_CONCAT(Monitoring.MonitorId) AS MonitoringIds
     FROM Monitoring
     INNER JOIN Probe ON Monitoring.ProbeId = Probe.ProbeId
     INNER JOIN User ON Probe.UserId = User.UserId
-    WHERE User.UserId = _userId
+    WHERE User.UserId = userId
     AND Monitoring.EndDate IS NOT NULL;
   ELSE
     -- User does not exist
     SELECT 'user does not exist' AS Response;
   END IF;
 END //
+
+DELIMITER ;
+
 
 
 

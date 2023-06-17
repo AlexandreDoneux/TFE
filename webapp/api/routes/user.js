@@ -85,7 +85,7 @@ router.post('/connect', async (req, res) => {
 
 
  
-
+// return res... VS sans return ?
 
 
 router.delete('/disconnect', async (req, res) => {
