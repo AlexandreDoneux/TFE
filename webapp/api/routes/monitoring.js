@@ -78,6 +78,9 @@ router.post('/get_archived', async (req, res) => {
   conn = await pool.getConnection();
   const session_id = req.signedCookies.session_id;
 
+  console.log(session_id)
+  console.log(req.signedCookies)
+
 
   try{
     if(session_id){
@@ -144,6 +147,7 @@ router.post('/get_data', async (req, res) => {
         else if(monitoring_data[0][0]["Response"] === "monitoring exists"){
           
           monitoring_data_object = {
+            "monitor_id" : monitor_id,
             "name" : monitoring_data[0][0]["monitoringName"],
             "start_date" : monitoring_data[0][0]["monitoringStartDate"],
             "end_date" : monitoring_data[0][0]["monitoringEndDate"]
