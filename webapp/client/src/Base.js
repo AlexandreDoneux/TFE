@@ -33,7 +33,11 @@ const Base = () => {
         <AppBar position="static" sx={{ bgcolor: 'primary.main' }}>
           <Box width="auto" height="auto" sx={{ display: 'flex' }}>
             <Div sx={{ ml: 3, mr: 3, display: 'flex' }}>
-              <MenuDrawer></MenuDrawer>
+            {isConnected ? (
+                <MenuDrawer></MenuDrawer>
+              ) : (
+                <div></div>
+              )}
             </Div>
 
             <Div sx={{ ml: 10, color: 'secondary.two', fontSize: 30 }}>

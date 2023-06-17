@@ -150,6 +150,33 @@ END //
 
 
 
+CREATE PROCEDURE GetProbesByUser(IN _userId INT)
+BEGIN
+  DECLARE userExists INT;
+
+  -- Check if the user exists
+  SELECT COUNT(*) INTO userExists FROM User WHERE UserId = _userId;
+
+  IF userExists > 0 THEN
+    -- User exists, retrieve the archived monitorings
+    SELECT 'user exists' AS Response,
+           GROUP_CONCAT(Probe.ProbeId) AS ProbeIds,
+           GROUP_CONCAT(Probe.Name) AS ProbeNames,
+           Monitoring.MonitorId AS ActiveMonitoringId
+    FROM Monitoring
+    INNER JOIN Probe ON Monitoring.ProbeId = Probe.ProbeId
+    INNER JOIN User ON Probe.UserId = User.UserId
+    WHERE User.UserId = _userId
+      AND Monitoring.EndDate IS NULL
+    GROUP BY Monitoring.MonitorId;
+  ELSE
+    -- User does not exist
+    SELECT 'user does not exist' AS Response;
+  END IF;
+END //
+
+
+
 
 CREATE PROCEDURE GetMonitoringData(IN _monitoringId INT)
 BEGIN

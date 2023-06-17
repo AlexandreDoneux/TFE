@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -13,8 +13,34 @@ import ListItemText from '@mui/material/ListItemText';
 import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ProbeList from './ProbeList';
+
+import axios from 'axios';
 
 export default function TemporaryDrawer() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    // Fetch archived monitoring IDs
+    axios.post(`http://localhost:3001/probe/get_all`,
+        { 
+        // nothing -> remove
+            "test" : "test"
+        },
+        {
+            withCredentials: true,
+        })
+        .then((response) => {
+            console.log(response)
+            const probes_array = response.data;
+            console.log(probes_array)
+            setData(probes_array);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+  }, []);
+
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -49,16 +75,7 @@ export default function TemporaryDrawer() {
       </List>
       <Divider />
       <List>
-        {['Probe 1', 'Probe 2', 'Probe 3'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton onClick={() => window.location = "/monitoring/1"}>
-              <ListItemIcon>
-                <DeviceThermostatIcon></DeviceThermostatIcon>
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ProbeList data={data}></ProbeList>
         <Divider />
         <ListItem key="probe_add" disablePadding>
             <ListItemButton>
