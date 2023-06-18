@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
       setIsConnectedState(false);
     };
   
-    const MAX_SESSION_DURATION = 2 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const MAX_SESSION_DURATION = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
     const sessionTimeout = useRef(null);
   
     useEffect(() => {

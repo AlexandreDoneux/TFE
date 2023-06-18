@@ -1,6 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { styled } from '@mui/system';
-import { Box, AppBar, Button } from '@mui/material';
+import { Box, AppBar } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import ConnectionForm from './components/ConnectionForm';
 import { UserContext } from './UserContext';
@@ -18,9 +18,7 @@ const FullPageComponentWrapper = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.secondary.two,
 }));
 
-const Div = styled('div')({
-  // Add your custom styles here
-});
+const Div = styled('div')(unstable_styleFunctionSx);
 
 
 

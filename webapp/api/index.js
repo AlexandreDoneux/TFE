@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cookieParser(secret='MY SECRET')); // définir propre secret -> signature ?
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://192.168.0.188:3000'],
+  origin: ['http://localhost:3000','http://www.alexandre.doneux.eu:3000'],
   credentials : true
 }));
 
