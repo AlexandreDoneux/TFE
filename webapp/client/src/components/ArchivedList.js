@@ -35,7 +35,7 @@ const ArchivedList = () => {
 
   useEffect(() => {
     // Fetch archived monitoring IDs
-    axios.post(`http://localhost:3001/monitoring/get_archived`,
+    axios.post(`http://www.alexandre.doneux.eu:3001/monitoring/get_archived`,
         { 
         // nothing -> remove
             "test" : "test"
@@ -48,7 +48,7 @@ const ArchivedList = () => {
             // Fetch data for each archived monitoring
             console.log(response.data)
             console.log(response)
-            const requests = archived_monitoring_ids.map((id) => axios.post(`http://localhost:3001/monitoring/get_data`,
+            const requests = archived_monitoring_ids.map((id) => axios.post(`http://www.alexandre.doneux.eu:3001/monitoring/get_data`,
                 { 
                     "monitor_id" : id
                 },

@@ -22,7 +22,7 @@ export default function TemporaryDrawer() {
 
   useEffect(() => {
     // Fetch archived monitoring IDs
-    axios.post(`http://localhost:3001/probe/get_all`,
+    axios.post(`http://www.alexandre.doneux.eu:3001/probe/get_all`,
         { 
         // nothing -> remove
             "test" : "test"

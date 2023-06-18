@@ -45,7 +45,7 @@ const Chart = () => {
         const fetchData = async () => {
           // force connect to develop
           
-          const connection = await axios.post(`http://localhost:3001/user/connect`, 
+          const connection = await axios.post(`http://www.alexandre.doneux.eu:3001/user/connect`, 
             { 
               "user_email":"john@doe.com",
               "password": "passjohn"
@@ -59,11 +59,8 @@ const Chart = () => {
           console.log(monitor_id)
           
 
-          //const data = await axios.get(`http://localhost:3001/data`);
-          //console.log(data)
 
-
-          const result = await axios.post(`http://localhost:3001/data/get_monitoring`, 
+          const result = await axios.post(`http://www.alexandre.doneux.eu:3001/data/get_monitoring`, 
             {
               "monitor_id" : monitor_id,
             },
