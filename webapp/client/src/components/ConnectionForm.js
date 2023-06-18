@@ -35,6 +35,7 @@ const ConnectionForm = () => {
     event.preventDefault();
 
     try {
+
       console.log(password)
       const hashedPassword = sha256HashPassword(password,'9mtZy9IbOBNYz8x1FsHiHw==')
       console.log(hashedPassword)
