@@ -37,28 +37,28 @@ services:
     command: "npm start"
     networks:
       - api-db
-      - front-api
+#      - front-api
 
-  frontend:
-    build : ./client
-    container_name: frontend
-    restart: always
-    #volumes : 
-     # - ./client:/client
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - mariadb 
-      - api
-    #command: "npm start"
-    networks:
-      - front-api
-    #network_mode: "host" # for dev purposes, so -> NO # check
+#  frontend:
+#    build : ./client
+#    container_name: frontend
+#    restart: always
+#    #volumes : 
+#     # - ./client:/client
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    depends_on:
+#      - mariadb 
+#      - api
+#    #command: "npm start"
+#    networks:
+#      - front-api
+#    #network_mode: "host" # for dev purposes, so -> NO # check
 
 networks:
     api-db:
       driver: bridge
-    front-api:
-      driver: bridge
+#    front-api:
+#      driver: bridge
     
