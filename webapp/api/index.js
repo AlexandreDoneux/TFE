@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(cookieParser(secret='MY SECRET')); // définir propre secret -> signature ?
 
 app.use(cors({
-  origin: ['https://www.alexandre.doneux.eu:80','https://www.alexandre.doneux.eu'],
+  origin: ['http://www.alexandre.doneux.eu:80','http://www.alexandre.doneux.eu', 'https://www.alexandre.doneux.eu:443', 'https://www.alexandre.doneux.eu'],
   credentials : true
 }));
 
