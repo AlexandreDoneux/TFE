@@ -49,7 +49,8 @@ services:
       - ./client:/client
       - /client/node_modules/
     ports:
-      - "3000:3000"
+      - "80:80"
+      - "443:443"
     depends_on:
       - mariadb 
       - api
