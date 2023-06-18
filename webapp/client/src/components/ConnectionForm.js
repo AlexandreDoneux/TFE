@@ -33,7 +33,7 @@ const ConnectionForm = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`http://localhost:3001/user/connect`, 
+      const response = await axios.post(`http://www.alexandre.doneux.eu:3001/user/connect`, 
         { 
           "user_email": userEmail,
           "password": password
