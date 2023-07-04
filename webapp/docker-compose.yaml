@@ -28,8 +28,9 @@ services:
     build: ./api
     container_name: api
     restart: always
-    #volumes:
-     # - ./api:/api
+    volumes:
+      - ./api:/api
+      - /api/node_modules/
     ports:
       - "3001:3001" # to allow testing from postman
     depends_on:
@@ -37,28 +38,30 @@ services:
     command: "npm start"
     networks:
       - api-db
-#      - front-api
+      - front-api
 
-#  frontend:
-#    build : ./client
-#    container_name: frontend
-#    restart: always
-#    #volumes : 
-#     # - ./client:/client
-#    ports:
-#      - "80:80"
-#      - "443:443"
-#    depends_on:
-#      - mariadb 
-#      - api
-#    #command: "npm start"
-#    networks:
-#      - front-api
-#    #network_mode: "host" # for dev purposes, so -> NO # check
+
+  frontend:
+    build : ./client
+    container_name: frontend
+    restart: always
+    volumes : 
+      - ./client:/client
+      - /client/node_modules/
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mariadb 
+      - api
+    #command: "npm start"
+    networks:
+      - front-api
+    #network_mode: "host" # for dev purposes, so -> NO # check
+
 
 networks:
     api-db:
       driver: bridge
-#    front-api:
-#      driver: bridge
+    front-api:
+      driver: bridge
     
