@@ -55,7 +55,7 @@ const Base = () => {
               {isConnected ? (
                 <Route path="/" element={<div>I am connected</div>} />
               ) : (
-                <Route path="/" element={<div>I am not connected</div>} />
+                <Route path="/" element={<div>I am not connected ---</div>} />
               )}
               <Route path="/connection" element={<ConnectionForm></ConnectionForm>} />
               <Route path="/monitoring/:monitor_id" element={<Chart />} />
