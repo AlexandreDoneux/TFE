@@ -13,7 +13,8 @@ VALUES
 INSERT INTO Monitoring (Name, StartDate, EndDate, ProbeId)
 VALUES
 ("aaa", '2023-05-28 14:30:00', NULL, 1),
-("bbb", '2023-05-25 14:30:00', NULL, 2),
+-- ("bbb", '2023-05-25 14:30:00', NULL, 2), 
+-- setting no active monitoring to probe 2 by commenting this line
 ("ccc", '2023-05-15 14:30:00', NULL, 3),
 ("ddd", '2023-04-25 14:30:00', '2023-05-10 14:30:00', 1),
 ("eee", '2023-03-15 14:30:00', '2023-04-20 14:30:00', 2),
@@ -103,10 +104,10 @@ VALUES
   
   -- Monitoring ID 7
   (24.9, 1.1, 3.3, '2023-06-02 16:00:00', 7),
-  (25.3, 1.2, 3.4, '2023-06-02 16:05:00', 7),
+  (25.3, 1.2, 3.4, '2023-06-02 16:05:00', 7);
   -- ... add more data entries for Monitoring ID 7
   
-  -- Monitoring ID 8
-  (25.7, 1.2, 3.4, '2023-06-02 17:00:00', 8),
-  (26.1, 1.3, 3.5, '2023-06-02 17:05:00', 8);
+  -- Monitoring ID 8 
+  -- (25.7, 1.2, 3.4, '2023-06-02 17:00:00', 8),
+  -- (26.1, 1.3, 3.5, '2023-06-02 17:05:00', 8);
   -- ... add more data entries for Monitoring ID 8

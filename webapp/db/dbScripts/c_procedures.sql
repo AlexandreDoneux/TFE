@@ -125,8 +125,6 @@ END//
 
 
 
-DELIMITER //
-
 CREATE PROCEDURE GetArchivedMonitoringsByUser(IN _userId INT)
 BEGIN
   DECLARE userExists INT;
@@ -158,22 +156,22 @@ BEGIN
   SELECT COUNT(*) INTO userExists FROM User WHERE UserId = _userId;
 
   IF userExists > 0 THEN
-    -- User exists, retrieve the archived monitorings
+    -- User exists, retrieve the probes and their active monitoring
     SELECT 'user exists' AS Response,
            GROUP_CONCAT(Probe.ProbeId) AS ProbeIds,
            GROUP_CONCAT(Probe.Name) AS ProbeNames,
-           Monitoring.MonitorId AS ActiveMonitoringId
-    FROM Monitoring
-    INNER JOIN Probe ON Monitoring.ProbeId = Probe.ProbeId
+           IFNULL(Monitoring.MonitorId, 0) AS ActiveMonitoringId
+    FROM Probe
+    LEFT JOIN Monitoring ON Probe.ProbeId = Monitoring.ProbeId AND Monitoring.EndDate IS NULL
     INNER JOIN User ON Probe.UserId = User.UserId
     WHERE User.UserId = _userId
-      AND Monitoring.EndDate IS NULL
-    GROUP BY Monitoring.MonitorId;
+    GROUP BY Probe.ProbeId;
   ELSE
     -- User does not exist
     SELECT 'user does not exist' AS Response;
   END IF;
 END //
+
 
 
 

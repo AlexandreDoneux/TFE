@@ -14,12 +14,21 @@ const ProbeList = ({data}) => {
         <div>
             {data.map((probes) => (
                 <ListItem key={probes.ProbeNames} disablePadding>
+                {probes.ActiveMonitoringId ? (
                     <ListItemButton onClick={() => window.location = `/monitoring/${probes.ActiveMonitoringId}`}>
                         <ListItemIcon>
                         <DeviceThermostatIcon></DeviceThermostatIcon>
                         </ListItemIcon>
                         <ListItemText primary={probes.ProbeNames} />
                     </ListItemButton>
+                    ) : (
+                    <ListItemButton onClick={() => window.location = `/probe/empty/${probes.ProbeIds}`}>
+                        <ListItemIcon>
+                        <DeviceThermostatIcon></DeviceThermostatIcon>
+                        </ListItemIcon>
+                        <ListItemText primary={probes.ProbeNames} />
+                    </ListItemButton>
+                )}
                 </ListItem>
             ))}
         </div>
@@ -28,3 +37,6 @@ const ProbeList = ({data}) => {
 }
 
 export default ProbeList;
+
+
+
