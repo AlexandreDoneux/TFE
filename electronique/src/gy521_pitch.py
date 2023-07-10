@@ -1,3 +1,25 @@
+"""
+from imu import MPU6050
+import time
+from machine import Pin, I2C
+
+i2c = I2C(0, sda=Pin(0), scl=Pin(1), freq=400000)
+imu = MPU6050(i2c)
+
+while True:
+    ax=round(imu.accel.x,2)
+    ay=round(imu.accel.y,2)
+    az=round(imu.accel.z,2)
+    gx=round(imu.gyro.x)
+    gy=round(imu.gyro.y)
+    gz=round(imu.gyro.z)
+    tem=round(imu.temperature,2)
+    print("ax",ax,"\t","ay",ay,"\t","az",az,"\t","gx",gx,"\t","gy",gy,"\t","gz",gz,"\t","Temperature",tem,"        ",end="\r")
+    time.sleep(0.2)
+"""
+
+
+
 from machine import Pin, I2C
 import utime
 import math
@@ -27,6 +49,24 @@ def complementary_filter(pitch, roll, gyro_data, dt, alpha=0.98):
     
     return pitch, roll
 
+#### WORKS better for pitch but
+def get_pitch_alternate(accel_data):
+    x, y, z = accel_data['x'], accel_data['y'], accel_data['z']
+    
+    pitch = math.atan(x/math.sqrt((y*y) + (z*z))); #pitch calculation
+    pitch = pitch * (180.0/3.14); # radians to degrees
+    
+    return pitch
+
+
+#### WORKS better for pitch but
+def get_roll_alternate(accel_data):
+    x, y, z = accel_data['x'], accel_data['y'], accel_data['z']
+    
+    roll = math.atan(y/math.sqrt((x*x) + (z*z))); #roll calculation
+    roll = roll * (180.0/3.14); # radians to degrees
+    
+    return roll
     
  
 pitch = 0
@@ -44,14 +84,15 @@ while True:
     prev_time = curr_time
     
  
-    print("Temperature: {:.2f} °C".format(data['temp']))
-    print("Tilt angles: X: {:.2f}, Y: {:.2f}, Z: {:.2f} degrees".format(tilt_x, tilt_y, tilt_z))
-    print("Pitch: {:.2f}, Roll: {:.2f} degrees".format(pitch, roll))
-
-    print("Acceleration: X: {:.2f}, Y: {:.2f}, Z: {:.2f} g".format(data['accel']['x'], data['accel']['y'], data['accel']['z']))
-    print("Gyroscope: X: {:.2f}, Y: {:.2f}, Z: {:.2f} °/s".format(data['gyro']['x'], data['gyro']['y'], data['gyro']['z']))
+    #print("Temperature: {:.2f} °C".format(data['temp']))
+    #print("Tilt angles: X: {:.2f}, Y: {:.2f}, Z: {:.2f} degrees".format(tilt_x, tilt_y, tilt_z))
+    #print("Pitch: {:.2f}, Roll: {:.2f} degrees".format(pitch, roll))
+    print("------------------")
+    print(get_pitch_alternate(data['accel']))
+    print(get_roll_alternate(data['accel']))
+    print("------------------")
+    #print("Acceleration: X: {:.2f}, Y: {:.2f}, Z: {:.2f} g".format(data['accel']['x'], data['accel']['y'], data['accel']['z']))
+    #print("Gyroscope: X: {:.2f}, Y: {:.2f}, Z: {:.2f} °/s".format(data['gyro']['x'], data['gyro']['y'], data['gyro']['z']))
     
 	# Delay for 1 seconds
     utime.sleep(1)
-
-
