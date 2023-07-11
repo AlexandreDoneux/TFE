@@ -1,29 +1,34 @@
-
 headers = {"Content-Type": "application/json"}
 
 #---------- imports ----------------
 
-from machine import ADC, Pin
+from machine import ADC, Pin, I2C
 import time
 import network
 import utime
 #import secrets
 import urequests
 import json
+#import math
 
+from gy521_pitch import get_pitch_and_roll
+from mpu6050 import init_mpu6050
 
+#i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
+#init_mpu6050(i2c)
 
 
 #---------- environnement variables -----------
 
-from env import SSID, PASSWORD, data_interval, api_ip_address, probe_id
+from env import SSID, PASSWORD, data_interval, api_ip_address, probe_id, probe_password, tilting_parametring_mode, func_param_a, func_param_b, func_param_c
 
+# Pins of the raspberry pi Pico to wich the GY-521 is connected
+scl_pin = Pin(1)
+sda_pin = Pin(0)
 
-
-#---------- pin variables --------------
+#---------- pin variables and communications --------------
 
 adc_pin = ADC(Pin(26)) #ADC pin for temperature measure
-
 
 
 
@@ -56,7 +61,8 @@ def sending_data(send_timestamp, probe_id):
     
     payload = {
         "send_timestamp": send_timestamp,
-        "probe_id": probe_id
+        "probe_id": probe_id,
+        "probe_password": probe_password
     }
     
     # Unpack the content of 'data' dictionary into 'payload'
@@ -158,5 +164,8 @@ while True:
     store_data(timestamp, temperature, 0, 0)
     number_of_saved_data = sending_data(send_timestamp, probe_id)
     delete_oldest_records(number_of_saved_data)
+
+    pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
+    print(roll)
     
     time.sleep(data_interval*60)
