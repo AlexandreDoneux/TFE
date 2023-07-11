@@ -118,6 +118,50 @@ router.post('/send_data', async (req, res) => {
 });
 
 
+
+router.post('/send_parametering_data', async (req, res) => {
+  console.log(req.body);
+  const {probe_id, probe_password, pitch } = req.body;
+  let conn;
+  let responses = [];
+
+  try {
+    if (!Number.isInteger(probe_id) || probe_id <= 0) {
+      return res.status(400).send('Invalid probe_id');
+    }
+    if (typeof probe_password !== 'string') {
+      return res.status(400).send('Invalid probe_password');
+    }
+    
+
+    conn = await pool.getConnection();
+
+    let query = `CALL RetrieveProbePassword(${probe_id});`;
+    let probe_connect = await conn.query(query);
+
+    probe_connect[1] = createNewObject(probe_connect[1]);
+
+    const password_correct = await checkPasswordArgon2(
+      probe_connect[0][0]['Response'],
+      probe_password
+    );
+
+    if (password_correct) {
+      console.log(pitch)
+      //console.log(tcd1304_array)
+
+      res.send(responses);
+    } else {
+      res.send('Wrong password');
+    }
+  } catch (error) {
+    console.log(error);
+    // error catch
+  } finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
+});
+
   
   
 
