@@ -18,7 +18,7 @@ probe_password = "PROBE_PASSWORD"
 # -------------- tilt density parameters
 
 # used for testing tilt and density to interpolate a function (2nd degree) to estimate density : True -> testing mode active
-tilting_parametring_mode = False
+calibration_mode = False
 
 # estimation function parameters : a.x^2+b.x+c
 func_param_a = 1
