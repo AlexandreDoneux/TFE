@@ -152,8 +152,23 @@ wlan.connect(SSID,PASSWORD)
 rtc=machine.RTC()
 
 while True:
-    # code
+    
+    if wlan.isconnected() = False :
+        print("Probe is not connected to the internet")
+        time.sleep(3)
+        continue
+        
+        
+    # calculating data
     temperature = measure_temp()
+    pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
+    print(roll)
+    
+    if tilting_parametring_mode = True :
+        # sending data (pitch)
+        # .....
+        time.sleep(1)
+        continue
     
     timestamp=rtc.datetime()
     timestamp = timestamp[0:3]+timestamp[4:7]
@@ -161,11 +176,9 @@ while True:
     send_timestamp = rtc.datetime()
     send_timestamp = send_timestamp[0:3]+send_timestamp[4:7]
     
+    # storing, sending and deleting data
     store_data(timestamp, temperature, 0, 0)
     number_of_saved_data = sending_data(send_timestamp, probe_id)
     delete_oldest_records(number_of_saved_data)
-
-    pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
-    print(roll)
     
     time.sleep(data_interval*60)
