@@ -119,7 +119,7 @@ router.post('/send_data', async (req, res) => {
 
 
 
-router.post('/send_parametering_data', async (req, res) => {
+router.post('/send_calibration_data', async (req, res) => {
   console.log(req.body);
   const {probe_id, probe_password, pitch } = req.body;
   let conn;

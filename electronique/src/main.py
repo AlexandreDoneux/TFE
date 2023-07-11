@@ -20,7 +20,7 @@ from mpu6050 import init_mpu6050
 
 #---------- environnement variables -----------
 
-from env import SSID, PASSWORD, data_interval, api_ip_address, probe_id, probe_password, tilting_parametring_mode, func_param_a, func_param_b, func_param_c
+from env import SSID, PASSWORD, data_interval, api_ip_address, probe_id, probe_password, calibration_mode, func_param_a, func_param_b, func_param_c
 
 # Pins of the raspberry pi Pico to wich the GY-521 is connected
 scl_pin = Pin(1)
@@ -164,7 +164,7 @@ while True:
     pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
     print(roll)
     
-    if tilting_parametring_mode == True :
+    if calibration_mode == True :
         # sending data (pitch)
         payload = {
             "pitch" : roll, # pitch of the probe is roll of the GY-521 (depends on how it is placed)
@@ -173,7 +173,7 @@ while True:
         }
     
         payload_str = json.dumps(payload)
-        url = "http://"+api_ip_address+":3001/data/send_parametering_data"
+        url = "http://"+api_ip_address+":3001/data/send_calibration_data"
         response = urequests.post(url, headers=headers, data=payload_str)
         
         response.close()
