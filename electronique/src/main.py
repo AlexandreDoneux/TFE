@@ -153,7 +153,7 @@ rtc=machine.RTC()
 
 while True:
     
-    if wlan.isconnected() = False :
+    if wlan.isconnected() == False :
         print("Probe is not connected to the internet")
         time.sleep(3)
         continue
@@ -164,11 +164,23 @@ while True:
     pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
     print(roll)
     
-    if tilting_parametring_mode = True :
+    if tilting_parametring_mode == True :
         # sending data (pitch)
-        # .....
-        time.sleep(1)
+        payload = {
+            "pitch" : roll, # pitch of the probe is roll of the GY-521 (depends on how it is placed)
+            "probe_id": probe_id,
+            "probe_password": probe_password
+        }
+    
+        payload_str = json.dumps(payload)
+        url = "http://"+api_ip_address+":3001/data/send_parametering_data"
+        response = urequests.post(url, headers=headers, data=payload_str)
+        
+        response.close()
+        
+        time.sleep(3)
         continue
+    
     
     timestamp=rtc.datetime()
     timestamp = timestamp[0:3]+timestamp[4:7]
@@ -180,5 +192,8 @@ while True:
     store_data(timestamp, temperature, 0, 0)
     number_of_saved_data = sending_data(send_timestamp, probe_id)
     delete_oldest_records(number_of_saved_data)
+
     
-    time.sleep(data_interval*60)
+    
+    #time.sleep(data_interval*60)
+    time.sleep(data_interval*6)
