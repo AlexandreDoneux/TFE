@@ -162,6 +162,8 @@ while True:
     # calculating data
     temperature = measure_temp()
     pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
+    flottation_plaato = func_param_a*(pitch)**2 + func_param_b*pitch + func_param_c # changing pitch angle (pos., neg. ?) -> depending on the tests and orientation of GY-521
+    # flottation_density = ...
     print(roll)
     
     if calibration_mode == True :
