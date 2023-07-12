@@ -163,8 +163,8 @@ while True:
     temperature = measure_temp()
     pitch, roll = get_pitch_and_roll(scl_pin, sda_pin)
     flottation_plaato = func_param_a*(pitch)**2 + func_param_b*pitch + func_param_c # changing pitch angle (pos., neg. ?) -> depending on the tests and orientation of GY-521
-    # flottation_density = ...
-    print(roll)
+    # specific gravity : SG = 1+ (plato / (258.6 – ( (plato/258.2) *227.1) ) )
+    flottation_density = 1 +(flottation_plaato / (258.6 - ((flottation_plaato/258.2) * 227.1)))
     
     if calibration_mode == True :
         # sending data (pitch)
