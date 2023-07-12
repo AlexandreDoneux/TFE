@@ -20,7 +20,7 @@ probe_password = "PROBE_PASSWORD"
 # used for testing tilt and density to interpolate a function (2nd degree) to estimate density : True -> testing mode active
 calibration_mode = False
 
-# estimation function parameters : a.x^2+b.x+c
+# estimation function parameters : a.x^2+b.x+c =>  Calibration : https://www.ispindel.de/tools/calibration/calibration.htm
 func_param_a = 1
 func_param_b = 1
 func_param_c = 1

@@ -6,16 +6,12 @@ from machine import ADC, Pin, I2C
 import time
 import network
 import utime
-#import secrets
 import urequests
 import json
-#import math
+import math
 
 from gy521_pitch import get_pitch_and_roll
 from mpu6050 import init_mpu6050
-
-#i2c = I2C(0, scl=Pin(1), sda=Pin(0), freq=400000)
-#init_mpu6050(i2c)
 
 
 #---------- environnement variables -----------
@@ -29,9 +25,6 @@ sda_pin = Pin(0)
 #---------- pin variables and communications --------------
 
 adc_pin = ADC(Pin(26)) #ADC pin for temperature measure
-
-
-
 
 
 # ----------- functions -----------------
@@ -51,13 +44,11 @@ def sending_data(send_timestamp, probe_id):
     """
 
     """
-    
     try:
         with open("data.json", "r") as file:
             data = json.load(file)
     except OSError as e:
         return False
-    
     
     payload = {
         "send_timestamp": send_timestamp,
@@ -67,13 +58,10 @@ def sending_data(send_timestamp, probe_id):
     
     # Unpack the content of 'data' dictionary into 'payload'
     payload.update(data)
-    
-    
     payload_str = json.dumps(payload)
     url = "http://"+api_ip_address+":3001/data/send_data"
     
     response = urequests.post(url, headers=headers, data=payload_str)
-    
     number_of_saved_data = len(response.json())
     response.close()
     
@@ -102,11 +90,10 @@ def store_data(timestamp, temperature, float_density, refract_density):
 
     # Merge the new data with existing data
     existing_data.update(data)
-
     # Save the updated data back to the JSON file
     with open("data.json", "w") as file:
         json.dump(existing_data, file)
-        
+
     return True
 
 
@@ -177,10 +164,9 @@ while True:
         payload_str = json.dumps(payload)
         url = "http://"+api_ip_address+":3001/data/send_calibration_data"
         response = urequests.post(url, headers=headers, data=payload_str)
-        
         response.close()
-        
         time.sleep(3)
+
         continue
     
     
@@ -191,11 +177,8 @@ while True:
     send_timestamp = send_timestamp[0:3]+send_timestamp[4:7]
     
     # storing, sending and deleting data
-    store_data(timestamp, temperature, 0, 0)
+    store_data(timestamp, temperature, flottation_density, 0)
     number_of_saved_data = sending_data(send_timestamp, probe_id)
     delete_oldest_records(number_of_saved_data)
 
-    
-    
-    #time.sleep(data_interval*60)
-    time.sleep(data_interval*6)
+    time.sleep(data_interval*60)
