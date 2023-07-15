@@ -30,7 +30,11 @@ function transformTimestamps(arr) {
       const year = Timestamp.getFullYear();
   
       const formattedTimestamp = `${hours}h${minutes}  ${day}/${month.toString().padStart(2, '0')}/${year}`;
-      return { ...obj, Timestamp: formattedTimestamp };
+      
+      const formatedTempValue = parseFloat(obj.TempValue.toFixed(1));
+      const formatedFloatDensityValue = parseFloat(obj.FloatDensityValue.toFixed(3));
+      const formatedRefractDensityValue = parseFloat(obj.RefractDensityValue.toFixed(3));
+      return { ...obj, Timestamp: formattedTimestamp, TempValue: formatedTempValue, FloatDensityValue: formatedFloatDensityValue, RefractDensityValue: formatedRefractDensityValue };
     });
   }
 
@@ -39,7 +43,7 @@ const Chart = () => {
 
     // defines empty data state (empty array) and setData method from useState()
     const [data, setData] = useState([]);
-    const [showPopup, setShowPopup] = React.useState(false);
+    const [showPopup, setShowPopup] =useState(false);
 
     const handleTogglePopup = () => {
       setShowPopup((prevShowPopup) => !prevShowPopup);
