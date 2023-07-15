@@ -1,29 +1,21 @@
 import React, { useState } from "react";
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
-const ArchivingPopup = () => {
-  const [open, setOpen] = useState(true);
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+const ArchivingPopup = ({ showPopup, onClose }) => {
+  
 
   return (
     <div>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={showPopup} onClose={onClose} >
         <DialogTitle>Archiving a monitoring</DialogTitle>
         <DialogContent>
           <p>Are you sure you want to archive this monitoring ? <br/>This action cannot be reversed.</p>
         </DialogContent>
         <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={onClose} color="primary">
             Yes
           </Button>
-          <Button onClick={handleClose} color="error">
+          <Button onClick={onClose} color="error">
             Cancel
           </Button>
         </DialogActions>
