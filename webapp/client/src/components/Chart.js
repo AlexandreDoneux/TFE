@@ -10,6 +10,7 @@ import theme from '../theme';
 
 
 const Div = styled('div')(unstable_styleFunctionSx);
+const H1 = styled('h1')(unstable_styleFunctionSx);
 
 
 
@@ -26,7 +27,7 @@ function transformTimestamps(arr) {
       const month = Timestamp.getMonth() + 1; // Add 1 since getMonth() returns zero-based index
       const year = Timestamp.getFullYear();
   
-      const formattedTimestamp = `${hours}h${minutes} ${day}/${month.toString().padStart(2, '0')}/${year}`;
+      const formattedTimestamp = `${hours}h${minutes}  ${day}/${month.toString().padStart(2, '0')}/${year}`;
       return { ...obj, Timestamp: formattedTimestamp };
     });
   }
@@ -83,32 +84,32 @@ const Chart = () => {
         <ThemeProvider theme={theme}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
-            <h1>Temperature</h1>
+            <H1 sx={{color:"#4E598C", ml:4}}>Temperature</H1>
               <Div width="90%" sx={{ bgcolor: "background.main", mb: 5, pt: 5 }}>
                 <ResponsiveContainer width="100%" aspect={2} backgroundcolor="blue">
                   <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
                     <XAxis dataKey="Timestamp" />
                     <YAxis />
-                    <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
+                    <CartesianGrid stroke="#4E598C" strokeDasharray="9 9" />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="TempValue" stroke="#4E598C" />
+                    <Line type="monotone" dataKey="TempValue" stroke='#4E598C'  strokeWidth={3} activeDot={{ r: 8 }} dot={false}/>
                   </LineChart>
                 </ResponsiveContainer>
               </Div>
             </Grid>
             <Grid item xs={8}>
-            <h1>Density</h1>
+            <H1 sx={{color:"#4E598C", ml:4}}>Density</H1>
               <Div sx={{ bgcolor: "background.main", mb: 5, pt: 5 }}>
                 <ResponsiveContainer width="100%" aspect={2}>
                   <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
                     <XAxis dataKey="Timestamp" />
                     <YAxis />
-                    <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
+                    <CartesianGrid stroke="#4E598C" strokeDasharray="9 9" />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="FloatDensityValue" stroke="#4E598C" activeDot={{ r: 8 }} />
-                    <Line type="monotone" dataKey="RefractDensityValue" stroke="#4E598C" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="FloatDensityValue" stroke='#9D8420' strokeWidth={3} activeDot={{ r: 8 }} dot={false}/>
+                    <Line type="monotone" dataKey="RefractDensityValue" stroke='#B20D30' strokeWidth={3} activeDot={{ r: 8 }} dot={false}/>
                   </LineChart>
                 </ResponsiveContainer>
               </Div>
