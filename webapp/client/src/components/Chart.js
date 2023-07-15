@@ -8,6 +8,7 @@ import { unstable_styleFunctionSx, styled } from '@mui/system';
 import Button from '@mui/material/Button';
 
 import theme from '../theme';
+import ArchivingPopup from "./ArchivingPopup";
 
 
 const Div = styled('div')(unstable_styleFunctionSx);
@@ -38,6 +39,11 @@ const Chart = () => {
 
     // defines empty data state (empty array) and setData method from useState()
     const [data, setData] = useState([]);
+    const [showPopup, setShowPopup] = React.useState(false);
+
+    const handleTogglePopup = () => {
+      setShowPopup((prevShowPopup) => !prevShowPopup);
+    };
 
     let {monitor_id} = useParams();
     console.log(monitor_id)
@@ -100,7 +106,9 @@ const Chart = () => {
               </Div>
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="flex-end" alignItems="flex-start" >
-              <Button variant="contained" sx={{p:5, mt:10, mr:5}} color="error">Archive this monitoring</Button>
+              <Button variant="contained" sx={{p:5, mt:10, mr:5}} color="error" onClick={handleTogglePopup}>Archive this monitoring</Button>
+
+              {showPopup && <ArchivingPopup />}
             </Grid>
 
             <Grid item xs={8}>
