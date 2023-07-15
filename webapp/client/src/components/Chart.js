@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {ThemeProvider, createTheme } from '@mui/material/styles';
+import { Grid } from '@mui/material';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
 
 import theme from '../theme';
@@ -78,23 +79,43 @@ const Chart = () => {
         fetchData();
       }, [monitor_id]);
 
-  return (
-    <ThemeProvider theme={theme}>
-      <ResponsiveContainer >
-        <Div sx={{bgcolor:"background.main"}}>
-          <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
-          <XAxis dataKey="Timestamp" />
-          <YAxis />
-          <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="TempValue" stroke="#4E598C" activeDot={{ r: 8 }} />
-          </LineChart>
-        </Div>
-      </ResponsiveContainer>
-    </ThemeProvider>
-    
-  );
+      return (
+        <ThemeProvider theme={theme}>
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+            <h1>Temperature</h1>
+              <Div width="90%" sx={{ bgcolor: "background.main", mb: 5, pt: 5 }}>
+                <ResponsiveContainer width="100%" aspect={2} backgroundcolor="blue">
+                  <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
+                    <XAxis dataKey="Timestamp" />
+                    <YAxis />
+                    <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="TempValue" stroke="#4E598C" />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Div>
+            </Grid>
+            <Grid item xs={8}>
+            <h1>Density</h1>
+              <Div sx={{ bgcolor: "background.main", mb: 5, pt: 5 }}>
+                <ResponsiveContainer width="100%" aspect={2}>
+                  <LineChart width={1000} height={500} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }} fill="background.main">
+                    <XAxis dataKey="Timestamp" />
+                    <YAxis />
+                    <CartesianGrid stroke="#4E598C" strokeDasharray="5 5" />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="FloatDensityValue" stroke="#4E598C" activeDot={{ r: 8 }} />
+                    <Line type="monotone" dataKey="RefractDensityValue" stroke="#4E598C" activeDot={{ r: 8 }} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Div>
+            </Grid>
+          </Grid>
+        </ThemeProvider>
+      );
 };
 
 export default Chart;
