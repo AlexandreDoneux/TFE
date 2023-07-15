@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import {ThemeProvider, createTheme } from '@mui/material/styles';
 import { Grid } from '@mui/material';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
+import Button from '@mui/material/Button';
 
 import theme from '../theme';
 
@@ -95,6 +96,10 @@ const Chart = () => {
                 </ResponsiveContainer>
               </Div>
             </Grid>
+            <Grid item xs={4} display="flex" justifyContent="flex-end" alignItems="flex-start" >
+              <Button variant="contained" sx={{p:5, mt:10, mr:5}} color="error">Archive this monitoring</Button>
+            </Grid>
+
             <Grid item xs={8}>
             <H1 sx={{color:"#4E598C", ml:4}}>Density</H1>
               <Div sx={{ bgcolor: "background.main", mb: 5, pt: 5 }}>
