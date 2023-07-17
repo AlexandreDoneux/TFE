@@ -44,6 +44,7 @@ router.post('/archive', async (req, res) => {
   let conn;
   conn = await pool.getConnection();
   const session_id = req.signedCookies.session_id;
+  const {monitoring_id} = req.body;
 
 
   try{
@@ -52,7 +53,17 @@ router.post('/archive', async (req, res) => {
       connected[1] = createNewObject(connected[1])
 
       if(connected[0][0]["Response"]){
-        // ENDPOINT CODE HERE
+        let response = await conn.query(`CALL ArchiveMonitoring(${monitoring_id})`);
+        console.log(response)
+        response[1] = createNewObject(response[1]);
+
+        if(response[0][0]["Response"] === "monitoring does not exist"){
+          res.status(400).send("monitoring does not exist");
+        }
+        else if(response[0][0]["Response"] === "monitoring has been archived"){
+          //monitorings_array = monitorings[0][0]["MonitoringIds"].split(",")
+          res.status(200).send("monitoring archived");
+        }
       
       }
       else{
