@@ -198,6 +198,25 @@ END //
 
 
 
+CREATE PROCEDURE ArchiveMonitoring(IN _monitorId INT)
+BEGIN
+  DECLARE monitorExists INT;
+
+  -- Check if the monitoring exists
+  SELECT COUNT(*) INTO monitorExists FROM Monitoring WHERE MonitorId = _monitorId;
+
+  IF monitorExists > 0 THEN
+    -- Monitoring exists, update the end date
+    UPDATE Monitoring
+    SET EndDate = NOW()
+    WHERE MonitorId = _monitorId;
+
+    SELECT 'monitoring has been archived' AS Response;
+  ELSE
+    -- Monitoring does not exist
+    SELECT 'monitoring does not exist' AS Response;
+  END IF;
+END //
 
 
 
