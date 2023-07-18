@@ -198,23 +198,39 @@ END //
 
 
 
-CREATE PROCEDURE ArchiveMonitoring(IN _monitorId INT)
+DELIMITER //
+CREATE PROCEDURE ArchiveMonitoring(IN _userId INT, IN _monitorId INT)
 BEGIN
   DECLARE monitorExists INT;
+  DECLARE isArchived INT;
 
-  -- Check if the monitoring exists
-  SELECT COUNT(*) INTO monitorExists FROM Monitoring WHERE MonitorId = _monitorId;
+  -- Check if the monitoring exists and is related to the user
+  SELECT COUNT(*) INTO monitorExists FROM Monitoring
+  WHERE MonitorId = _monitorId AND EXISTS (
+    SELECT 1 FROM Probe
+    INNER JOIN User ON Probe.UserId = User.UserId
+    WHERE Probe.ProbeId = Monitoring.ProbeId AND User.UserId = _userId
+  );
 
   IF monitorExists > 0 THEN
-    -- Monitoring exists, update the end date
-    UPDATE Monitoring
-    SET EndDate = NOW()
-    WHERE MonitorId = _monitorId;
+    -- Check if the monitoring is already archived (has an end date)
+    SELECT COUNT(*) INTO isArchived FROM Monitoring
+    WHERE MonitorId = _monitorId AND EndDate IS NOT NULL;
 
-    SELECT 'monitoring has been archived' AS Response;
+    IF isArchived = 0 THEN
+      -- Monitoring exists, update the end date
+      UPDATE Monitoring
+      SET EndDate = NOW()
+      WHERE MonitorId = _monitorId;
+
+      SELECT 'monitoring has been archived' AS Response;
+    ELSE
+      -- Monitoring is already archived
+      SELECT 'monitoring is already archived' AS Response;
+    END IF;
   ELSE
-    -- Monitoring does not exist
-    SELECT 'monitoring does not exist' AS Response;
+    -- Monitoring does not exist or is not related to the user
+    SELECT 'monitoring does not exist or is not related to the user' AS Response;
   END IF;
 END //
 
