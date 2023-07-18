@@ -112,7 +112,7 @@ const Chart = () => {
             <Grid item xs={4} display="flex" justifyContent="flex-end" alignItems="flex-start" >
               <Button variant="contained" sx={{p:5, mt:10, mr:5}} color="error" onClick={handleTogglePopup} >Archive this monitoring</Button>
 
-              {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup}/>}
+              {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup} monitor_id={monitor_id}/>}
             </Grid>
 
             <Grid item xs={8}>

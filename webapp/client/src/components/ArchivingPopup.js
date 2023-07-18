@@ -1,7 +1,28 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 
-const ArchivingPopup = ({ showPopup, onClose }) => {
+const ArchivingPopup = (props) => {
+
+  const {showPopup, onClose, monitor_id} = props;
+
+  const ArchiveMonitoring = async(monitoring_id)=>{
+    //alert(`archiving monitoring ${monitoring_id}`)
+    const result = await axios.post(`http://localhost:3001/monitoring/archive`, 
+      {
+        "monitor_id" : monitor_id,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    await alert(`Monitoring ${monitoring_id} has been archived`)
+  }
+
+  const handleArchiveClick = (monitoring_id) => {
+    onClose();
+    ArchiveMonitoring(monitoring_id); // Replace 1 with the actual Monitor ID you want to archive
+  };
   
 
   return (
@@ -12,7 +33,7 @@ const ArchivingPopup = ({ showPopup, onClose }) => {
           <p>Are you sure you want to archive this monitoring ? <br/>This action cannot be reversed.</p>
         </DialogContent>
         <DialogActions>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={()=>{handleArchiveClick(monitor_id)}} color="primary">
             Yes
           </Button>
           <Button onClick={onClose} color="error">
