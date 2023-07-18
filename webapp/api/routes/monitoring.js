@@ -44,7 +44,7 @@ router.post('/archive', async (req, res) => {
   let conn;
   conn = await pool.getConnection();
   const session_id = req.signedCookies.session_id;
-  const {monitoring_id} = req.body;
+  const {monitor_id} = req.body;
 
 
   try{
@@ -54,7 +54,7 @@ router.post('/archive', async (req, res) => {
 
       if(connected[0][0]["Response"]){
         const user_id = connected[0][0]["UserId"];
-        let response = await conn.query(`CALL ArchiveMonitoring(${monitoring_id}, ${user_id})`);
+        let response = await conn.query(`CALL ArchiveMonitoring(${monitor_id}, ${user_id})`);
         console.log(response)
         response[1] = createNewObject(response[1]);
 
