@@ -53,16 +53,21 @@ router.post('/archive', async (req, res) => {
       connected[1] = createNewObject(connected[1])
 
       if(connected[0][0]["Response"]){
-        let response = await conn.query(`CALL ArchiveMonitoring(${monitoring_id})`);
+        const user_id = connected[0][0]["UserId"];
+        let response = await conn.query(`CALL ArchiveMonitoring(${monitoring_id}, ${user_id})`);
         console.log(response)
         response[1] = createNewObject(response[1]);
 
-        if(response[0][0]["Response"] === "monitoring does not exist"){
-          res.status(400).send("monitoring does not exist");
-        }
-        else if(response[0][0]["Response"] === "monitoring has been archived"){
+        
+        if(response[0][0]["Response"] === "monitoring has been archived"){
           //monitorings_array = monitorings[0][0]["MonitoringIds"].split(",")
           res.status(200).send("monitoring archived");
+        }
+        else if(response[0][0]["Response"] === "monitoring is already archived"){
+          res.status(400).send("monitoring is already archived");
+        }
+        else if(response[0][0]["Response"] === "monitoring does not exist or is not related to the user"){
+          res.status(400).send("monitoring does not exist or is not related to the user");
         }
       
       }
