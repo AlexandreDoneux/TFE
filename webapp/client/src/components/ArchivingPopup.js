@@ -16,9 +16,8 @@ const ArchivingPopup = (props) => {
         withCredentials: true,
       }
     );
-    await alert(`Monitoring ${monitoring_id} has been archived`)
-    window.location = `/probe/${probe_id}/monitoring/${monitor_id}`
-    //window.location = await `/probe/empty/${probes.ProbeIds}` ////// NOT WORKING -____- DO NOT HAVE PROBE ID
+    await alert(`Monitoring ${monitoring_id} has been archived`);
+    window.location = await `/probe/${probe_id}/monitoring/0`;
   }
 
   const handleArchiveClick = (monitoring_id) => {
