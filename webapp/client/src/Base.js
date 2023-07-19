@@ -62,8 +62,6 @@ const Base = () => {
 
               <Route path="/probe/:probe_id/monitoring/:monitor_id" element={<ProbeData/>} />
 
-              <Route path="/monitoring/:monitor_id" element={<Chart />} />
-              <Route path="/probe/empty/:probe_id" element={<div>This probe has no active monitoring</div>} />
               <Route path="/monitoring/archived" element={<ArchivedList></ArchivedList>} />
               <Route path="/monitoring/create" element={<div>This is monitoring creation</div>} />
               <Route path="/probe/add" element={<div>This is probe add</div>} />

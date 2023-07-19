@@ -17,7 +17,7 @@ const ArchivedListInside = ({ data }) => {
         </TableHead>
         <TableBody>
           {data.map((row) => (
-            <TableRow key={row.monitor_id} component={Link} to={`/monitoring/${row.monitor_id}`}>
+            <TableRow key={row.monitor_id} component={Link} to={`/probe/0/monitoring/${row.monitor_id}`}>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.start_date}</TableCell>
               <TableCell>{row.end_date}</TableCell>
