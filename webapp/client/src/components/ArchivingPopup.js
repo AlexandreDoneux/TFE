@@ -4,7 +4,7 @@ import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/
 
 const ArchivingPopup = (props) => {
 
-  const {showPopup, onClose, monitor_id} = props;
+  const {showPopup, onClose, monitor_id, probe_id} = props;
 
   const ArchiveMonitoring = async(monitoring_id)=>{
     //alert(`archiving monitoring ${monitoring_id}`)
@@ -17,6 +17,8 @@ const ArchivingPopup = (props) => {
       }
     );
     await alert(`Monitoring ${monitoring_id} has been archived`)
+    window.location = `/probe/${probe_id}/monitoring/${monitor_id}`
+    //window.location = await `/probe/empty/${probes.ProbeIds}` ////// NOT WORKING -____- DO NOT HAVE PROBE ID
   }
 
   const handleArchiveClick = (monitoring_id) => {

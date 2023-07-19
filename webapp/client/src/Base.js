@@ -10,6 +10,7 @@ import ConnectDisconnectButton from './components/ConnectDisconnectButton';
 import Chart from './components/Chart';
 import MenuDrawer from  './components/MenuDrawer';
 import ArchivedList from './components/ArchivedList';
+import ProbeData from './components/ProbeData';
 
 //const { isConnected, setIsConnected } = useContext(UserContext);
 
@@ -58,6 +59,9 @@ const Base = () => {
                 <Route path="/" element={<div>I am not connected ---</div>} />
               )}
               <Route path="/connection" element={<ConnectionForm></ConnectionForm>} />
+
+              <Route path="/probe/:probe_id/monitoring/:monitor_id" element={<ProbeData/>} />
+
               <Route path="/monitoring/:monitor_id" element={<Chart />} />
               <Route path="/probe/empty/:probe_id" element={<div>This probe has no active monitoring</div>} />
               <Route path="/monitoring/archived" element={<ArchivedList></ArchivedList>} />
