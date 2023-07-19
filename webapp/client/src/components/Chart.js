@@ -39,7 +39,7 @@ function transformTimestamps(arr) {
   }
 
 
-const Chart = () => {
+const Chart = (props) => {
 
     // defines empty data state (empty array) and setData method from useState()
     const [data, setData] = useState([]);
@@ -49,7 +49,8 @@ const Chart = () => {
       setShowPopup((prevShowPopup) => !prevShowPopup);
     };
 
-    let {monitor_id} = useParams();
+    //let {monitor_id} = useParams();
+    const {probe_id, monitor_id, } = props
     console.log(monitor_id)
 
     // useEffect -> determines action and when it should be executed
@@ -112,7 +113,7 @@ const Chart = () => {
             <Grid item xs={4} display="flex" justifyContent="flex-end" alignItems="flex-start" >
               <Button variant="contained" sx={{p:5, mt:10, mr:5}} color="error" onClick={handleTogglePopup} >Archive this monitoring</Button>
 
-              {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup} monitor_id={monitor_id}/>}
+              {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup} monitor_id={monitor_id} probe_id={probe_id}/>}
             </Grid>
 
             <Grid item xs={8}>
