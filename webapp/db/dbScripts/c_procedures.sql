@@ -235,6 +235,29 @@ BEGIN
 END //
 
 
+CREATE PROCEDURE CreateMonitoring(
+  IN _monitoringName VARCHAR(255),
+  IN _probeId INT
+)
+BEGIN
+  DECLARE monitorExists INT;
+
+  -- Check if a monitoring already exists for the given probe id
+  SELECT COUNT(*) INTO monitorExists FROM Monitoring WHERE ProbeId = _probeId AND EndDate IS NULL;
+
+  IF monitorExists > 0 THEN
+    -- Monitoring already exists for the probe, handle it accordingly (e.g., update, return an error)
+    SELECT 'Monitoring already exists for the probe' AS Response;
+  ELSE
+    -- No active monitoring exists for the probe, create a new monitoring
+    INSERT INTO Monitoring (Name, StartDate, ProbeId)
+    VALUES (_monitoringName, NOW(), _probeId);
+
+    SELECT 'Monitoring created successfully' AS Response;
+  END IF;
+END //
+
+
 
 
 DELIMITER ;
