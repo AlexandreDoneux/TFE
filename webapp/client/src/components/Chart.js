@@ -50,8 +50,8 @@ const Chart = (props) => {
     };
 
     //let {monitor_id} = useParams();
-    const {probe_id, monitor_id, } = props
-    console.log(monitor_id)
+    const {probe_id, monitor_id, is_archived} = props
+    console.log(probe_id, monitor_id, is_archived)
 
     // useEffect -> determines action and when it should be executed
     // here : defines fetchData function and executes it when monitor_id prop changes
@@ -111,9 +111,18 @@ const Chart = (props) => {
               </Div>
             </Grid>
             <Grid item xs={4} display="flex" justifyContent="flex-end" alignItems="flex-start" >
-              <Button variant="contained" sx={{p:5, mt:10, mr:5}} color="error" onClick={handleTogglePopup} >Archive this monitoring</Button>
+            {parseInt(is_archived) ? (
+                <></>
+              ) : (
+                <Div sx={{mx:5}}>
+                  <Button variant="contained" sx={{p:5, mt:10}} color="error" onClick={handleTogglePopup} >Archive this monitoring</Button>
 
-              {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup} monitor_id={monitor_id} probe_id={probe_id}/>}
+                  {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup} monitor_id={monitor_id} probe_id={probe_id}/>}
+
+                  <p><b>The number of this probe is : {probe_id} </b> <br></br>Put it in your probe configuration for it to correctly register data on the web app.</p>
+                </Div>
+            )}
+              
             </Grid>
 
             <Grid item xs={8}>
