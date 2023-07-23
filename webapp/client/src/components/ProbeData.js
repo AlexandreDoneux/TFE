@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
 import Chart from './Chart';
+import CreateMonitoringForm from './CreateMonitoringForm';
 
 const ProbeData = () => {
   const { probe_id, monitor_id } = useParams();
@@ -18,7 +19,7 @@ const ProbeData = () => {
       {parseInt(monitor_id) ? (
         <Chart probe_id={probe_id} monitor_id={monitor_id} is_archived={is_archived}/>
       ) : (
-        <div>This probe has no active monitoring</div>
+        <CreateMonitoringForm probe_id={probe_id}></CreateMonitoringForm>
       )}
     </>
   );
