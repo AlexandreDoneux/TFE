@@ -11,6 +11,7 @@ router.post('/add', async (req, res) => {
   let conn;
   conn = await pool.getConnection();
   const session_id = req.signedCookies.session_id;
+  const { monitor_name, probe_id } = req.body;
 
 
   try{
@@ -19,7 +20,22 @@ router.post('/add', async (req, res) => {
       connected[1] = createNewObject(connected[1])
 
       if(connected[0][0]["Response"]){
-        // ENDPOINT CODE HERE
+        const user_id = connected[0][0]["UserId"];
+        let response = await conn.query(`CALL CreateMonitoring("${monitor_name}", ${probe_id}, ${user_id})`);
+        console.log(response)
+        response[1] = createNewObject(response[1]);
+
+        
+        if(response[0][0]["Response"] === "Probe does not belong to the user"){
+          //monitorings_array = monitorings[0][0]["MonitoringIds"].split(",")
+          res.status(400).send("Probe does not belong to the user");
+        }
+        else if(response[0][0]["Response"] === "Monitoring already exists for the probe"){
+          res.status(400).send("Monitoring already exists for the probe");
+        }
+        else if(response[0][0]["Response"] === "Monitoring created successfully"){
+          res.status(200).send("Monitoring created successfully");
+        }
       
       }
       else{
@@ -27,7 +43,7 @@ router.post('/add', async (req, res) => {
       }
     }
     else{
-      res.send("not connected (cookie)")
+      res.send("not connected (cookie)");
     }
 
 
@@ -54,7 +70,7 @@ router.post('/archive', async (req, res) => {
 
       if(connected[0][0]["Response"]){
         const user_id = connected[0][0]["UserId"];
-        let response = await conn.query(`CALL ArchiveMonitoring(${monitor_id}, ${user_id})`);
+        let response = await conn.query(`CALL ArchiveMonitoring(${user_id}, ${monitor_id})`);
         console.log(response)
         response[1] = createNewObject(response[1]);
 
