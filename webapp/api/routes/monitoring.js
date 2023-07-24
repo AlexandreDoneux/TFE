@@ -34,7 +34,9 @@ router.post('/add', async (req, res) => {
           res.status(400).send("Monitoring already exists for the probe");
         }
         else if(response[0][0]["Response"] === "Monitoring created successfully"){
-          res.status(200).send("Monitoring created successfully");
+          const monitoringId = response[0][0]["MonitoringId"];
+          const message = "Monitoring created successfully";
+          res.status(200).json({ message, monitoringId });
         }
       
       }
