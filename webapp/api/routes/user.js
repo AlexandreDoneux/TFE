@@ -109,12 +109,12 @@ router.delete('/disconnect', async (req, res) => {
           res.send("disconnected")
 
         }else{
-          res.send("not connected (session)");
+          res.status(400).send("not connected (session)");
         }
 
     }
     else{
-      res.send("not connected (cookie)")
+      res.status(400).send("not connected (cookie)")
     }
   }catch (error) {
     throw error;
