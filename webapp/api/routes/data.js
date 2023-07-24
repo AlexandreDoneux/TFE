@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
               let response = await conn.query("SELECT * FROM Session;");
               res.send(response);
             }else{
-              res.send("not connected (session)");
+              res.status(400).send("not connected (session)");
             }
             
           } catch (error) {
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
           }
 
     }else{
-        res.send("not connected (cookie)")
+        res.status(400).send("not connected (cookie)")
     }
     
 });
@@ -187,11 +187,11 @@ router.post('/get_monitoring', async (req, res) => {
       
       }
       else{
-        res.send("not connected (session)");
+        res.status(400).send("not connected (session)");
       }
     }
     else{
-      res.send("not connected (cookie)")
+      res.status(400).send("not connected (cookie)")
     }
 
 

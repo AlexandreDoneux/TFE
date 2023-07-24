@@ -23,11 +23,11 @@ router.post('/add', async (req, res) => {
       
       }
       else{
-        res.send("not connected (session)");
+        res.status(400).send("not connected (session)");
       }
     }
     else{
-      res.send("not connected (cookie)")
+      res.status(400).send("not connected (cookie)")
     }
 
 
@@ -82,11 +82,11 @@ router.post('/get_all', async (req, res) => {
       
       }
       else{
-        res.send("not connected (session)");
+        res.status(400).send("not connected (session)");
       }
     }
     else{
-      res.send("not connected (cookie)")
+      res.status(400).send("not connected (cookie)")
     }
 
 
