@@ -243,26 +243,30 @@ CREATE PROCEDURE CreateMonitoring(
 BEGIN
   DECLARE monitorExists INT;
   DECLARE probeBelongsToUser INT;
+  DECLARE newMonitoringId INT;
 
   -- Check if the provided probe id belongs to the given user id
   SELECT COUNT(*) INTO probeBelongsToUser FROM Probe WHERE ProbeId = _probeId AND UserId = _userId;
 
   IF probeBelongsToUser = 0 THEN
     -- The provided probe does not belong to the user, return an error
-    SELECT 'Probe does not belong to the user' AS Response;
+    SELECT 'Probe does not belong to the user' AS Response, 0 AS MonitoringId;
   ELSE
     -- Check if a monitoring already exists for the given probe id
     SELECT COUNT(*) INTO monitorExists FROM Monitoring WHERE ProbeId = _probeId AND EndDate IS NULL;
 
     IF monitorExists > 0 THEN
       -- Monitoring already exists for the probe, handle it accordingly (e.g., update, return an error)
-      SELECT 'Monitoring already exists for the probe' AS Response;
+      SELECT 'Monitoring already exists for the probe' AS Response, 0 AS MonitoringId;
     ELSE
       -- No active monitoring exists for the probe, create a new monitoring
       INSERT INTO Monitoring (Name, StartDate, ProbeId)
       VALUES (_monitoringName, NOW(), _probeId);
 
-      SELECT 'Monitoring created successfully' AS Response;
+      -- Get the last inserted monitoring ID and return it
+      SET newMonitoringId = LAST_INSERT_ID();
+
+      SELECT 'Monitoring created successfully' AS Response, newMonitoringId AS MonitoringId;
     END IF;
   END IF;
 END //

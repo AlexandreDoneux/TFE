@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { styled } from '@mui/system';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
@@ -33,7 +33,7 @@ const CreateMonitoringForm = (props) => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  const { isConnected, setIsConnected } = useContext(UserContext);
+  //const { isConnected, setIsConnected } = useContext(UserContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,15 +49,17 @@ const CreateMonitoringForm = (props) => {
         }
       );
 
-      const message = response.data;
-      console.log(message)
+      const { message, monitoringId } = response.data;
+      const monitor_id = monitoringId;
 
-      /*
-      if (message === 'New session. Cookie has been set') {
-        setIsConnected(true);
-        navigate('/');
+      
+      if (message === 'Monitoring created successfully') {
+        await alert("Monitoring created successfully")
+        console.log(probe_id, monitor_id)
+        //send back new monitoring_id to redirect
+        navigate(`/probe/${probe_id}/monitoring/${monitor_id}`);
       }
-      */
+      
 
       
     } catch (error) {
