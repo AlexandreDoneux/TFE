@@ -7,9 +7,6 @@ const pool = require('../db');
 const { createNewObject, transformDate, validateEmail  } = require("../api_functions.js");
 
 
-
-
-
 router.post('/register', async (req, res) => {
   const { user_email, password } = req.body;
   
@@ -124,35 +121,6 @@ router.delete('/disconnect', async (req, res) => {
 });
 
 
-
-
-router.get('/dummy_cookie', (req, res) => {
-    const dummy = 99
-
-    return res.status(200).cookie("dummy", dummy, {
-                        
-        //secure: true, // -> https
-        httpOnly : true,
-        sameSite : "none", //Should be "strict" in prod
-        maxAge : 1 * 60 * 60 * 2 * 1000, //2 hours
-        signed: true
-    }).send("Cookie has been set")
-});
-
-
-router.get('/show_cookie', (req, res) => {
-    const cookies = req.headers.cookie; // string contenant tous les cookies séparés par ;
-    const cookies2 = req.cookies.session_id // pour aller chercher un cookie spécifique   ATTENTION : undefined si il est signé
-    const signed_cookies = req.signedCookies; // [Object: null prototype] { dummy: '99' }
-
-
-    console.log(req.signedCookies.session_id)
-    console.log(cookies)
-    console.log(cookies2)
-    console.log(signed_cookies) // -> cookies signés permets de vérifier que le cookie n'a pas été modifié. Si il a été modifié la valeur sera false (.signedCookie)
-    res.send(`Cookie has `);
-    //res.send(`Cookie has user_id : ${user_id}`);
-})
 
 
 module.exports = router;
