@@ -273,6 +273,43 @@ END //
 
 
 
+CREATE PROCEDURE CreateProbe(
+  IN _userId INT,
+  IN _probeName VARCHAR(255),
+  IN _password VARCHAR(255)
+)
+BEGIN
+  DECLARE userExists INT;
+  
+  -- Check if the provided user id exists in the User table
+  SELECT COUNT(*) INTO userExists FROM User WHERE UserId = _userId;
+
+  IF userExists = 0 THEN
+    -- The provided user id does not exist, return an error
+    SELECT 'User does not exist' AS Response, 0 AS ProbeId;
+  ELSE
+    -- Check if the probe name already exists for the given user id
+    DECLARE probeExists INT;
+    SELECT COUNT(*) INTO probeExists FROM Probe WHERE ProbeName = _probeName AND UserId = _userId;
+  
+    IF probeExists > 0 THEN
+      -- Probe name already exists for the user, return an error
+      SELECT 'Probe name already exists for the user' AS Response, 0 AS ProbeId;
+    ELSE
+      -- No probe with the given name exists for the user, create a new probe
+      INSERT INTO Probe (ProbeName, Password, UserId)
+      VALUES (_probeName, _password, _userId);
+  
+      -- Get the last inserted probe ID and return it
+      DECLARE newProbeId INT;
+      SET newProbeId = LAST_INSERT_ID();
+  
+      SELECT 'Probe created successfully' AS Response, newProbeId AS ProbeId;
+    END IF;
+  END IF;
+END //
+
+
 
 DELIMITER ;
 
