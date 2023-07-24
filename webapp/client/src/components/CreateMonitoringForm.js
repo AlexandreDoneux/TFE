@@ -60,23 +60,23 @@ const CreateMonitoringForm = (props) => {
         navigate(`/probe/${probe_id}/monitoring/${monitor_id}`);
       }
       
-
-      
     } catch (error) {
-        /*
       if (error.response && error.response.status === 400) {
         const errorMessage = error.response.data;
-        if (errorMessage === 'Invalid user_email') {
-          setErrorMessage('Invalid user');
-        } else if (errorMessage === 'Invalid password') {
-          setErrorMessage('Invalid password');
-        } else if (errorMessage === 'Invalid credentials') {
-          setErrorMessage('Invalid email or password');
+        if (errorMessage === 'Probe does not belong to the user') {
+            // should be checked before beeing able to access the form
+          setErrorMessage('You are trying to create a monitoring on a probe that is not yours !');
+        } else if (errorMessage === 'Monitoring already exists for the probe') {
+          setErrorMessage('A monitoring already exists for the probe');
         }
+        else if (errorMessage === "not connected (session)" || "not connected (cookie)") {
+            setErrorMessage('You are not connected !');
+          }
       } else {
         console.error('Error:', error);
+        setErrorMessage('An error occured. Contact the website administrator.');
       }
-      */
+      
      console.log(error)
     }
   };
