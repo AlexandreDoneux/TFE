@@ -8,14 +8,22 @@ const ConnectDisconnectButton = () => {
     const { isConnected, setIsConnected, removeIsConnected } = useContext(UserContext);
 
     const disconnect = async() => {
-        const disconnection = await axios.delete(`http://www.alexandre.doneux.eu:3001/user/disconnect`,
-            {
-                withCredentials: true,
-            }
-        );
-        console.log(disconnection)
-        removeIsConnected();
-        window.location = '/'
+
+        try{
+            const disconnection = await axios.delete(`http://www.alexandre.doneux.eu:3001/user/disconnect`,
+                {
+                    withCredentials: true,
+                }
+            );
+            console.log(disconnection)
+            removeIsConnected();
+            window.location = '/'
+        }
+        catch(error){
+            console.log(error.response.data)
+            removeIsConnected();
+            window.location = '/'
+        }
     }
 
 
