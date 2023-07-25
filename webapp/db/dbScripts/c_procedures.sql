@@ -198,7 +198,6 @@ END //
 
 
 
-DELIMITER //
 CREATE PROCEDURE ArchiveMonitoring(IN _userId INT, IN _monitorId INT)
 BEGIN
   DECLARE monitorExists INT;
@@ -280,6 +279,8 @@ CREATE PROCEDURE CreateProbe(
 )
 BEGIN
   DECLARE userExists INT;
+  DECLARE probeExists INT;
+  DECLARE newProbeId INT;
   
   -- Check if the provided user id exists in the User table
   SELECT COUNT(*) INTO userExists FROM User WHERE UserId = _userId;
@@ -289,22 +290,21 @@ BEGIN
     SELECT 'User does not exist' AS Response, 0 AS ProbeId;
   ELSE
     -- Check if the probe name already exists for the given user id
-    DECLARE probeExists INT;
-    SELECT COUNT(*) INTO probeExists FROM Probe WHERE ProbeName = _probeName AND UserId = _userId;
+    SELECT COUNT(*) INTO probeExists FROM Probe WHERE Name = _probeName AND UserId = _userId;
   
     IF probeExists > 0 THEN
       -- Probe name already exists for the user, return an error
       SELECT 'Probe name already exists for the user' AS Response, 0 AS ProbeId;
     ELSE
       -- No probe with the given name exists for the user, create a new probe
-      INSERT INTO Probe (ProbeName, Password, UserId)
+      INSERT INTO Probe (Name, Password, UserId)
       VALUES (_probeName, _password, _userId);
   
       -- Get the last inserted probe ID and return it
-      DECLARE newProbeId INT;
       SET newProbeId = LAST_INSERT_ID();
   
-      SELECT 'Probe created successfully' AS Response, newProbeId AS ProbeId;
+      SELECT 'Probe created successfully' AS Response, newProbeId AS ProbeId; 
+      -- Technically do not need the probe id, it will be displayed when watching the probe data
     END IF;
   END IF;
 END //
