@@ -31,18 +31,15 @@ export default function TemporaryDrawer() {
             withCredentials: true,
         })
         .then((response) => {
-            console.log(response)
+            //console.log(response)
             const probes_array = response.data;
-            console.log(probes_array)
-            if(probes_array == "not connected (session)" || "not connected (cookie)"){
-              setData(false);
-            }
-            else{
-              setData(probes_array);
-            }
+            //console.log(probes_array)
+            setData(probes_array);
+            
         })
         .catch((error) => {
             console.error('Error:', error);
+            setData(false);
         });
   }, []);
 
