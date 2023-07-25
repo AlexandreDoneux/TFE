@@ -11,6 +11,8 @@ import ProbeData from './ProbeData';
 
 
 const ProbeList = ({data}) => {
+    console.log(data)
+    console.log(typeof(data))
 
     return(
         <div>
