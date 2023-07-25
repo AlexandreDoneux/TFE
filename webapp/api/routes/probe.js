@@ -4,13 +4,19 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const pool = require('../db');
 
-const { createNewObject, transformDate  } = require("../api_functions.js");
+const { createNewObject, transformDate, hashPasswordWithArgon2  } = require("../api_functions.js");
 
 
 router.post('/add', async (req, res) => {
   let conn;
   conn = await pool.getConnection();
   const session_id = req.signedCookies.session_id;
+  const { probe_frontend_hashed, probe_name } = req.body;
+
+  // hash with argon2
+  console.log(typeof(probe_frontend_hashed))
+  const probe_password = await hashPasswordWithArgon2(probe_frontend_hashed) //problem here ????
+  //const probe_password = probe_frontend_hashed;
 
 
   try{
@@ -19,7 +25,23 @@ router.post('/add', async (req, res) => {
       connected[1] = createNewObject(connected[1])
 
       if(connected[0][0]["Response"]){
-        // ENDPOINT CODE HERE
+        /////////////////////////////////////////
+        const user_id = connected[0][0]["UserId"];
+        let response = await conn.query(`CALL CreateProbe(${user_id},"${probe_name}", "${probe_password}")`);
+        console.log(response)
+        response[1] = createNewObject(response[1]);
+        
+        if(response[0][0]["Response"] === "User does not exist"){
+          res.status(400).send("User does not exist");
+        }
+        else if(response[0][0]["Response"] === "Probe name already exists for the user"){
+          res.status(400).send("Probe name already exists for the user");
+        }
+        else if(response[0][0]["Response"] === "Probe created successfully"){
+          const ProbeId = response[0][0]["ProbeId"]; // not necessary
+          const message = "Probe created successfully";
+          res.status(200).json({ message, ProbeId });
+        }
       
       }
       else{
@@ -27,7 +49,7 @@ router.post('/add', async (req, res) => {
       }
     }
     else{
-      res.status(400).send("not connected (cookie)")
+      res.status(400).send("not connected (cookie)");
     }
 
 
