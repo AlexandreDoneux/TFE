@@ -50,31 +50,22 @@ END//
 
 
 
-CREATE PROCEDURE CheckUserPasswordMatch(IN _userEmail VARCHAR(255), IN _userPassword VARCHAR(255))
+CREATE PROCEDURE GetStoredPasswordAndUserId(IN _userEmail VARCHAR(255))
 BEGIN
   DECLARE email_Count INT;
   DECLARE stored_Password VARCHAR(255);
   DECLARE user_Id INT;
-  
 
   SET email_Count = (SELECT COUNT(*) FROM User WHERE Email = _userEmail);
 
   IF email_Count = 0 THEN
     SELECT 'Account not existing' AS Response;
   ELSE
-
     SET stored_Password = (SELECT Password FROM User WHERE Email = _userEmail);
     SET user_Id = (SELECT UserId FROM User WHERE Email = _userEmail);
-
-
-    IF stored_Password = _userPassword THEN
-      SELECT 'Password matches' AS Response, user_Id AS UserId;
-    ELSE
-      SELECT 'Password does not match' AS Response;
-    END IF;
+    SELECT 'Account exists' AS Response, stored_Password AS StoredPassword, user_Id AS UserId;
   END IF;
-
-END//
+END;
 
 
 CREATE PROCEDURE RetrieveProbePassword(IN _probeId INT)
