@@ -38,9 +38,9 @@ router.post('/add', async (req, res) => {
           res.status(400).send("Probe name already exists for the user");
         }
         else if(response[0][0]["Response"] === "Probe created successfully"){
-          const ProbeId = response[0][0]["ProbeId"]; // not necessary
+          const probeId = response[0][0]["ProbeId"]; // not necessary
           const message = "Probe created successfully";
-          res.status(200).json({ message, ProbeId });
+          res.status(200).json({ message, probeId });
         }
       
       }

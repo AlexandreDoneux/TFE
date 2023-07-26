@@ -11,6 +11,7 @@ import Chart from './components/Chart';
 import MenuDrawer from  './components/MenuDrawer';
 import ArchivedList from './components/ArchivedList';
 import ProbeData from './components/ProbeData';
+import CreateProbeForm from './components/CreateProbeForm';
 
 //const { isConnected, setIsConnected } = useContext(UserContext);
 
@@ -64,7 +65,7 @@ const Base = () => {
 
               <Route path="/monitoring/archived" element={<ArchivedList></ArchivedList>} />
               <Route path="/monitoring/create" element={<div>This is monitoring creation</div>} />
-              <Route path="/probe/add" element={<div>This is probe add</div>} />
+              <Route path="/probe/add" element={<CreateProbeForm/>} />
             </Routes>
           </Router>
         </Div>

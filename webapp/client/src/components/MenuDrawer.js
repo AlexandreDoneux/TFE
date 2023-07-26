@@ -80,11 +80,11 @@ export default function TemporaryDrawer() {
         <ProbeList data={data}></ProbeList>
         <Divider />
         <ListItem key="probe_add" disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={() => (window.location = '/probe/add')}>
               <ListItemIcon>
                 <AddCircleOutlineIcon/>
               </ListItemIcon>
-              <ListItemText primary="Ajout d'une sonde" />
+              <ListItemText primary="Adding a probe" />
             </ListItemButton>
           </ListItem>
       </List>
