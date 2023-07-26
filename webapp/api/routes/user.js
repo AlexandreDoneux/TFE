@@ -4,7 +4,29 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const pool = require('../db');
 
-const { createNewObject, transformDate, validateEmail  } = require("../api_functions.js");
+const { createNewObject, transformDate, validateEmail, hashPasswordWithArgon2  } = require("../api_functions.js");
+//const {hashPassword} = require('../passwordUtils.js')
+var SHA256 = require("crypto-js/sha256");
+
+router.post('/print_password', async (req, res) => {
+  const { password } = req.body;
+  
+  // check if password matches stored password inside database
+  let conn;
+  try {
+    // USER REGISTER CODE HERE
+    //const sha256_password = hashPassword(password)
+    const sha256_password = SHA256(password).toString();
+    const new_password = await hashPasswordWithArgon2(sha256_password)
+    res.status(200).json({password, sha256_password, new_password});
+
+  } catch (error) {
+    throw error;
+    //res.send("error") //send error and not throw error -> later
+  } finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
+});
 
 
 router.post('/register', async (req, res) => {
