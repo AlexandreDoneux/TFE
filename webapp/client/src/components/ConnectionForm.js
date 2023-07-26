@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
+import { sha256HashPassword } from '../passwordUtils';
+
 const FormContainer = styled('form')({
   display: 'flex',
   flexDirection: 'column',
@@ -33,10 +35,13 @@ const ConnectionForm = () => {
     event.preventDefault();
 
     try {
+      console.log(password)
+      const hashedPassword = sha256HashPassword(password,'9mtZy9IbOBNYz8x1FsHiHw==')
+      console.log(hashedPassword)
       const response = await axios.post(`http://localhost:3001/user/connect`, 
         { 
           "user_email": userEmail,
-          "password": password
+          "password": hashedPassword
         },
         {
           withCredentials: true,

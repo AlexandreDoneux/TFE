@@ -4,16 +4,18 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const pool = require('../db');
 
-const { createNewObject, transformDate, validateEmail, hashPasswordWithArgon2  } = require("../api_functions.js");
+const { createNewObject, transformDate, validateEmail, hashPasswordWithArgon2, checkPasswordArgon2  } = require("../api_functions.js");
 var SHA256 = require("crypto-js/sha256");
 
 
+// used to see what a password would look like after a sha256 hash with fixed salt and
+// a argon2 hash with random salt
 router.post('/print_password', async (req, res) => {
   const { password } = req.body;
   
   let conn;
   try {
-    const sha256_password = SHA256(password).toString();
+    const sha256_password = SHA256(password,'9mtZy9IbOBNYz8x1FsHiHw==').toString();
     const new_password = await hashPasswordWithArgon2(sha256_password)
     res.status(200).json({password, sha256_password, new_password});
 
@@ -57,8 +59,6 @@ router.post('/connect', async (req, res) => {
       return res.status(400).send('Invalid password');
     }
 
-    //const session_id = req.signedCookies.session_id;
-    //const conn = await pool.getConnection();
 
     let connected;
     if (session_id != undefined) {
@@ -71,26 +71,34 @@ router.post('/connect', async (req, res) => {
       }
     }
 
-    let response1 = await conn.query(`CALL CheckUserPasswordMatch("${user_email}", "${password}");`);
+    let response1 = await conn.query(`CALL GetStoredPasswordAndUserId("${user_email}");`);
     response1[1] = createNewObject(response1[1]);
     const user_id = response1[0][0]['UserId'];
-    const passwordMatchResponse = response1[0][0]['Response'];
+    const doesAccountExist = response1[0][0]['Response'];
 
-    if (passwordMatchResponse === 'Password does not match' || passwordMatchResponse === 'Account not existing') {
+    if (doesAccountExist === 'Account not existing' ) {
       return res.status(400).send('Invalid credentials');
     }
+    else if(doesAccountExist === 'Account exists'){
+      const password_is_correct = await checkPasswordArgon2(response1[0][0]['StoredPassword'], password)
+      console.log(password_is_correct)
+      if(password_is_correct){
+        let response2 = await conn.query(`CALL CreateSession(${user_id});`);
+        response2[1] = createNewObject(response2[1]);
+        const newSessionId = response2[0][0]['SessionId'];
 
-    let response2 = await conn.query(`CALL CreateSession(${user_id});`);
-    response2[1] = createNewObject(response2[1]);
-    const newSessionId = response2[0][0]['SessionId'];
-
-    return res.status(200).cookie('session_id', newSessionId, {
-      // secure: true, // -> https or localhost
-      httpOnly: true,
-      sameSite: 'none', // Should be "strict" in prod
-      maxAge: 1 * 60 * 60 * 2 * 1000, // 2 hours
-      signed: true,
-    }).send('New session. Cookie has been set');
+        return res.status(200).cookie('session_id', newSessionId, {
+          // secure: true, // -> https or localhost
+          httpOnly: true,
+          sameSite: 'none', // Should be "strict" in prod
+          maxAge: 1 * 60 * 60 * 2 * 1000, // 2 hours
+          signed: true,
+        }).send('New session. Cookie has been set');
+      }
+      else{
+        res.status(400).send('Invalid credentials')
+      }
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).send('Internal Server Error');
