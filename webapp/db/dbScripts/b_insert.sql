@@ -1,7 +1,7 @@
 INSERT INTO User (Name, Firstname, Email, Password)
 VALUES
-('Doe', 'John', 'john@doe.com', 'passjohn'),
-('Lang', 'Jack', 'jack@lang.com', 'passjack');
+('Doe', 'John', 'john@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$ewOF4Uey9OrK2shs98ttVA$GLnKmXZlRsNM9PqL03QLo87i8kGm0bLlRFsqVhX+X6g'),
+('Lang', 'Jack', 'jack@lang.com', '$argon2id$v=19$m=65536,t=3,p=4$WF2t44C2mzQrCmFtkuBrCA$AhYs3Uq+HWMWMUnEaKNJOVu1D75fBSOoFL5iam2EOSk');
 
 INSERT INTO Probe (Name, Password, UserId)
 VALUES
