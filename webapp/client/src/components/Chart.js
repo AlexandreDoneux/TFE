@@ -103,6 +103,7 @@ const Chart = (props) => {
                   {showPopup && <ArchivingPopup showPopup={showPopup} onClose={handleTogglePopup} monitor_id={monitor_id} probe_id={probe_id}/>}
 
                   <p><b>The number of this probe is : {probe_id} </b> <br></br>Put it in your probe configuration for it to correctly register data on the web app.</p>
+                  <p>You also need to give your probe the password you chose at it's creation.</p>
                 </Div>
             )}
               
