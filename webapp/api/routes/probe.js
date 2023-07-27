@@ -66,7 +66,7 @@ router.post('/delete', async (req, res) => {
   let conn;
   conn = await pool.getConnection();
   const session_id = req.signedCookies.session_id;
-  const { probe_frontend_hashed, probe_name } = req.body;
+  const { probe_id } = req.body;
 
 
 
