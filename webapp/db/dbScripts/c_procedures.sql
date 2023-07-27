@@ -321,7 +321,7 @@ BEGIN
 
     IF activeMonitoringCount > 0 THEN
       -- There is an active monitoring on the probe, return an error message
-      SELECT 'Active monitoring on the probe. Cannot delete probe.' AS Response;
+      SELECT 'Active monitoring on the probe. Cannot delete probe' AS Response;
     ELSE
       -- No active monitoring exists, delete the probe and related monitorings
       DELETE FROM Probe WHERE ProbeId = _probeId;
