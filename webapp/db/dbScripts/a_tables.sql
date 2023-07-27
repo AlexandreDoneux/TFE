@@ -19,8 +19,8 @@ CREATE TABLE IF NOT EXISTS Monitoring (
   Name VARCHAR(255),
   StartDate DATETIME NOT NULL,
   EndDate DATETIME,
-  ProbeId INT NOT NULL,
-  FOREIGN KEY (ProbeId) REFERENCES Probe(ProbeId)
+  ProbeId INT NULL,
+  FOREIGN KEY (ProbeId) REFERENCES Probe(ProbeId) ON DELETE SET NULL
 );
 
 
