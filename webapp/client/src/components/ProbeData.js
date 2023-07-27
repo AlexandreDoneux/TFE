@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
 import Chart from './Chart';
 import CreateMonitoringForm from './CreateMonitoringForm';
+import Button from '@mui/material/Button';
+
+import ProbeDeletionPopup from './ProbeDeletionPopup';
 
 const ProbeData = () => {
   const { probe_id, monitor_id } = useParams();
