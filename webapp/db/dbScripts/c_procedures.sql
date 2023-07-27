@@ -301,6 +301,28 @@ BEGIN
 END //
 
 
+CREATE PROCEDURE DeleteProbe(
+  IN _userId INT,
+  IN _probeId INT
+)
+BEGIN
+  DECLARE probeBelongsToUser INT;
+
+  -- Check if the provided probe id belongs to the given user id
+  SELECT COUNT(*) INTO probeBelongsToUser FROM Probe WHERE ProbeId = _probeId AND UserId = _userId;
+
+  IF probeBelongsToUser = 0 THEN
+    -- The provided probe does not belong to the user, return an error or handle it accordingly
+    SELECT 'Probe does not belong to the user' AS Response;
+  ELSE
+    -- Probe belongs to the user, delete the probe and related monitorings
+    DELETE FROM Probe WHERE ProbeId = _probeId;
+
+    SELECT 'Probe deleted successfully' AS Response;
+  END IF;
+END //
+
+
 
 DELIMITER ;
 
