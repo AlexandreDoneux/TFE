@@ -61,6 +61,56 @@ router.post('/add', async (req, res) => {
 });
 
 
+
+router.post('/delete', async (req, res) => {
+  let conn;
+  conn = await pool.getConnection();
+  const session_id = req.signedCookies.session_id;
+  const { probe_frontend_hashed, probe_name } = req.body;
+
+
+
+  try{
+    if(session_id){
+      let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
+      connected[1] = createNewObject(connected[1])
+
+      if(connected[0][0]["Response"]){
+        /////////////////////////////////////////
+        const user_id = connected[0][0]["UserId"];
+        let response = await conn.query(`CALL DeleteProbe(${user_id},${probe_id})`);
+        console.log(response)
+        response[1] = createNewObject(response[1]);
+        
+        if(response[0][0]["Response"] === "Probe does not belong to the user"){
+          res.status(400).send("Probe does not belong to the user");
+        }
+        else if(response[0][0]["Response"] === "Active monitoring on the probe. Cannot delete probe"){
+          res.status(400).send("Active monitoring on the probe. Cannot delete probe");
+        }
+        else if(response[0][0]["Response"] === "Probe deleted successfully"){
+          const message = "Probe deleted successfully";
+          res.status(200).json({ message });
+        }
+      
+      }
+      else{
+        res.status(400).send("not connected (session)");
+      }
+    }
+    else{
+      res.status(400).send("not connected (cookie)");
+    }
+
+
+  }catch (error) {
+    throw error;
+  }finally {
+    if (conn) conn.release(); // release connection back to pool
+  }
+});
+
+
 //
 router.post('/get_all', async (req, res) => {
   let conn;
