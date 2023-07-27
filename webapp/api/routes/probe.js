@@ -68,8 +68,6 @@ router.post('/delete', async (req, res) => {
   const session_id = req.signedCookies.session_id;
   const { probe_id } = req.body;
 
-
-
   try{
     if(session_id){
       let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
