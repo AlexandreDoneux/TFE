@@ -19,7 +19,7 @@ const ProbeList = (props) => {
         <div>
           {data === "no probes" ? (
             <ListItem key="noProbes" disablePadding>
-              <ListItemButton onClick={() => window.location = `/no-probes`}>
+              <ListItemButton onClick={() => window.location = `/probe/add`}>
                 <ListItemIcon>
                   <ErrorOutlineIcon />
                 </ListItemIcon>
