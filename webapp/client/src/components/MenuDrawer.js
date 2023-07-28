@@ -22,7 +22,7 @@ export default function TemporaryDrawer() {
 
   useEffect(() => {
     // Fetch archived monitoring IDs
-    axios.post(`http://www.alexandre.doneux.eu:3001/probe/get_all`,
+    axios.post(`http://www.alexandre.doneux.eu:3001/probe/get_active`,
         { 
         // nothing -> remove
             "test" : "test"
@@ -71,7 +71,7 @@ export default function TemporaryDrawer() {
               <ListItemIcon>
                 <InventoryIcon></InventoryIcon>
               </ListItemIcon>
-              <ListItemText primary={"Suivis Archivés"} />
+              <ListItemText primary={"Archive monitorings"} />
             </ListItemButton>
           </ListItem>
       </List>

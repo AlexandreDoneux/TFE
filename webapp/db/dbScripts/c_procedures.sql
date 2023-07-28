@@ -164,6 +164,31 @@ BEGIN
 END //
 
 
+CREATE PROCEDURE GetActiveProbesByUser(IN _userId INT)
+BEGIN
+  DECLARE userExists INT;
+
+  -- Check if the user exists
+  SELECT COUNT(*) INTO userExists FROM User WHERE UserId = _userId;
+
+  IF userExists > 0 THEN
+    -- User exists, retrieve the probes and their active monitoring
+    SELECT 'user exists' AS Response,
+           GROUP_CONCAT(Probe.ProbeId) AS ProbeIds,
+           GROUP_CONCAT(Probe.Name) AS ProbeNames,
+           IFNULL(Monitoring.MonitorId, 0) AS ActiveMonitoringId
+    FROM Probe
+    LEFT JOIN Monitoring ON Probe.ProbeId = Monitoring.ProbeId AND Monitoring.EndDate IS NULL
+    INNER JOIN User ON Probe.UserId = User.UserId
+    WHERE User.UserId = _userId AND Probe.isActive = 1
+    GROUP BY Probe.ProbeId;
+  ELSE
+    -- User does not exist
+    SELECT 'user does not exist' AS Response;
+  END IF;
+END //
+
+
 
 
 
@@ -321,15 +346,16 @@ BEGIN
 
     IF activeMonitoringCount > 0 THEN
       -- There is an active monitoring on the probe, return an error message
-      SELECT 'Active monitoring on the probe. Cannot delete probe' AS Response;
+      SELECT 'Active monitoring on the probe. Cannot deactivate probe.' AS Response;
     ELSE
-      -- No active monitoring exists, delete the probe and related monitorings
-      DELETE FROM Probe WHERE ProbeId = _probeId;
+      -- No active monitoring exists, set the isActive parameter to false for the probe
+      UPDATE Probe SET isActive = 0 WHERE ProbeId = _probeId;
 
-      SELECT 'Probe deleted successfully' AS Response;
+      SELECT 'Probe deactivated successfully' AS Response;
     END IF;
   END IF;
 END //
+
 
 
 

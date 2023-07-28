@@ -44,33 +44,32 @@ const ArchivedList = () => {
             withCredentials: true,
         })
         .then((response) => {
-            const archived_monitoring_ids = response.data;
-            // Fetch data for each archived monitoring
-            console.log(response.data)
-            console.log(response)
-            const requests = archived_monitoring_ids.map((id) => axios.post(`http://www.alexandre.doneux.eu:3001/monitoring/get_data`,
-                { 
-                    "monitor_id" : id
-                },
-                {
-                    withCredentials: true,
-                }
-            ));
-            // Execute all requests concurrently
-            axios.all(requests)
-            .then((responses) => {
-                const monitoringData = responses.map((response) => response.data);
-                console.log(monitoringData)
-                setData(monitoringData);
-
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+          const archived_monitoring_ids = response.data;
+          // Fetch data for each archived monitoring
+          console.log(response.data)
+          console.log(response)
+          const requests = archived_monitoring_ids.map((id) => axios.post(`http://www.alexandre.doneux.eu:3001/monitoring/get_data`,
+              { 
+                  "monitor_id" : id
+              },
+              {
+                  withCredentials: true,
+              }
+          ));
+          // Execute all requests concurrently
+          axios.all(requests)
+          .then((responses) => {
+              const monitoringData = responses.map((response) => response.data);
+              console.log(monitoringData)
+              setData(monitoringData);
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
     }, []);
 
   return (
