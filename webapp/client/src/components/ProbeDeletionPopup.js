@@ -17,7 +17,9 @@ const ProbeDeletionPopup = (props) => {
         withCredentials: true,
       }
     );
+    await console.log(result)
     window.location = await `/`;
+    await alert("probe deleted")
     }
     catch(error){ 
         console.log(error)

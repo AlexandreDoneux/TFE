@@ -117,7 +117,7 @@ const CreateProbeForm = () => {
                 />
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 <SubmitButton variant="contained" color="primary" type="submit">
-                    Create monitoring
+                    Create probe
                 </SubmitButton>
             </FormContainer>
         </Div>
