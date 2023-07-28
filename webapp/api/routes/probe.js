@@ -83,11 +83,11 @@ router.post('/delete', async (req, res) => {
         if(response[0][0]["Response"] === "Probe does not belong to the user"){
           res.status(400).send("Probe does not belong to the user");
         }
-        else if(response[0][0]["Response"] === "Active monitoring on the probe. Cannot delete probe"){
-          res.status(400).send("Active monitoring on the probe. Cannot delete probe");
+        else if(response[0][0]["Response"] === "Active monitoring on the probe. Cannot deactivate probe"){
+          res.status(400).send("Active monitoring on the probe. Cannot deactivate probe");
         }
-        else if(response[0][0]["Response"] === "Probe deleted successfully"){
-          const message = "Probe deleted successfully";
+        else if(response[0][0]["Response"] === "Probe deactivated successfully"){
+          const message = "Probe deactivated successfully";
           res.status(200).json({ message });
         }
       
@@ -120,22 +120,24 @@ router.post('/get_all', async (req, res) => {
     if(session_id){
       let connected = await conn.query(`CALL CheckSessionExists(${session_id})`);
       connected[1] = createNewObject(connected[1])
-
+      
       if(connected[0][0]["Response"]){
         const user_id = connected[0][0]["UserId"];
-        console.log(user_id)
+
         let probes = await conn.query(`CALL GetProbesByUser(${user_id})`);
-        console.log(probes[0][0]["Response"])
-        console.log(probes)
-        probes[1] = createNewObject(probes[1]);
-
-        if(probes[0][0]["Response"] === "user does not exist"){
-          res.status(400).send("user does not exist");
+        if(typeof(probes[0][0]) === 'undefined'){
+          res.status(400).send("no probes");
         }
-        else if(probes[0][0]["Response"] === "user exists"){
-          const probes_array = probes[0];
+        else{
+          probes[1] = createNewObject(probes[1]);
 
-          res.status(200).send(probes_array);
+          if(probes[0][0]["Response"] === "user does not exist"){
+            res.status(400).send("user does not exist");
+          }
+          else if(probes[0][0]["Response"] === "user exists"){
+            const probes_array = probes[0];
+            res.status(200).send(probes_array);
+          }
         }
       
       }
@@ -146,7 +148,6 @@ router.post('/get_all', async (req, res) => {
     else{
       res.status(400).send("not connected (cookie)")
     }
-
 
   }catch (error) {
     throw error;
@@ -170,17 +171,12 @@ router.post('/get_active', async (req, res) => {
       
       if(connected[0][0]["Response"]){
         const user_id = connected[0][0]["UserId"];
-        console.log(user_id)
+
         let probes = await conn.query(`CALL GetActiveProbesByUser(${user_id})`);
-        //console.log(probes)
-        console.log(probes[0][0])
-        //console.log(probes[0])
         if(typeof(probes[0][0]) === 'undefined'){
           res.status(400).send("no probes");
         }
         else{
-          console.log(probes[0][0]["Response"])
-          console.log(probes)
           probes[1] = createNewObject(probes[1]);
 
           if(probes[0][0]["Response"] === "user does not exist"){
@@ -188,11 +184,9 @@ router.post('/get_active', async (req, res) => {
           }
           else if(probes[0][0]["Response"] === "user exists"){
             const probes_array = probes[0];
-
             res.status(200).send(probes_array);
           }
         }
-        
       
       }
       else{
@@ -202,7 +196,6 @@ router.post('/get_active', async (req, res) => {
     else{
       res.status(400).send("not connected (cookie)")
     }
-
 
   }catch (error) {
     throw error;

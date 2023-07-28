@@ -11,14 +11,14 @@ const ProbeDeletionPopup = (props) => {
     try{
       const result = await axios.post(`http://localhost:3001/probe/delete`, 
       {
-        "probe_id" : probe_id,
+        "probe_id" : probe_id
       },
       {
         withCredentials: true,
       }
     );
     await console.log(result)
-    window.location = await `/`;
+    window.location = await '/';
     await alert("probe deleted")
     }
     catch(error){ 
