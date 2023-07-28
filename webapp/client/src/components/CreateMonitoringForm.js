@@ -54,7 +54,7 @@ const CreateMonitoringForm = (props) => {
 
       
       if (message === 'Monitoring created successfully') {
-        await alert("Monitoring created successfully")
+        //await alert("Monitoring created successfully")
         console.log(probe_id, monitor_id)
         //send back new monitoring_id to redirect
         navigate(`/probe/${probe_id}/monitoring/${monitor_id}`);

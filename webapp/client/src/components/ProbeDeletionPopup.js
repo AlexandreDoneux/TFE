@@ -17,9 +17,9 @@ const ProbeDeletionPopup = (props) => {
         withCredentials: true,
       }
     );
-    await console.log(result)
+    //await console.log(result)
     window.location = await '/';
-    await alert("probe deleted")
+    //await alert("probe deleted")
     }
     catch(error){ 
         console.log(error)
@@ -34,7 +34,7 @@ const ProbeDeletionPopup = (props) => {
             }
             else if ((errorMessage === "not connected (session)") || (errorMessage === "not connected (cookie)")) {
                 setErrorMessage("You are not connected !");
-                console.log("You are not connected !");
+                //console.log("You are not connected !");
                 await alert("You are not connected !");
                 window.location = await `/connect`;
             }

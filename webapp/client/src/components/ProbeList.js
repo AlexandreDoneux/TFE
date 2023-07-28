@@ -10,42 +10,46 @@ import ProbeData from './ProbeData';
 
 
 
-const ProbeList = ({data}) => {
+const ProbeList = (props) => {
+    const {data} = props;
     console.log(data)
     console.log(typeof(data))
 
-    return(
+    return (
         <div>
-            {data ? (
-                data.map((probes) => (
-                    <ListItem key={probes.ProbeNames} disablePadding>
-    
-                        <ListItemButton onClick={() => window.location = `/probe/${probes.ProbeIds}/monitoring/${probes.ActiveMonitoringId}`}>
-                            <ListItemIcon>
-                            <DeviceThermostatIcon></DeviceThermostatIcon>
-                            </ListItemIcon>
-                            <ListItemText primary={probes.ProbeNames} />
-                        </ListItemButton>
-                        
-                    </ListItem>
-                ))
-            ) : (
-                <ListItem key="connectionError" disablePadding>
-                    <ListItemButton onClick={() => window.location = `/connection`}>
-                        <ListItemIcon>
-                            <ErrorOutlineIcon></ErrorOutlineIcon>
-                        </ListItemIcon>
-                        <ListItemText primary="It seems you are not connected" />
-                    </ListItemButton>
-                    
-                </ListItem>
-            )
-
-            }
-            
+          {data === "no probes" ? (
+            <ListItem key="noProbes" disablePadding>
+              <ListItemButton onClick={() => window.location = `/no-probes`}>
+                <ListItemIcon>
+                  <ErrorOutlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="No probes available." />
+              </ListItemButton>
+            </ListItem>
+          ) : data === "not connected (cookie)" || data === "not connected" ? (
+            <ListItem key="notConnected" disablePadding>
+              <ListItemButton onClick={() => window.location = `/connection`}>
+                <ListItemIcon>
+                  <ErrorOutlineIcon />
+                </ListItemIcon>
+                <ListItemText primary="It seems you are not connected." />
+              </ListItemButton>
+            </ListItem>
+          ) : data ? (
+            data.map((probes) => (
+              <ListItem key={probes.ProbeNames} disablePadding>
+                <ListItemButton onClick={() => window.location = `/probe/${probes.ProbeIds}/monitoring/${probes.ActiveMonitoringId}`}>
+                  <ListItemIcon>
+                    <DeviceThermostatIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={probes.ProbeNames} />
+                </ListItemButton>
+              </ListItem>
+            ))
+          ) : null}
         </div>
-        
-    );
+      );
+      
 }
 
 export default ProbeList;
