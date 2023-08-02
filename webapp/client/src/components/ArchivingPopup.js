@@ -8,7 +8,7 @@ const ArchivingPopup = (props) => {
 
   const ArchiveMonitoring = async(monitoring_id)=>{
     //alert(`archiving monitoring ${monitoring_id}`)
-    const result = await axios.post(`http://localhost:3001/monitoring/archive`, 
+    const result = await axios.post(`http://www.alexandre.doneux.eu:3001/monitoring/archive`, 
       {
         "monitor_id" : monitor_id,
       },
