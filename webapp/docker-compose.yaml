@@ -33,7 +33,7 @@ services:
       - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/etc/letsencrypt/archive/www.alexandre.doneux.eu
       - /api/node_modules/
     ports:
-      - "3001:3001" # to allow testing from postman
+      #- "3001:3001" # to allow testing from postman
       - "8443:443" #HTTPS
     depends_on:
       - mariadb
@@ -49,6 +49,7 @@ services:
     restart: always
     volumes : 
       - ./client:/client
+      - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/etc/letsencrypt/archive/www.alexandre.doneux.eu
       - /client/node_modules/
     ports:
       - "80:80"
