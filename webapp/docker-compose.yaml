@@ -49,7 +49,7 @@ services:
     restart: always
     env_file: 
       - ./.env
-    environment:
+    #environment:
       #CERT_PATH: $CERT_PATH
       #KEY_PATH: $KEY_PATH
     volumes : 
