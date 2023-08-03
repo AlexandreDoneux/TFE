@@ -60,9 +60,11 @@ app.use("/monitoring", monitoringRouter);
 
 const httpsServer = https.createServer(credentials, app);
 
+/*
 app.listen(3001, () => {
   console.log('Server started on port 3001')
 })
+*/
 
 httpsServer.listen(443, () => {
 	console.log('HTTPS Server running on port 443');
