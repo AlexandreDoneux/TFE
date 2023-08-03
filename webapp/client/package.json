@@ -21,7 +21,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start":"HTTPS=true SSL_CRT_FILE={/etc/letsencrypt/archive/www.alexandre.doneux.eu/cert1.pem} SSL_KEY_FILE={/etc/letsencrypt/archive/www.alexandre.doneux.eu/privkey1.pem} react-scripts start",
+    "start":"HTTPS=true SSL_CRT_FILE={CERT-PATH} SSL_KEY_FILE={KEY-PATH} react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
