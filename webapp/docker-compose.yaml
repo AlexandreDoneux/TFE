@@ -47,6 +47,11 @@ services:
     build : ./client
     container_name: frontend
     restart: always
+    env_file: 
+      - ./.env
+    environment:
+      CERT-PATH: $CERT-PATH
+      KEY-PATH: $KEY-PATH
     volumes : 
       - ./client:/client
       - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/etc/letsencrypt/archive/www.alexandre.doneux.eu
