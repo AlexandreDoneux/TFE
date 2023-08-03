@@ -3,9 +3,20 @@ const app = express()
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
+//const http = require('http');
+const https = require('https');
 
 
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/chain.pem', 'utf8');
 
+const credentials = {
+	key: privateKey,
+	cert: certificate,
+	ca: ca
+};
 
 
 // using pool defined in db.js
@@ -41,14 +52,21 @@ const probeRouter = require("./routes/probe")
 const monitoringRouter = require("./routes/monitoring")
 
 
-
+app.use((req, res) => {
+	res.send('Hello there !');
+});
 app.use("/user", userRouter);
 app.use("/data", dataRouter);
 app.use("/probe", probeRouter);
 app.use("/monitoring", monitoringRouter);
 
 
+const httpsServer = https.createServer(credentials, app);
 
 app.listen(3001, () => {
   console.log('Server started on port 3001')
 })
+
+httpsServer.listen(443, () => {
+	console.log('HTTPS Server running on port 443');
+});
