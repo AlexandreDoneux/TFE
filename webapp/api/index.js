@@ -8,9 +8,9 @@ const fs = require('fs');
 const https = require('https');
 
 
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/chain.pem', 'utf8');
+const privateKey = fs.readFileSync('/www.alexandre.doneux.eu/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/www.alexandre.doneux.eu/cert.pem', 'utf8');
+const ca = fs.readFileSync('/www.alexandre.doneux.eu/chain.pem', 'utf8');
 
 const credentials = {
 	key: privateKey,
