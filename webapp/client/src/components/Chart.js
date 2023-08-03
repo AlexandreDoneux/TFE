@@ -59,7 +59,7 @@ const Chart = (props) => {
     // here : defines fetchData function and executes it when monitor_id prop changes
     useEffect(() => {
         const fetchData = async () => {
-          const result = await axios.post(`http://www.alexandre.doneux.eu:3001/data/get_monitoring`, 
+          const result = await axios.post(`https://www.alexandre.doneux.eu:8443/data/get_monitoring`, 
             {
               "monitor_id" : monitor_id,
             },

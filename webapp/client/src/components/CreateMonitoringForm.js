@@ -39,7 +39,7 @@ const CreateMonitoringForm = (props) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`http://www.alexandre.doneux.eu:3001/monitoring/add`, 
+      const response = await axios.post(`https://www.alexandre.doneux.eu:8443/monitoring/add`, 
         { 
           "monitor_name": monitorName,
           "probe_id": probe_id

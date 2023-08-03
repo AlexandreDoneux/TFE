@@ -39,7 +39,7 @@ const ConnectionForm = () => {
       console.log(password)
       const hashedPassword = sha256HashPassword(password,'9mtZy9IbOBNYz8x1FsHiHw==')
       console.log(hashedPassword)
-      const response = await axios.post(`http://www.alexandre.doneux.eu:3001/user/connect`, 
+      const response = await axios.post(`https://www.alexandre.doneux.eu:8443/user/connect`, 
         { 
           "user_email": userEmail,
           "password": hashedPassword

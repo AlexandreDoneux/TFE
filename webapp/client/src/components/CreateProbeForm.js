@@ -43,7 +43,7 @@ const CreateProbeForm = () => {
             setProbePassword(probePassword);
 
             try {
-                const response = await axios.post(`http://www.alexandre.doneux.eu:3001/probe/add`, 
+                const response = await axios.post(`https://www.alexandre.doneux.eu:8443/probe/add`, 
                 { 
                     "probe_frontend_hashed" : probePassword,
                     "probe_name" : probeName

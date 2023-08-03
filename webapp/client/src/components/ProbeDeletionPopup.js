@@ -9,7 +9,7 @@ const ProbeDeletionPopup = (props) => {
 
   const DeleteProbe = async(probe_id)=>{
     try{
-      const result = await axios.post(`http://www.alexandre.doneux.eu:3001/probe/delete`, 
+      const result = await axios.post(`https://www.alexandre.doneux.eu:8443/probe/delete`, 
       {
         "probe_id" : probe_id
       },

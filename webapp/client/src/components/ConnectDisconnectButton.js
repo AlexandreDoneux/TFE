@@ -10,7 +10,7 @@ const ConnectDisconnectButton = () => {
     const disconnect = async() => {
 
         try{
-            const disconnection = await axios.delete(`http://www.alexandre.doneux.eu:3001/user/disconnect`,
+            const disconnection = await axios.delete(`https://www.alexandre.doneux.eu:8443/user/disconnect`,
                 {
                     withCredentials: true,
                 }
