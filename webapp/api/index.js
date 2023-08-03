@@ -52,9 +52,6 @@ const probeRouter = require("./routes/probe")
 const monitoringRouter = require("./routes/monitoring")
 
 
-app.use((req, res) => {
-	res.send('Hello there !');
-});
 app.use("/user", userRouter);
 app.use("/data", dataRouter);
 app.use("/probe", probeRouter);
