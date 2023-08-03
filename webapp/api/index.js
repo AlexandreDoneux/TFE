@@ -6,11 +6,23 @@ const cookieParser = require('cookie-parser');
 const fs = require('fs');
 //const http = require('http');
 const https = require('https');
+const private = require('./www.alexandre.doneux.eu/privkey.pem');
 
-
+/*
 const privateKey = fs.readFileSync(require.resolve('./www.alexandre.doneux.eu/privkey.pem'), 'utf8');
 const certificate = fs.readFileSync(require.resolve('./www.alexandre.doneux.eu/cert.pem'), 'utf8');
 const ca = fs.readFileSync(require.resolve('./www.alexandre.doneux.eu/chain.pem'), 'utf8');
+*/
+/*
+const privateKey = fs.readFileSync('./www.alexandre.doneux.eu/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('./www.alexandre.doneux.eu/cert.pem', 'utf8');
+const ca = fs.readFileSync('./www.alexandre.doneux.eu/chain.pem', 'utf8');
+*/
+
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/privkey.pem', 'utf8');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/cert.pem', 'utf8');
+const ca = fs.readFileSync('/etc/letsencrypt/live/www.alexandre.doneux.eu/chain.pem', 'utf8');
+
 
 const credentials = {
 	key: privateKey,
