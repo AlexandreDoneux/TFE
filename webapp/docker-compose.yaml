@@ -30,7 +30,8 @@ services:
     restart: always
     volumes:
       - ./api:/api
-      - /etc/letsencrypt/live/www.alexandre.doneux.eu:/etc/letsencrypt/live/www.alexandre.doneux.eu
+      #- /etc/letsencrypt/live/www.alexandre.doneux.eu:/etc/letsencrypt/live/www.alexandre.doneux.eu
+      - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/etc/letsencrypt/archive/www.alexandre.doneux.eu
       - /api/node_modules/
     ports:
       - "3001:3001" # to allow testing from postman
