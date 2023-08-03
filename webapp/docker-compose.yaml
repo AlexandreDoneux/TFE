@@ -50,11 +50,11 @@ services:
     env_file: 
       - ./.env
     environment:
-      CERT_PATH: $CERT_PATH
-      KEY_PATH: $KEY_PATH
+      #CERT_PATH: $CERT_PATH
+      #KEY_PATH: $KEY_PATH
     volumes : 
       - ./client:/client
-      - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/etc/letsencrypt/archive/www.alexandre.doneux.eu
+      - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/client/www.alexandre.doneux.eu
       - /client/node_modules/
     ports:
       - "80:80"
