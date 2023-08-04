@@ -26,6 +26,7 @@ RUN npm install
 COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx index page
 RUN rm -rf /usr/share/nginx/html/*
+RUN mkdir /var/www/alexandre.doneux.eu/html
 
 ##COPY --from=builder /client/build /usr/share/nginx/html
 
