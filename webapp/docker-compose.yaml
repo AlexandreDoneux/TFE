@@ -47,8 +47,8 @@ services:
     build : ./client
     container_name: frontend
     restart: always
-    env_file: 
-      - ./.env
+    #env_file: 
+    #  - ./.env
     #environment:
       #CERT_PATH: $CERT_PATH
       #KEY_PATH: $KEY_PATH
