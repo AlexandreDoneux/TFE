@@ -1,6 +1,11 @@
 # Use an official Node.js runtime as a parent image
 FROM node:18.14-alpine as builder
 
+
+RUN apk update
+RUN apk add nginx
+#RUN ufw allow 'Nginx Full'  #Inside of a container, all ports are open by default to other containers on the same docker network. There is no need to run the ufw command, and it is not shipped in images since permissions to change the network are not granted by default (
+
 # Set the working directory to /app
 WORKDIR /client
 
@@ -16,7 +21,7 @@ RUN npm install
 # Build the React app to use for NGINX
 ##RUN npm run build
 
-FROM nginx:alpine
+##FROM nginx:alpine
 
 COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
 ## Remove default nginx index page
@@ -32,6 +37,4 @@ EXPOSE 80 443
 
 
 
-ENTRYPOINT ["npm", "run", "build", \\
-            "cp", "./build", "/usr/share/nginx/html"\\
-            "nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/bin/sh","-c","npm run build && cp -r /client/build /usr/share/nginx/html && nginx -g \"daemon off;\""]
