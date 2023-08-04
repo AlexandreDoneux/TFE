@@ -55,6 +55,7 @@ services:
     volumes : 
       - ./client:/client
       - ./client/sites-enabled:/etc/nginx/sites-enabled/
+      - ./client/.nginx/nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/client/www.alexandre.doneux.eu
       - /client/node_modules/
     ports:
