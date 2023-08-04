@@ -57,7 +57,7 @@ services:
       - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/client/www.alexandre.doneux.eu
       - /client/node_modules/
     ports:
-      - "80:80"
+      #- "80:80"
       - "443:443"
     depends_on:
       - mariadb 
