@@ -23,8 +23,8 @@ RUN npm install
 
 ##FROM nginx:alpine
 
-COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
-## Remove default nginx index page
+##COPY ./.nginx/nginx.conf /etc/nginx/nginx.conf
+# Remove default nginx index page
 ##RUN rm -rf /usr/share/nginx/html/*
 RUN mkdir -p /var/www/alexandre.doneux.eu/html
 
@@ -38,4 +38,4 @@ EXPOSE 80 443
 
 
 # The -g option of NGINX is used for specifying NGINX flags, daemon off in this case.
-ENTRYPOINT ["/bin/sh","-c","npm run build && cp -r /client/build/* /var/www/alexandre.doneux.eu/html && chown root:root /etc/nginx/sites-enabled/www.alexandre.doneux.eu && nginx -g \"daemon off;\""]
+ENTRYPOINT ["/bin/sh","-c","npm run build && cp -r /client/build/* /var/www/alexandre.doneux.eu/html && chown root:root /etc/nginx/sites-enabled/alexandre.doneux.eu && nginx -g \"daemon off;\""]
