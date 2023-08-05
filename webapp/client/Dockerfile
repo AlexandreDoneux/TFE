@@ -7,8 +7,7 @@ FROM node:18.17-bullseye
 #RUN apk add nginx
 RUN apt-get update
 RUN apt-get install nginx -y
-COPY /client/WAF.sh ./
-RUN WAF.sh
+
 #RUN ufw allow 'Nginx Full'  #Inside of a container, all ports are open by default to other containers on the same docker network. There is no need to run the ufw command, and it is not shipped in images since permissions to change the network are not granted by default (
 
 # Set the working directory to /app
@@ -16,6 +15,10 @@ WORKDIR /client
 
 # Copy the package.json and package-lock.json files to the working directory
 COPY package*.json ./
+
+COPY WAF.sh ./
+RUN ls
+RUN WAF.sh
 
 # Install the dependencies
 RUN npm install
