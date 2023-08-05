@@ -6,6 +6,9 @@ server {
     server_name alexandre.doneux.eu www.alexandre.doneux.eu;
 
     location / {
+        modsecurity on;
+        modsecurity_rules_file /opt/coreruleset/crs-setup.conf.example;
+
         try_files $uri $uri/ /index.html;  # Add /index.html here
     }
 
