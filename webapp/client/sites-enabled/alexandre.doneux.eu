@@ -1,6 +1,4 @@
 server {
-        listen 80;
-        listen [::]:80;
 
         root /var/www/alexandre.doneux.eu/html;
         index index.html index.htm index.nginx-debian.html;
@@ -10,4 +8,34 @@ server {
         location / {
                 try_files $uri $uri/ =404;
         }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /client/www.alexandre.doneux.eu/fullchain1.pem; # managed by Certbot -> not auto-renewed by certbot
+    ssl_certificate_key /client/www.alexandre.doneux.eu/privkey1.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+server {
+    if ($host = www.alexandre.doneux.eu) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = alexandre.doneux.eu) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+        listen 80;
+        listen [::]:80;
+
+        server_name alexandre.doneux.eu www.alexandre.doneux.eu;
+    return 404; # managed by Certbot
+
+
+
+
 }
