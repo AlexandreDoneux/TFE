@@ -17,8 +17,8 @@ WORKDIR /client
 COPY package*.json ./
 
 COPY WAF.sh ./
-RUN ls
-RUN WAF.sh
+RUN chmod +x WAF.sh
+RUN ./WAF.sh
 
 # Install the dependencies
 RUN npm install
