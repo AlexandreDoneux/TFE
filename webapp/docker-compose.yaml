@@ -17,7 +17,6 @@ services:
       - ./db/dbScripts:/docker-entrypoint-initdb.d
       - ./db/my.cnf:/etc/mysql/my.cnf
     ports:
-      #- "5000:3306"
       - "3306:3306"
     networks:
       - api-db
@@ -57,10 +56,9 @@ services:
       - ./client/sites-enabled:/etc/nginx/sites-enabled/
       - ./client/.nginx/nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/:/etc/letsencrypt/    
-      #- /etc/letsencrypt/archive/www.alexandre.doneux.eu:/client/www.alexandre.doneux.eu
       - /client/node_modules/
     ports:
-      - "80:80"
+      - "80:80" #port 80 redirect to https
       - "443:443"
     depends_on:
       - mariadb 
