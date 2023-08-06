@@ -1,4 +1,4 @@
-FROM owasp/modsecurity-crs:3.3.4-nginx-202209141209
+FROM owasp/modsecurity-crs:3.3.4-nginx-202304160904
 
 ENV NODE_VERSION=18.17.0
 RUN apt install -y curl
@@ -17,6 +17,9 @@ COPY package*.json ./
 RUN npm install
 
 RUN mkdir -p /var/www/alexandre.doneux.eu/html
+
+RUN cd /opt/
+RUN git clone https://github.com/coreruleset/coreruleset
 
 EXPOSE 80 443
 
