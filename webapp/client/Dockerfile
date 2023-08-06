@@ -1,6 +1,7 @@
 FROM owasp/modsecurity-crs:3.3.4-nginx-202304160904
 
 ENV NODE_VERSION=18.17.0
+RUN apt-get update
 RUN apt install -y curl
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 ENV NVM_DIR=/root/.nvm
