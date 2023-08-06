@@ -56,7 +56,7 @@ services:
       - ./client/sites-enabled:/etc/nginx/sites-enabled/
       - ./client/.nginx/nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt/:/etc/letsencrypt/    
-      - /client/WAF.sh:/client/WAF.sh
+      #- /client/WAF.sh:/client/WAF.sh
       - /client/node_modules/
     ports:
       - "80:80" #port 80 redirect to https
