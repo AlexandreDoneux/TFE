@@ -1,36 +1,23 @@
-# Use an official Node.js runtime as a parent image
-#FROM node:18.14-alpine as builder
-FROM node:18.17-bullseye 
-# bullseye : image based on debian 11
+FROM owasp/modsecurity-crs:3.3.4-nginx-202209141209
 
-#RUN apk update
-#RUN apk add nginx
-RUN apt-get update
-RUN apt-get install nginx -y
+ENV NODE_VERSION=18.17.0
+RUN apt install -y curl
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+ENV NVM_DIR=/root/.nvm
+RUN . "$NVM_DIR/nvm.sh" && nvm install ${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm use v${NODE_VERSION}
+RUN . "$NVM_DIR/nvm.sh" && nvm alias default v${NODE_VERSION}
+ENV PATH="/root/.nvm/versions/node/v${NODE_VERSION}/bin/:${PATH}"
+RUN node --version
+RUN npm --version
 
-#RUN ufw allow 'Nginx Full'  #Inside of a container, all ports are open by default to other containers on the same docker network. There is no need to run the ufw command, and it is not shipped in images since permissions to change the network are not granted by default (
-
-# Set the working directory to /app
 WORKDIR /client
-
-# Copy the package.json and package-lock.json files to the working directory
 COPY package*.json ./
 
-COPY WAF.sh ./
-RUN chmod +x WAF.sh
-RUN ./WAF.sh
-
-# Install the dependencies
 RUN npm install
 
 RUN mkdir -p /var/www/alexandre.doneux.eu/html
 
-# Expose port 3000 for the application
 EXPOSE 80 443
 
-# Start the application -> no more running a node server. We want to run everything on a NGINX server 
-#CMD ["npm", "start"]
-
-
-# The -g option of NGINX is used for specifying NGINX flags, daemon off in this case.
 ENTRYPOINT ["/bin/sh","-c","npm run build cp -r /client/build/* /var/www/alexandre.doneux.eu/html && chown root:root /etc/nginx/sites-enabled/alexandre.doneux.eu && nginx -g \"daemon off;\""]
