@@ -23,7 +23,7 @@ RUN ./WAF.sh
 # Install the dependencies
 RUN npm install
 
-RUN mkdir -p /var/www/alexandre.doneux.eu/html
+#RUN mkdir -p /var/www/alexandre.doneux.eu/html
 
 # Expose port 3000 for the application
 EXPOSE 80 443

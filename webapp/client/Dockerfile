@@ -19,8 +19,9 @@ RUN npm install
 RUN mkdir -p /var/www/alexandre.doneux.eu/html
 
 RUN cd /opt/
+RUN apt install git -y
 RUN git clone https://github.com/coreruleset/coreruleset
 
 EXPOSE 80 443
 
-ENTRYPOINT ["/bin/sh","-c","npm run build cp -r /client/build/* /var/www/alexandre.doneux.eu/html && chown root:root /etc/nginx/sites-enabled/alexandre.doneux.eu && nginx -g \"daemon off;\""]
+ENTRYPOINT ["/bin/sh","-c","npm run build && cp -r /client/build/* /var/www/alexandre.doneux.eu/html && chown root:root /etc/nginx/sites-enabled/alexandre.doneux.eu && nginx -g \"daemon off;\""]
