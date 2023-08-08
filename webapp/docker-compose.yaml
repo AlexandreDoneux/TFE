@@ -16,8 +16,8 @@ services:
       - ./db/dbData:/var/lib/mariadb
       - ./db/dbScripts:/docker-entrypoint-initdb.d
       - ./db/my.cnf:/etc/mysql/my.cnf
-    ports:
-      - "3306:3306"
+    #ports:
+      #- "3306:3306"
     networks:
       - api-db
     
@@ -32,7 +32,6 @@ services:
       - /etc/letsencrypt/archive/www.alexandre.doneux.eu:/etc/letsencrypt/archive/www.alexandre.doneux.eu
       - /api/node_modules/
     ports:
-      #- "3001:3001" # to allow testing from postman
       - "8443:443" #HTTPS
     depends_on:
       - mariadb
@@ -64,10 +63,9 @@ services:
     depends_on:
       - mariadb 
       - api
-    #command: "npm start"
     networks:
       - front-api
-    #network_mode: "host" # for dev purposes, so -> NO # check
+
 
 
 networks:
