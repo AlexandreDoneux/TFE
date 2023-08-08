@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
+const toobusy = require('toobusy-js');
 //const http = require('http');
 const https = require('https');
 
@@ -44,6 +45,16 @@ app.use((req, res, next) => {
   next();
 });
 */
+
+
+app.use(function(req, res, next) {
+  if (toobusy()) {
+      // log if you see necessary
+      res.status(503).send("Server Too Busy");
+  } else {
+  next();
+  }
+});
 
 
 const userRouter = require ("./routes/user");
