@@ -5,6 +5,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const toobusy = require('toobusy-js');
+const hpp = require('hpp');
 //const http = require('http');
 const https = require('https');
 
@@ -55,6 +56,9 @@ app.use(function(req, res, next) {
   next();
   }
 });
+
+// To counter HTTP Parameter Polution
+app.use(hpp());
 
 
 const userRouter = require ("./routes/user");
