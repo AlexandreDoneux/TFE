@@ -88,9 +88,9 @@ router.post('/connect', async (req, res) => {
         const newSessionId = response2[0][0]['SessionId'];
 
         return res.status(200).cookie('session_id', newSessionId, {
-          // secure: true, // -> https or localhost
+          secure: true, // -> https or localhost
           httpOnly: true,
-          sameSite: 'none', // Should be "strict" in prod
+          sameSite: 'strict', // Should be "strict" in prod
           maxAge: 1 * 60 * 60 * 2 * 1000, // 2 hours
           signed: true,
         }).send('New session. Cookie has been set');
