@@ -1,7 +1,8 @@
 INSERT INTO User (Name, Firstname, Email, Password)
 VALUES
 ('Doe', 'John', 'john@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$ewOF4Uey9OrK2shs98ttVA$GLnKmXZlRsNM9PqL03QLo87i8kGm0bLlRFsqVhX+X6g'),
-('Lang', 'Jack', 'jack@lang.com', '$argon2id$v=19$m=65536,t=3,p=4$WF2t44C2mzQrCmFtkuBrCA$AhYs3Uq+HWMWMUnEaKNJOVu1D75fBSOoFL5iam2EOSk');
+('Lang', 'Jack', 'jack@lang.com', '$argon2id$v=19$m=65536,t=3,p=4$WF2t44C2mzQrCmFtkuBrCA$AhYs3Uq+HWMWMUnEaKNJOVu1D75fBSOoFL5iam2EOSk'),
+('Doe', 'John', 'john2@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$ewOF4Uey9OrK2shs98ttVA$GLnKmXZlRsNM9PqL03QLo87i8kGm0bLlRFsqVhX+X6g'); -- same password, user for tests (no probes, etc...)
 
 INSERT INTO Probe (Name, Password, UserId)
 VALUES
@@ -69,20 +70,9 @@ VALUES
   (25.9, 1.2, 3.4, '2023-05-15 18:30:00', 3),
   -- ... add more data entries for Monitoring ID 3
   
-  -- Monitoring ID 4
-  (24.7, 1.1, 3.3, '2023-04-25 14:30:00', 4),
-  (25.1, 1.2, 3.4, '2023-04-25 15:00:00', 4),
-  (25.4, 1.2, 3.4, '2023-04-25 15:30:00', 4),
-  (25.8, 1.2, 3.4, '2023-04-25 16:00:00', 4),
-  (26.4, 1.2, 3.4, '2023-04-25 16:30:00', 4),
-  (26.8, 1.2, 3.4, '2023-04-25 17:00:00', 4),
-  (26.7, 1.2, 3.4, '2023-04-25 17:30:00', 4),
-  (26.8, 1.2, 3.4, '2023-04-25 18:00:00', 4),
-  (27.1, 1.2, 3.4, '2023-04-25 18:30:00', 4),
-  (27.1, 1.2, 3.4, '2023-04-25 19:00:00', 4),
-  (27.3, 1.2, 3.4, '2023-04-25 19:30:00', 4),
-  (26.8, 1.2, 3.4, '2023-04-25 20:00:00', 4),
-  (26.1, 1.2, 3.4, '2023-04-25 20:30:00', 4),
+  -- Monitoring ID 4 => no data, for testing on postman
+  -- (24.7, 1.1, 3.3, '2023-04-25 14:30:00', 4),
+  
   -- ... add more data entries for Monitoring ID 4
   
   -- Monitoring ID 5
