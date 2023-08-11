@@ -29,6 +29,36 @@ adc_pin = ADC(Pin(26)) #ADC pin for temperature measure
 
 # ----------- functions -----------------
 
+
+def connect_to_wifi(ssid, password):
+    max_wait = 10
+    wlan.connect(ssid,password)
+    while max_wait > 0:
+        if wlan.status() < 0 or wlan.status() >= 3:
+            break
+        max_wait -= 1
+        #print('Attente connexion...')
+        time.sleep(1)
+        
+    if wlan.status() != 3:
+        return('not connected')
+    else:
+        return('connected')
+
+    
+    
+    
+def disconnect_from_wifi():
+    try:
+        wlan.disconnect()
+        #print("disconnect")
+    except:
+        #print("couldn't disconnect")
+        pass
+    
+    
+
+
 def measure_temp():
     """
     Measures temperature in degress Celsius 
@@ -44,38 +74,50 @@ def sending_data(send_timestamp, probe_id, float_density):
     """
 
     """
-    try:
-        with open("data.json", "r") as file:
-            data = json.load(file)
-    except OSError as e:
-        return False
     
+    connect_response = connect_to_wifi(SSID, PASSWORD)
     
-    payload = {
-        "send_timestamp": send_timestamp,
-        "probe_id": probe_id,
-        "probe_password": probe_password
-    }
-    
-    # Unpack the content of 'data' dictionary into 'payload'
-    payload.update(data)
-    payload_str = json.dumps(payload)
-    #url = "http://"+api_ip_address+":3001/data/send_data"
-    url = "https://"+api_ip_address+":8443/data/send_data"
-    
-    response = urequests.post(url, headers=headers, data=payload_str)
-
-    
-    number_of_saved_data = len(response.json())
-    if(response.text == "Wrong password"):
-        number_of_saved_data = 0
-        print("wrong password for your probe")
-    
-    else:
-        number_of_saved_data = len(response.json())
+    if(connect_response == "connected"):
+        #print("connected")
         
-    response.close()
+        try:
+            with open("data.json", "r") as file:
+                data = json.load(file)
+        except OSError as e:
+            return False
+        
+        
+        payload = {
+            "send_timestamp": send_timestamp,
+            "probe_id": probe_id,
+            "probe_password": probe_password
+        }
+        
+        # Unpack the content of 'data' dictionary into 'payload'
+        payload.update(data)
+        payload_str = json.dumps(payload)
+        #url = "http://"+api_ip_address+":3001/data/send_data"
+        url = "https://"+api_ip_address+":8443/data/send_data"
+        
+        response = urequests.post(url, headers=headers, data=payload_str)
 
+        
+        number_of_saved_data = len(response.json())
+        if(response.text == "Wrong password"):
+            number_of_saved_data = 0
+            print("wrong password for your probe")
+        
+        else:
+            number_of_saved_data = len(response.json())
+            
+        response.close()
+        disconnect_from_wifi()
+        
+        
+        
+    elif(connect_response == "not connected"):
+        number_of_saved_data = 0
+    
     
     return(number_of_saved_data)
     
@@ -132,6 +174,9 @@ def delete_oldest_records(num_records):
         json.dump(existing_data, file)
 
     return True
+
+
+
     
 
 
@@ -140,15 +185,15 @@ def delete_oldest_records(num_records):
 
 wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
-wlan.connect(SSID,PASSWORD)
-print("Connecting")
+#wlan.connect(SSID,PASSWORD)
+#print("Connecting")
 
-while(not wlan.isconnected()):
+#while(not wlan.isconnected()):
     #wlan.connect(SSID,PASSWORD)
-    time.sleep(1)
+    #time.sleep(1)
     
     
-print("Probe is connected to the internet")
+#print("Probe is connected to the internet")
 
 #print(wlan.isconnected())
 #print(wlan.ifconfig())
@@ -160,10 +205,11 @@ rtc=machine.RTC()
 
 while True:
     #print(wlan.isconnected())
-    if wlan.isconnected() == False :
-        print("Probe is not connected to the internet")
-        time.sleep(3)
-        continue
+    #while wlan.isconnected() == False :
+        #print("Probe is not connected to the internet")
+        #wlan.connect(SSID,PASSWORD)
+        #time.sleep(1)
+        #continue
         
         
     # calculating data
@@ -206,4 +252,3 @@ while True:
 
     #time.sleep(data_interval*60)
     time.sleep(data_interval*6)
-    
