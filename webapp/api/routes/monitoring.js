@@ -133,8 +133,19 @@ router.post('/get_archived', async (req, res) => {
           res.status(400).send("user does not exist");
         }
         else if(monitorings[0][0]["Response"] === "user exists"){
-          monitorings_array = monitorings[0][0]["MonitoringIds"].split(",")
-          res.status(200).send(monitorings_array)
+          console.log(monitorings[0][0])
+          if(monitorings[0][0]=== null){
+            res.status(200).json({"response":"no archived monitorings"});
+          }
+          else{
+            monitorings_array = monitorings[0][0]["MonitoringIds"].split(",")
+            /*
+            res.status(200).json({"response":"ok",
+                                  "monitoring_array" : monitoring_array});
+            */
+            res.status(200).send(monitorings_array)
+          }
+          
         }
       
       }
