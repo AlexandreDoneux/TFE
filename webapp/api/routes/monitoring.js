@@ -134,7 +134,7 @@ router.post('/get_archived', async (req, res) => {
         }
         else if(monitorings[0][0]["Response"] === "user exists"){
           console.log(monitorings[0][0])
-          if(monitorings[0][0]["Response"]=== null){
+          if(monitorings[0][0]["MonitoringIds"]=== null){
             res.status(200).json({"response":"no archived monitorings"});
           }
           else{

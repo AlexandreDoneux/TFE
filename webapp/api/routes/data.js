@@ -148,7 +148,12 @@ router.post('/get_monitoring', async (req, res) => {
   
         response[1] = createNewObject(response[1])
         //console.log(response)
-        res.send(response);
+        /* // handle later
+        if(response[0][0]["Response"] === "No monitoring found for the specified MonitorId"){
+          res.status(400).send(response)
+        }
+        */
+        res.status(200).send(response);
       
       }
       else{

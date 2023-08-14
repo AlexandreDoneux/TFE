@@ -67,7 +67,7 @@ router.post('/connect', async (req, res) => {
       connected[1] = createNewObject(connected[1]);
 
       if (connected[0][0]['Response']) {
-        return res.send('Already have a valid session');
+        return res.status(400).send('Already have a valid session');
       }
     }
 
@@ -130,7 +130,7 @@ router.delete('/disconnect', async (req, res) => {
           response[1] = createNewObject(response[1])
 
           res.clearCookie("session_id");
-          res.send("disconnected")
+          res.status(200).send("disconnected")
 
         }else{
           res.status(400).send("not connected (session)");
