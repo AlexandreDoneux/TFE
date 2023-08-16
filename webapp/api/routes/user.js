@@ -15,7 +15,8 @@ router.post('/print_password', async (req, res) => {
   
   let conn;
   try {
-    const sha256_password = SHA256(password,'9mtZy9IbOBNYz8x1FsHiHw==').toString();
+    const passwordWithSalt = password + '9mtZy9IbOBNYz8x1FsHiHw==';
+    const sha256_password = SHA256(passwordWithSalt).toString();
     const new_password = await hashPasswordWithArgon2(sha256_password)
     res.status(200).json({password, sha256_password, new_password});
 

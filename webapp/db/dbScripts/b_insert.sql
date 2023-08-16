@@ -1,8 +1,8 @@
 INSERT INTO User (Name, Firstname, Email, Password)
 VALUES
-('Doe', 'John', 'john@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$ewOF4Uey9OrK2shs98ttVA$GLnKmXZlRsNM9PqL03QLo87i8kGm0bLlRFsqVhX+X6g'),
-('Lang', 'Jack', 'jack@lang.com', '$argon2id$v=19$m=65536,t=3,p=4$WF2t44C2mzQrCmFtkuBrCA$AhYs3Uq+HWMWMUnEaKNJOVu1D75fBSOoFL5iam2EOSk'),
-('Doe', 'John', 'john2@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$ewOF4Uey9OrK2shs98ttVA$GLnKmXZlRsNM9PqL03QLo87i8kGm0bLlRFsqVhX+X6g'); -- same password, user for tests (no probes, etc...)
+('Doe', 'John', 'john@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$cTaTRaQai2yyDJ7MAggSlg$nYTjaVnlY01icHPPBCU7BYdwgrcM/o69qqRvyMgpVQg'),
+('Lang', 'Jack', 'jack@lang.com', '$argon2id$v=19$m=65536,t=3,p=4$uM9PJp2w4wV4iEyjGH4lWQ$8PJiylcN+8zfSyYqi211lc+VdOw+5rLX0AcF7jdmplA'),
+('Doe', 'John', 'john2@doe.com', '$argon2id$v=19$m=65536,t=3,p=4$cTaTRaQai2yyDJ7MAggSlg$nYTjaVnlY01icHPPBCU7BYdwgrcM/o69qqRvyMgpVQg'); -- same password, user for tests (no probes, etc...)
 
 INSERT INTO Probe (Name, Password, UserId)
 VALUES
