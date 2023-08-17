@@ -31,9 +31,13 @@
     ]
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
+      "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios/.*)"
+    ]
   },
   "browserslist": {
     "production": [
@@ -53,6 +57,7 @@
     "@testing-library/react": "^14.0.0",
     "babel-jest": "^29.6.2",
     "jest": "^27.5.1",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0"
   }
 }
