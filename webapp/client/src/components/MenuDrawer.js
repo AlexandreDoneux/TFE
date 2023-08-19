@@ -31,7 +31,7 @@ export default function TemporaryDrawer() {
             withCredentials: true,
         })
         .then((response) => {
-            console.log(response)
+            //console.log(response)
             const probes_array = response.data;
             //console.log(probes_array)
             setData(probes_array);

@@ -15,7 +15,6 @@ import {ThemeProvider, createTheme } from '@mui/material/styles';
 import { unstable_styleFunctionSx, styled } from '@mui/system';
 
 import theme from './theme';
-import ConnectionForm from './components/ConnectionForm';
 
 import { UserProvider } from './UserContext';
 import Base from './Base';
@@ -23,14 +22,14 @@ import Base from './Base';
 const Div = styled('div')(unstable_styleFunctionSx);
 
 
-
+/*
 const FullPageComponentWrapper = styled('div')(({ theme }) => ({
   flexGrow: 1,
   width: '100vw',
   height: '100vh',
   backgroundColor: theme.palette.secondary.two,
 }));
-
+*/
 
 
 const element = (

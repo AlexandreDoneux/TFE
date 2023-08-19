@@ -37,10 +37,6 @@ test('generates different hashes for same passwords with different salt', () => 
   const hashedPassword1 = sha256HashPassword(password, salt1);
   const hashedPassword2 = sha256HashPassword(password, salt2);
   const hash = CryptoJS.SHA256(password).toString();
-  console.log(hash)
-
-  console.log(hashedPassword1)
-  console.log(hashedPassword2)
   
   expect(hashedPassword1).not.toBe(hashedPassword2);
 });
