@@ -31,47 +31,42 @@ const ArchivedListInside = ({ data }) => {
 
 const ArchivedList = () => {
   const [data, setData] = useState([]);
-  const { isConnected, setIsConnected, removeIsConnected } = useContext(UserContext);
+  const { isConnected } = useContext(UserContext);
 
   useEffect(() => {
-    // Fetch archived monitoring IDs
-    axios.post(`http://localhost:3001/monitoring/get_archived`,
-        { 
-        // nothing -> remove
-            "test" : "test"
-        },
-        {
-            withCredentials: true,
-        })
-        .then((response) => {
-          const archived_monitoring_ids = response.data;
-          // Fetch data for each archived monitoring
-          console.log(response.data)
-          console.log(response)
-          const requests = archived_monitoring_ids.map((id) => axios.post(`http://localhost:3001/monitoring/get_data`,
-              { 
-                  "monitor_id" : id
-              },
-              {
-                  withCredentials: true,
-              }
-          ));
-          // Execute all requests concurrently
-          axios.all(requests)
-          .then((responses) => {
-              const monitoringData = responses.map((response) => response.data);
-              console.log(monitoringData)
-              setData(monitoringData);
+    const fetchData = async () => {
+      try {
+        const response1 = await axios.post(`http://localhost:3001/monitoring/get_archived`, {
+          // Nothing -> remove
+          "test": "test"
+        }, {
+          withCredentials: true,
+        });
+        await console.log(response1)
+        await console.log(response1.data)
+        const archived_monitoring_ids = response1.data;
 
-          })
-          .catch((error) => {
-              console.error('Error:', error);
+        const requests = archived_monitoring_ids.map(async (id) => {
+          const response2 = await axios.post(`http://localhost:3001/monitoring/get_data`, {
+            "monitor_id": id
+          }, {
+            withCredentials: true,
           });
-      })
-      .catch((error) => {
-          console.error('Error:', error);
-      });
-    }, []);
+          await console.log(response2)
+          return response2.data;
+        });
+
+        const monitoringData = await Promise.all(requests);
+        setData(monitoringData);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    if (isConnected) {
+      fetchData();
+    }
+  }, [isConnected]);
 
   return (
     <div>
@@ -85,3 +80,8 @@ const ArchivedList = () => {
 };
 
 export default ArchivedList;
+
+
+
+
+
