@@ -83,7 +83,7 @@ class TCD1304():
 
         self.adc.CS_REG = self.adc.FCS_REG = 0
         self.adc.CS.EN = 1
-        self.adc.CS.AINSEL = self.adc_pin
+        self.adc.CS.AINSEL = 0  ############################ -> adc channel (0) ? not pin
         
 
         self.dma_chan = devs.DMA_CHANS[self.dma_channel]
