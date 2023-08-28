@@ -73,7 +73,7 @@ const Base = (props) => {
                 <Route path="/probe/:probe_id/monitoring/:monitor_id" element={<ProbeData/>} />
 
                 <Route path="/monitoring/archived" element={<ArchivedList></ArchivedList>} />
-                <Route path="/monitoring/create" element={<div>This is monitoring creation</div>} />
+                <Route path="/monitoring/create" element={<div>This is monitoring creation</div>} /> {/* THIS /monitorring/create ROUTE NEEDS TO BE DELETED. NOT USED ANYMORE*/}
                 <Route path="/probe/add" element={<CreateProbeForm/>} />
       </Routes>
     </Router>
