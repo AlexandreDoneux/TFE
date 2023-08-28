@@ -131,31 +131,6 @@ describe('/probe/0/monitoring/1 route connected', () => {
     ] })
 
 
-    /*
-    // Mock ResizeObserver
-    class MockResizeObserver {
-        constructor(callback) {
-        this.callback = callback;
-        }
-    
-        observe() {}
-    
-        disconnect() {
-        this.callback();
-        }
-    }
-  
-    // Assign the mock to window.ResizeObserver
-    window.ResizeObserver = MockResizeObserver;
-    */
-
-    /*
-    // mocking the ResizeObserver constructor used by ResponsiveContainer from recharts
-    window.ResizeObserver = jest.fn().mockImplementation(() => ({
-        observe: jest.fn(),
-        unobserve: jest.fn(),
-      }));
-    */
 
 
     const forced_route = "/probe/0/monitoring/1";
