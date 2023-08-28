@@ -20,8 +20,8 @@ const contextValue = {
 // Mock axios module
 jest.mock('axios');
 
-describe('/ route connected', () => {
-  it('checks the MenuDrawer component and the disconnect button are rendered.', async () => {
+describe('/connection route connected', () => {
+  it('checks the ConnectionForm is rendered.', async () => {
 
 
     // Mock axios.post for fetching archived monitoring IDs and data
@@ -43,7 +43,7 @@ describe('/ route connected', () => {
       
 
 
-    const forced_route = "/";
+    const forced_route = "/connection";
 
     render(
       <UserContext.Provider value={contextValue}>
@@ -55,9 +55,9 @@ describe('/ route connected', () => {
 
     // Wait for data to load
     await waitFor(() => {
-      // Check the MenuDrawer component is present. To ceck for the inside of the drawer we need to click on it. We will do that in another test.
-      expect(screen.queryByText('Disconnect')).toBeInTheDocument();
-      expect(screen.queryByText('I am connected')).toBeInTheDocument();
+      // Check the MenuDrawer component is present. To check for the inside of the drawer we need to click on it. We will do that in another test.
+      expect(screen.queryByText('Disconnect')).toBeInTheDocument(); // disconnect button 
+      expect(screen.queryAllByText('Connect')).toHaveLength(1); // connect button from the connection form
       expect(screen.queryByText('Menu')).toBeInTheDocument();
 
     });

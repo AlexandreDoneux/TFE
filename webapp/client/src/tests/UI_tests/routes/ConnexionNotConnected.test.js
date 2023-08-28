@@ -20,13 +20,30 @@ const contextValue = {
 // Mock axios module
 jest.mock('axios');
 
-describe('/ route not connected', () => {
-  it('checks the MenuDrawer component is not rendered and the connect button is.', async () => {
-
-    // no axios mocks needed
+describe('/connection route not connected', () => {
+  it('checks the ConnectionForm is rendered.', async () => {
 
 
-    const forced_route = "/";
+    // Mock axios.post for fetching archived monitoring IDs and data
+    axios.post
+      .mockResolvedValueOnce({ data: [
+        {
+            "Response": "user exists",
+            "ProbeIds": "1",
+            "ProbeNames": "Toto",
+            "ActiveMonitoringId": 1
+        },
+        {
+            "Response": "user exists",
+            "ProbeIds": "2",
+            "ProbeNames": "Tata",
+            "ActiveMonitoringId": 0
+        }
+    ] })  // mock for /probe/get_active endpoint of MenuDrawer
+      
+
+
+    const forced_route = "/connection";
 
     render(
       <UserContext.Provider value={contextValue}>
@@ -38,9 +55,8 @@ describe('/ route not connected', () => {
 
     // Wait for data to load
     await waitFor(() => {
-      // Check the MenuDrawer component is present. To ceck for the inside of the drawer we need to click on it. We will do that in another test.
-      expect(screen.queryByText('Connect')).toBeInTheDocument();
-      expect(screen.queryByText('I am not connected ---')).toBeInTheDocument();
+      // Check the connect button in the appbar and the connect button in the ConnectionForm are present
+      expect(screen.queryAllByText('Connect')).toHaveLength(2);
       expect(screen.queryByText('Menu')).not.toBeInTheDocument();
 
     });
