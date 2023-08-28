@@ -20,8 +20,8 @@ const contextValue = {
 // Mock axios module
 jest.mock('axios');
 
-describe('/probe/1/monitoring/1 route connected', () => {
-  it('checks the an error message is rendered for wrong user.', async () => {
+describe('/probe/0/monitoring/1 route wrong user', () => {
+  it('checks the an error message is rendered for wrong user', async () => {
 
 
     // Mock axios.post for fetching archived monitoring IDs and data
@@ -158,7 +158,7 @@ describe('/probe/1/monitoring/1 route connected', () => {
     */
 
 
-    const forced_route = "/probe/1/monitoring/1";
+    const forced_route = "/probe/0/monitoring/1";
 
     render(
       <UserContext.Provider value={contextValue}>
@@ -176,9 +176,9 @@ describe('/probe/1/monitoring/1 route connected', () => {
       expect(screen.queryByText('Density')).toBeInTheDocument();
       expect(screen.queryByText('Menu')).toBeInTheDocument();
 
-      expect(screen.queryByText('Archive this monitoring')).toBeInTheDocument();
+      expect(screen.queryByText('Archive this monitoring')).not.toBeInTheDocument();
 
-      expect(screen.queryByText('The number of this probe is : 1')).toBeInTheDocument();
+      expect(screen.queryByText('The number of this probe is : 1')).not.toBeInTheDocument();
 
     });
   });
