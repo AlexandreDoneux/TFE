@@ -96,19 +96,4 @@ describe('ArchivedList', () => {
     });
   });
 
- /* 
-  it('displays message for disconnected user', () => {
-    // Mock UserContext to simulate disconnected user
-    // Render the component
-    render(
-      <UserContext.Provider value={contextValue}>
-        <ArchivedList />
-      </UserContext.Provider>
-    );
-    
-    // Test assertions for the disconnected user message
-    expect(screen.getByText('You need to be connected to access this page')).toBeInTheDocument();
-  });
-*/
-  // Add more test cases as needed
 });
